@@ -1,5 +1,18 @@
 # index
 
+
+* [index](https://github.com/bgoonz/BGOONZ_BLOG_2.0/blob/master/src/pages/index.md)
+* [index1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/index.md)
+* [overview](https://github.com/bgoonz/BGOONZ_BLOG_2.0/blob/master/src/pages/overview.md)
+* [overview1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/overview.md)
+* [review](https://github.com/bgoonz/BGOONZ_BLOG_2.0/blob/master/src/pages/review.md)
+* [review1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/review.md)
+* [showcase](https://github.com/bgoonz/BGOONZ_BLOG_2.0/blob/master/src/pages/showcase.md)
+* [showcase1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/showcase.md)
+* [style-guide](https://github.com/bgoonz/BGOONZ_BLOG_2.0/blob/master/src/pages/style-guide.md)
+* [style-guide1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/style-guide.md)
+
+
 This appendix is a non-exhaustive list of new syntactic features and methods that were added to JavaScript in ES6. These features are the most commonly used and most helpful.
 
 While this appendix doesn't cover ES6 classes, we go over the basics while learning about components in the book. In addition, this appendix doesn't include descriptions of some larger new features like promises and generators. If you'd like more info on those or on any topic below, we encourage you to reference the [Mozilla Developer Network's website](https://developer.mozilla.org/) \(MDN\).
