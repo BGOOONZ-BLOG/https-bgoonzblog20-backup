@@ -11,6 +11,23 @@
 * [showcase1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/showcase.md)
 * [style-guide](https://github.com/bgoonz/BGOONZ_BLOG_2.0/blob/master/src/pages/style-guide.md)
 * [style-guide1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/style-guide.md)
+* [  home  ](https://bryan-guner.gitbook.io/mynotes/index)
+* [  generating react  ](https://bryan-guner.gitbook.io/mynotes/generating-react-project)
+* [  gen-react-1  ](https://bryan-guner.gitbook.io/mynotes/generating-react-project-1)
+* [ create-react-app  ](https://bryan-guner.gitbook.io/mynotes/exploring-create-react-app)
+* [ js-module-system   ](https://bryan-guner.gitbook.io/mynotes/javascript-module-system)
+* [ npx-create-react-app-readme   ](https://bryan-guner.gitbook.io/mynotes/create-react-app-readme)
+* [  user-interfaces  ](https://bryan-guner.gitbook.io/mynotes/react-a-javascript-library-for-building-user-interfaces)
+* [  readme1  ](https://bryan-guner.gitbook.io/mynotes/readme-1)
+* [ untitled   ](https://bryan-guner.gitbook.io/mynotes/untitled)
+* [ introduction   ](https://bryan-guner.gitbook.io/mynotes/#introduction)
+* [  first react project  ](https://bryan-guner.gitbook.io/mynotes/#description-first-react-project)
+* [ intro-1   ](https://bryan-guner.gitbook.io/mynotes/#introduction-1)
+* [  app -js  ](https://bryan-guner.gitbook.io/mynotes/#app-js)
+* [  tate-system  ](https://bryan-guner.gitbook.io/mynotes/#state-system)
+* [  readme0  ](https://bryan-guner.gitbook.io/mynotes/#readme)
+* [  component  ](https://bryan-guner.gitbook.io/mynotes/#to-reiterate-a-component-is-some-thing-that-is-being-rendered-in-the-browser)
+* [  parent & child  ](https://bryan-guner.gitbook.io/mynotes/#parent-and-child-components)
 
 
 This appendix is a non-exhaustive list of new syntactic features and methods that were added to JavaScript in ES6. These features are the most commonly used and most helpful.
