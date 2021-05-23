@@ -1,16 +1,7 @@
 # index
 
 
-* [index](https://github.com/bgoonz/BGOONZ_BLOG_2.0/blob/master/src/pages/index.md)
-* [index1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/index.md)
-* [overview](https://github.com/bgoonz/BGOONZ_BLOG_2.0/blob/master/src/pages/overview.md)
-* [overview1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/overview.md)
-* [review](https://github.com/bgoonz/BGOONZ_BLOG_2.0/blob/master/src/pages/review.md)
-* [review1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/review.md)
-* [showcase](https://github.com/bgoonz/BGOONZ_BLOG_2.0/blob/master/src/pages/showcase.md)
-* [showcase1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/showcase.md)
-* [style-guide](https://github.com/bgoonz/BGOONZ_BLOG_2.0/blob/master/src/pages/style-guide.md)
-* [style-guide1](https://raw.githubusercontent.com/bgoonz/BGOONZ_BLOG_2.0/master/src/pages/style-guide.md)
+
 * [  home  ](https://bryan-guner.gitbook.io/mynotes/index)
 * [  generating react  ](https://bryan-guner.gitbook.io/mynotes/generating-react-project)
 * [  gen-react-1  ](https://bryan-guner.gitbook.io/mynotes/generating-react-project-1)
