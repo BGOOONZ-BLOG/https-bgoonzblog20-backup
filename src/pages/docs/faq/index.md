@@ -5,79 +5,97 @@ excerpt: >-
   theme. If you have questions, don’t hesitate to ask us directly.
 seo:
   title: FAQ
-  description: This is the faq page
+  description: This is the faqpage
   extra:
+
     - name: 'og:type'
+
       value: website
       keyName: property
+
     - name: 'og:title'
+
       value: FAQ
+
       keyName: property
+
     - name: 'og:description'
-      value: This is the faq page
+
+      value: This is the faqpage
+
       keyName: property
+
     - name: 'twitter:card'
+
       value: summary
+
     - name: 'twitter:title'
+
       value: FAQ
+
     - name: 'twitter:description'
-      value: This is the faq page
+
+      value: This is the faqpage
+
 template: docs
 ---
 
-This is an example of the FAQ page.
+- 🔭 Contract Web Development **Relational Concepts**
 
-<div class="note">
-  <strong>Note:</strong> 
-  This is the demo content for demonstration purpose only. The primary function of this content is to show you what this theme can do. There is a more detailed explanation in the <strong>Getting Started</strong> section.
-</div>
+- 🌱 I'm currently learning **React/Redux, Python, Java, Express, jQuery**
 
-<hr />
+- 👯 I'm looking to collaborate on [Any web audio or open source educational tools.](https://goofy-euclid-1cd736.netlify.app/core-site/index.html)
 
-## Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+- 🤝 I'm looking for help with [Learning React](https://github.com/bgoonz/React-Practice)
 
-Praesent tristique sem nec lacus laoreet laoreet. Phasellus commodo consectetur viverra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent mattis rhoncus lacus, vel maximus eros aliquet sit amet. Suspendisse condimentum non elit ac laoreet. Etiam molestie nulla nec ligula ultricies tempor. Nulla facilisi. Cras egestas accumsan nisi. Praesent elementum vehicula turpis sed imperdiet. Curabitur vel justo vitae tellus egestas auctor convallis vel ante. Mauris rhoncus finibus nulla, id rhoncus sapien hendrerit sed. Nullam malesuada mi at erat maximus, in gravida eros aliquet. Proin in enim nec enim tristique lobortis. Nulla finibus consectetur lectus eu porttitor. Vivamus venenatis, mi sit amet laoreet venenatis, augue enim efficitur justo, nec gravida lectus libero vel augue. Integer accumsan nisi lectus, eget imperdiet sem condimentum ut.
+- 👨‍💻 All of my projects are available at [https://bgoonz.github.io/](https://bgoonz.github.io/)
 
-<hr />
+- 📝 I regularly write articles on [medium](https://bryanguner.medium.com/) && [Web-Dev-Resource-Hub](https://web-dev-resource-hub.netlify.app/)
 
-## Pellentesque id elit mollis, pharetra libero in?
+- 💬 Ask me about **Anything:**
 
-Suspendisse ligula massa, convallis vel turpis at, laoreet venenatis felis. Sed erat tortor, volutpat venenatis efficitur at, mollis ut arcu. Suspendisse potenti. Nulla facilisi. Suspendisse vestibulum quis mi in ullamcorper. Donec rhoncus vitae velit iaculis lobortis. Aliquam eleifend dignissim orci.
+- 📫 How to reach me **bryan.guner@gmail.com**
 
-<hr />
+- ⚡ Fun fact **I played Bamboozle Music Festival at the Meadowlands Stadium Complex when I was 14.**
 
-## Maecenas placerat fermentum libero?
+### i really like music :headphones:
 
-Curabitur quam neque, pulvinar at sagittis viverra, suscipit sed libero. Sed quis lorem feugiat, tempus metus et, tincidunt orci. Vestibulum eget justo venenatis, mollis lectus a, dictum ante. Sed nec metus mi. Fusce pretium quam vel varius aliquam. Nunc vulputate dictum ipsum, sit amet blandit dui ullamcorper sed. Pellentesque ornare arcu at consectetur pharetra. Suspendisse pellentesque euismod diam. Vivamus cursus eget tortor non ultricies.
 
-<hr />
+#### What's the most useful business-related book you've ever read?
+> A Random Walk Down Wall Street
 
-## Integer massa ante, bibendum sed tellus?
+#### What's your favorite non-business book?
+> Hitchhiker's Guide To The Galaxy
 
-Nunc fringilla, est vel mattis malesuada, mauris velit tincidunt est, quis fringilla mauris felis ut sapien. Sed id sapien ex. Vivamus elementum et lectus pharetra accumsan. Curabitur viverra ante vitae velit euismod, in commodo dolor sollicitudin. Vivamus sit amet rhoncus dui, auctor malesuada ante. Phasellus lobortis fringilla magna at placerat. Maecenas nulla magna, condimentum porta tempor eu, tristique vitae nibh. Curabitur imperdiet eros quis justo luctus dapibus. Vestibulum eu ultrices felis, et lobortis urna. Aenean mollis tempus risus, at iaculis nisi rhoncus at. Phasellus eget massa pulvinar, dignissim velit aliquet, sollicitudin erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+#### If money were not an issue, what would you be doing right now?
+> Designing recording software/hardware and using it
 
-<hr />
+#### What words of advice would you give your younger self?
+> Try harder and listen to your parents more (the latter bit of advice would be almost certain to fall on deaf ears lol)
 
-## Nulla a interdum turpis, vitae tempus risus?
+#### What's the most creative thing you've ever done?
+> I built a platform that listens to a guitarist's performance and automatically triggers guitar effects at the appropriate time in the song.
 
-Vestibulum non sem eu dui facilisis maximus sed a diam. Proin et nulla vitae urna malesuada sollicitudin. Fusce vel enim nisi. Pellentesque tincidunt enim nec quam ullamcorper egestas. Aliquam erat volutpat. Cras in neque pulvinar augue suscipit feugiat. Vestibulum semper ipsum eu ligula imperdiet ullamcorper.
+#### Which founders or startups do you most admire?
+> Is it to basic to say Tesla... I know they're prevalent now but I've been an avid fan since as early as 2012.
 
-Donec vulputate nibh tellus, quis commodo lectus aliquet vestibulum. Morbi lobortis sem ex, in accumsan elit consectetur at. Ut dolor dui, eleifend a condimentum a, venenatis sit amet nunc. Aenean suscipit, metus sed ornare ultrices, neque felis ultrices mi, vitae gravida turpis dolor ut quam. Vivamus pulvinar eros id neque tincidunt elementum. Praesent at tristique nisl. Duis semper placerat risus, ac congue lectus varius nec.
+#### What's your super power?
+> Having really good ideas and forgetting them moments later.
 
-<hr />
+#### What's the best way for people to get in touch with you?
+> A text
 
-## Integer convallis urna consequat luctus commodo?
+#### What aspects of your work are you most passionate about?
+Creating things that change my every day life.
 
-Aenean vitae pulvinar est, et egestas nunc. Sed pharetra mollis felis eleifend pulvinar. Suspendisse feugiat metus ex, ac gravida enim accumsan eu. Curabitur placerat leo ut urna laoreet, quis varius arcu euismod. Maecenas et pretium velit. In egestas libero sed ornare luctus. Ut ac finibus odio.
+#### What was the most impactful class you took in school?
+> Modern Physics... almost changed my major after that class... but at the end of the day engineering was a much more fiscally secure avenue.
 
-<hr />
+#### What's something you wish you had done years earlier?
+> Learned to code ... and sing
 
-## Nam consequat convallis purus, at eleifend tellus scelerisque et?
+#### What words of wisdom do you live by?
+> *Disclaimer: The following wisdom is very cliche ... but... "Be the change that you wish to see in the world."
 
-Cras eu erat et ligula dictum feugiat at eget sem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent et justo interdum, iaculis sapien sit amet, ornare est. Duis aliquam a elit et euismod. Sed convallis vestibulum sem sit amet interdum. Sed nec lobortis justo. Mauris fringilla porta risus, et volutpat diam congue at. Nullam commodo fringilla felis ut molestie. Nam eu elit risus. Nulla ornare posuere odio, nec tincidunt nulla elementum ac. Ut viverra eros fringilla aliquet porta. Nulla venenatis enim non blandit tincidunt.
+> ― Mahatma Gandhi
 
-<hr />
-
-## Suspendisse blandit lobortis mi?
-
-Cras vel congue augue. Integer sodales massa quis justo consectetur, id varius quam sagittis. Fusce molestie et diam ac faucibus. Morbi ut eleifend nibh. Quisque maximus velit eget leo aliquam mollis. Sed cursus nunc vitae dignissim consectetur. Vivamus eget venenatis leo, et aliquet odio. Nam mollis lectus ante, vel volutpat nulla elementum ac. Cras ut purus leo. Integer lacus ligula, vehicula vitae felis vel, iaculis tincidunt lorem. Etiam vestibulum venenatis neque sit amet semper. Fusce suscipit ante at mi blandit, a semper urna euismod.
