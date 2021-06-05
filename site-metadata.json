@@ -1,5 +1,5 @@
 {
-    "palette": "blue",
+    "palette": "navy",
     "header": {
         "title": "webdevhub",
         "logo_img": "images/imageonline-co-overlayed-image - Copy.png",
@@ -13,7 +13,7 @@
                 "has_subnav": false
             },
             {
-                "label": "Resources",
+                "label": "Study Resources ",
                 "url": "https://lambda-resources.netlify.app/",
                 "style": "link",
                 "has_subnav": false,
@@ -30,50 +30,89 @@
                 ]
             },
             {
-                "label": "Portfolio",
-                "url": "https://1drv.ms/p/s!AkGiZ9n9CRDSnIQr93ky5YLm9NU1VA?e=FFJMlz",
-                "style": "link",
-                "icon_class": "dev",
-                "new_window": false,
-                "no_follow": false,
-                "has_subnav": false,
-                "subnav_links": [],
-                "type": "action_menu"
-            },
-            {
                 "label": "Blog",
                 "url": "/blog",
                 "style": "link",
                 "has_subnav": false
             },
             {
-                "label": "Interests",
-                "url": "#",
+                "url": "https://tetris42.netlify.app/",
                 "style": "link",
                 "icon_class": "dev",
                 "new_window": false,
                 "no_follow": false,
                 "has_subnav": false,
                 "subnav_links": [],
-                "type": "action_menu"
+                "type": "action_menu",
+                "label": "Roll The Dice"
             },
             {
-                "label": "About",
-                "url": "#",
+                "label": "Navigation",
                 "style": "link",
+                "icon_class": "dev",
+                "new_window": false,
+                "no_follow": false,
                 "has_subnav": true,
                 "subnav_links": [
                     {
-                        "label": "Overview",
-                        "url": "/overview",
-                        "style": "link"
+                        "label": "blog",
+                        "url": "/blog",
+                        "style": "link",
+                        "icon_class": "dev",
+                        "new_window": false,
+                        "no_follow": false,
+                        "type": "action"
                     },
                     {
-                        "label": "Mini Projects",
-                        "url": "https://project-showcase-bgoonz.netlify.app/",
-                        "style": "link"
+                        "label": "docs",
+                        "url": "/docs",
+                        "style": "link",
+                        "icon_class": "dev",
+                        "new_window": false,
+                        "no_follow": false,
+                        "type": "action"
+                    },
+                    {
+                        "label": "Showcase",
+                        "url": "/showcase",
+                        "style": "link",
+                        "icon_class": "dev",
+                        "new_window": false,
+                        "no_follow": false,
+                        "type": "action"
+                    },
+                    {
+                        "label": "portfolio",
+                        "style": "link",
+                        "icon_class": "dev",
+                        "new_window": false,
+                        "no_follow": false,
+                        "type": "action",
+                        "url": "https://bg-portfolio.netlify.app/"
                     }
-                ]
+                ],
+                "type": "action_menu"
+            },
+            {
+                "label": "Archive",
+                "style": "link",
+                "icon_class": "github",
+                "new_window": true,
+                "no_follow": false,
+                "has_subnav": true,
+                "subnav_links": [
+                    {
+                        "label": "Projects",
+                        "url": "https://lambda-static-resources.netlify.app/1-projects/directory.html",
+                        "style": "link",
+                        "icon_class": "dev",
+                        "new_window": false,
+                        "no_follow": false,
+                        "type": "action"
+                    }
+                ],
+                "type": "action_menu",
+                "url": "https://lambda-static-landing.netlify.app/"
             },
             {
                 "label": "Tools",
@@ -83,7 +122,7 @@
                 "subnav_links": [
                     {
                         "label": "Github HTML Previewer",
-                        "url": "#https://githtmlpreview.netlify.app/",
+                        "url": "https://githtmlpreview.netlify.app/",
                         "style": "link",
                         "icon_class": "dev",
                         "new_window": false,
@@ -92,7 +131,7 @@
                     },
                     {
                         "label": "Text Tools",
-                        "url": "#https://devtools42.netlify.app/",
+                        "url": "https://devtools42.netlify.app/",
                         "style": "link",
                         "icon_class": "dev",
                         "new_window": false,
@@ -101,7 +140,25 @@
                     },
                     {
                         "label": "Ternary 2 If Else",
-                        "url": "#https://ternary42.netlify.app/",
+                        "url": "https://ternary42.netlify.app/",
+                        "style": "link",
+                        "icon_class": "dev",
+                        "new_window": false,
+                        "no_follow": false,
+                        "type": "action"
+                    },
+                    {
+                        "label": "Job Search Resources",
+                        "url": "https://determined-dijkstra-ee7390.netlify.app/",
+                        "style": "link",
+                        "icon_class": "dev",
+                        "new_window": true,
+                        "no_follow": false,
+                        "type": "action"
+                    },
+                    {
+                        "label": "lorem-ipsum",
+                        "url": "#",
                         "style": "link",
                         "icon_class": "dev",
                         "new_window": false,
@@ -115,18 +172,9 @@
                 "url": "https://github.com/bgoonz/BGOONZ_BLOG_2.0",
                 "style": "primary",
                 "has_subnav": false
-            },
-            {
-                "url": "#",
-                "style": "link",
-                "icon_class": "dev",
-                "new_window": false,
-                "no_follow": false,
-                "has_subnav": false,
-                "subnav_links": [],
-                "type": "action_menu"
             }
-        ]
+        ],
+        "url": "WebDevHub"
     },
     "footer": {
         "has_social": true,
@@ -154,7 +202,7 @@
             },
             {
                 "label": "Youtube",
-                "url": "#https://www.youtube.com/channel/UC9-rYyUMsnEBK8G8fCyrXXA",
+                "url": "https://www.youtube.com/channel/UC9-rYyUMsnEBK8G8fCyrXXA",
                 "style": "icon",
                 "icon_class": "youtube",
                 "new_window": true,
@@ -174,8 +222,8 @@
             },
             {
                 "label": "Old Blog",
-                "url": " https://web-dev-resource-hub.netlify.app/",
-                "style": "link",
+                "url": "https://lambda-resources.netlify.app/",
+                "style": "icon",
                 "icon_class": "dev",
                 "new_window": false,
                 "no_follow": false,
@@ -184,5 +232,6 @@
         ]
     },
     "title": "webdevhub",
-    "domain": "https://best-celery-b2d7c.netlify.app"
+    "domain": "https://best-celery-b2d7c.netlify.app",
+    "favicon": "images/magnificent-maple.ico"
 }
