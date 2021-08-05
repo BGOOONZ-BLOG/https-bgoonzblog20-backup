@@ -2,7 +2,10 @@
 title: Docs
 seo:
     title: Web Dev Hub
-    description: Docs Home
+    description: >-
+        Application, Back-end, Bootstrap, Browser, Caching, Code, CSS, Content
+        Management System (CMS) , Cookies, Domain Name ,Frameworks, Front-end,
+        JavaScript, Python
     extra:
         - name: 'og:type'
           value: website
@@ -23,6 +26,8 @@ template: docs
 weight: 900
 excerpt: docs quick reference
 ---
+
+# Go To Sitemap: [Go Now -->](./docs/sitemap/)
 
 ## Doc Websites & Repos
 

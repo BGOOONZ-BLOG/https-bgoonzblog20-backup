@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Link, withPrefix, classNames } from '../utils';
 import ActionLink from './ActionLink';
 import Submenu from './Submenu';
-// import Github-corner from './experimental/Github-corner';
+
 export default class Header extends React.Component {
     render() {
         return (
@@ -23,12 +23,15 @@ export default class Header extends React.Component {
                                 </p>
                             ) : (
                                 <p className="site-title">
+                                    {' '}
+                                    WebDevHub
                                     <Link to={withPrefix(_.get(this.props, 'pageContext.site.siteMetadata.header.url', null) || '/')}>
                                         {_.get(this.props, 'pageContext.site.siteMetadata.header.title', null)}
                                     </Link>
                                 </p>
                             )}
                         </div>
+                        <div id="search" className="inner"></div>
                         {_.get(this.props, 'pageContext.site.siteMetadata.header.has_nav', null) && (
                             <React.Fragment>
                                 <nav id="main-navigation" className="site-navigation" aria-label="Main Navigation">
@@ -79,6 +82,7 @@ export default class Header extends React.Component {
                         )}
                     </div>
                 </div>
+                <div id="search" className="inner"></div>
                 <div>
                     <a className="github-corner" href="https://github.com/bgoonz/BGOONZ_BLOG_2.0" aria-label="View source on Github">
                         <svg
