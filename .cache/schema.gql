@@ -1,0 +1,569 @@
+### Type definitions saved at 2022-06-12T12:06:55.082Z ###
+
+enum RemoteFileFit {
+  COVER
+  FILL
+  OUTSIDE
+  CONTAIN
+}
+
+enum RemoteFileFormat {
+  AUTO
+  JPG
+  PNG
+  WEBP
+  AVIF
+}
+
+enum RemoteFileLayout {
+  FIXED
+  FULL_WIDTH
+  CONSTRAINED
+}
+
+enum RemoteFilePlaceholder {
+  DOMINANT_COLOR
+  BLURRED
+  TRACED_SVG
+  NONE
+}
+
+enum RemoteFileCropFocus {
+  CENTER
+  TOP
+  RIGHT
+  BOTTOM
+  LEFT
+  ENTROPY
+  EDGES
+  FACES
+}
+
+type RemoteFileResize {
+  width: Int
+  height: Int
+  src: String
+}
+
+"""Remote Interface"""
+interface RemoteFile {
+  id: ID!
+  mimeType: String!
+  filename: String!
+  filesize: Int
+  width: Int
+  height: Int
+  publicUrl: String!
+  resize(
+    width: Int
+    height: Int
+    aspectRatio: Float
+    fit: RemoteFileFit = COVER
+
+    """
+    
+    The image formats to generate. Valid values are AUTO (meaning the same
+    format as the source image), JPG, PNG, WEBP and AVIF.
+    The default value is [AUTO, WEBP, AVIF], and you should rarely need to
+    change this. Take care if you specify JPG or PNG when you do
+    not know the formats of the source images, as this could lead to unwanted
+    results such as converting JPEGs to PNGs. Specifying
+    both PNG and JPG is not supported and will be ignored.
+    """
+    format: RemoteFileFormat = AUTO
+    cropFocus: [RemoteFileCropFocus]
+    quality: Int = 75
+  ): RemoteFileResize
+
+  """
+  Data used in the <GatsbyImage /> component. See https://gatsby.dev/img for more info.
+  """
+  gatsbyImage(
+    """
+    
+    The layout for the image.
+    FIXED: A static image sized, that does not resize according to the screen width
+    FULL_WIDTH: The image resizes to fit its container. Pass a "sizes" option if
+    it isn't going to be the full width of the screen.
+    CONSTRAINED: Resizes to fit its container, up to a maximum width, at which point it will remain fixed in size.
+    
+    """
+    layout: RemoteFileLayout = CONSTRAINED
+
+    """
+    
+    The display width of the generated image for layout = FIXED, and the display
+    width of the largest image for layout = CONSTRAINED.
+    The actual largest image resolution will be this value multiplied by the largest value in outputPixelDensities
+    Ignored if layout = FLUID.
+    
+    """
+    width: Int
+
+    """
+    
+    If set, the height of the generated image. If omitted, it is calculated from
+    the supplied width, matching the aspect ratio of the source image.
+    """
+    height: Int
+
+    """
+    
+    Format of generated placeholder image, displayed while the main image loads.
+    BLURRED: a blurred, low resolution image, encoded as a base64 data URI (default)
+    DOMINANT_COLOR: a solid color, calculated from the dominant color of the image.
+    TRACED_SVG: a low-resolution traced SVG of the image.
+    NONE: no placeholder. Set the argument "backgroundColor" to use a fixed background color.
+    """
+    placeholder: RemoteFilePlaceholder = DOMINANT_COLOR
+
+    """
+    
+    If set along with width or height, this will set the value of the other
+    dimension to match the provided aspect ratio, cropping the image if needed.
+    If neither width or height is provided, height will be set based on the intrinsic width of the source image.
+    
+    """
+    aspectRatio: Float
+
+    """
+    
+    The image formats to generate. Valid values are AUTO (meaning the same
+    format as the source image), JPG, PNG, WEBP and AVIF.
+    The default value is [AUTO, WEBP, AVIF], and you should rarely need to
+    change this. Take care if you specify JPG or PNG when you do
+    not know the formats of the source images, as this could lead to unwanted
+    results such as converting JPEGs to PNGs. Specifying
+    both PNG and JPG is not supported and will be ignored.
+    
+    """
+    formats: [RemoteFileFormat!] = [AUTO, WEBP, AVIF]
+
+    """
+    
+    A list of image pixel densities to generate for FIXED and CONSTRAINED
+    images. You should rarely need to change this. It will never generate images
+    larger than the source, and will always include a 1x image.
+    Default is [ 1, 2 ] for fixed images, meaning 1x, 2x, and [0.25, 0.5, 1, 2]
+    for fluid. In this case, an image with a fluid layout and width = 400 would
+    generate images at 100, 200, 400 and 800px wide.
+    
+    """
+    outputPixelDensities: [Float] = [0.25, 0.5, 1, 2]
+
+    """
+    
+    Specifies the image widths to generate. You should rarely need to change
+    this. For FIXED and CONSTRAINED images it is better to allow these to be
+    determined automatically,
+    based on the image size. For FULL_WIDTH images this can be used to override
+    the default, which is [750, 1080, 1366, 1920].
+    It will never generate any images larger than the source.
+    
+    """
+    breakpoints: [Int] = [750, 1080, 1366, 1920]
+
+    """
+    
+    The "sizes" property, passed to the img tag. This describes the display size of the image.
+    This does not affect the generated images, but is used by the browser to
+    decide which images to download. You can leave this blank for fixed images,
+    or if the responsive image
+    container will be the full width of the screen. In these cases we will generate an appropriate value.
+    
+    """
+    sizes: String
+
+    """
+    Background color applied to the wrapper, or when "letterboxing" an image to another aspect ratio.
+    """
+    backgroundColor: String
+    fit: RemoteFileFit = COVER
+    cropFocus: [RemoteFileCropFocus]
+    quality: Int = 75
+  ): GatsbyImageData
+}
+
+type File implements Node @dontInfer {
+  sourceInstanceName: String!
+  absolutePath: String!
+  relativePath: String!
+  extension: String!
+  size: Int!
+  prettySize: String!
+  modifiedTime: Date! @dateformat
+  accessTime: Date! @dateformat
+  changeTime: Date! @dateformat
+  birthTime: Date! @dateformat
+  root: String!
+  dir: String!
+  base: String!
+  ext: String!
+  name: String!
+  relativeDirectory: String!
+  dev: Int!
+  mode: Int!
+  nlink: Int!
+  uid: Int!
+  gid: Int!
+  rdev: Int!
+  ino: Float!
+  atimeMs: Float!
+  mtimeMs: Float!
+  ctimeMs: Float!
+  atime: Date! @dateformat
+  mtime: Date! @dateformat
+  ctime: Date! @dateformat
+  birthtime: Date @deprecated(reason: "Use `birthTime` instead")
+  birthtimeMs: Float @deprecated(reason: "Use `birthTime` instead")
+  blksize: Int
+  blocks: Int
+}
+
+type Directory implements Node @dontInfer {
+  sourceInstanceName: String!
+  absolutePath: String!
+  relativePath: String!
+  extension: String!
+  size: Int!
+  prettySize: String!
+  modifiedTime: Date! @dateformat
+  accessTime: Date! @dateformat
+  changeTime: Date! @dateformat
+  birthTime: Date! @dateformat
+  root: String!
+  dir: String!
+  base: String!
+  ext: String!
+  name: String!
+  relativeDirectory: String!
+  dev: Int!
+  mode: Int!
+  nlink: Int!
+  uid: Int!
+  gid: Int!
+  rdev: Int!
+  ino: Float!
+  atimeMs: Float!
+  mtimeMs: Float!
+  ctimeMs: Float!
+  atime: Date! @dateformat
+  mtime: Date! @dateformat
+  ctime: Date! @dateformat
+  birthtime: Date @deprecated(reason: "Use `birthTime` instead")
+  birthtimeMs: Float @deprecated(reason: "Use `birthTime` instead")
+}
+
+type Site implements Node @dontInfer {
+  buildTime: Date @dateformat
+  siteMetadata: SiteSiteMetadata
+  pathPrefix: String
+  polyfill: Boolean
+  jsxRuntime: String
+  trailingSlash: String
+  graphqlTypegen: Boolean
+}
+
+type SiteSiteMetadata @derivedTypes {
+  title: String
+  description: String
+  palette: String
+  header: SiteSiteMetadataHeader
+  footer: SiteSiteMetadataFooter
+  domain: String
+  favicon: String
+}
+
+type SiteFunction implements Node @dontInfer {
+  functionRoute: String!
+  pluginName: String!
+  originalAbsoluteFilePath: String!
+  originalRelativeFilePath: String!
+  relativeCompiledFilePath: String!
+  absoluteCompiledFilePath: String!
+  matchPath: String
+}
+
+type SitePage implements Node @dontInfer {
+  path: String!
+  component: String!
+  internalComponentName: String!
+  componentChunkName: String!
+  matchPath: String
+  pageContext: JSON @proxy(from: "context", fromNode: false)
+  pluginCreator: SitePlugin @link(by: "id", from: "pluginCreatorId")
+}
+
+type SitePlugin implements Node @dontInfer {
+  resolve: String
+  name: String
+  version: String
+  nodeAPIs: [String]
+  browserAPIs: [String]
+  ssrAPIs: [String]
+  pluginFilepath: String
+  pluginOptions: JSON
+  packageJson: JSON
+}
+
+type SiteBuildMetadata implements Node @dontInfer {
+  buildTime: Date @dateformat
+}
+
+type MarkdownHeading {
+  id: String
+  value: String
+  depth: Int
+}
+
+enum MarkdownHeadingLevels {
+  h1
+  h2
+  h3
+  h4
+  h5
+  h6
+}
+
+enum MarkdownExcerptFormats {
+  PLAIN
+  HTML
+  MARKDOWN
+}
+
+type MarkdownWordCount {
+  paragraphs: Int
+  sentences: Int
+  words: Int
+}
+
+type MarkdownRemark implements Node @childOf(mimeTypes: ["text/markdown", "text/x-markdown"], types: ["File"]) @derivedTypes @dontInfer {
+  frontmatter: MarkdownRemarkFrontmatter
+  excerpt: String
+  rawMarkdownBody: String
+  fileAbsolutePath: String
+  fields: MarkdownRemarkFields
+}
+
+type SiteData implements Node @derivedTypes @dontInfer {
+  data: SiteDataData
+}
+
+type SiteDataData @derivedTypes {
+  site_metadata: SiteDataDataSite_metadata @proxy(from: "site-metadata")
+}
+
+type SiteDataDataSite_metadata @derivedTypes {
+  palette: String
+  header: SiteDataDataSite_metadataHeader
+  footer: SiteDataDataSite_metadataFooter
+  title: String
+  domain: String
+  favicon: String
+}
+
+type SiteDataDataSite_metadataHeader @derivedTypes {
+  logo_img: String
+  logo_img_alt: String
+  has_nav: Boolean
+  nav_links: [SiteDataDataSite_metadataHeaderNav_links]
+  title: String
+}
+
+type SiteDataDataSite_metadataHeaderNav_links @derivedTypes {
+  url: String
+  label: String
+  style: String
+  icon_class: String
+  new_window: Boolean
+  no_follow: Boolean
+  has_subnav: Boolean
+  subnav_links: [SiteDataDataSite_metadataHeaderNav_linksSubnav_links]
+  type: String
+}
+
+type SiteDataDataSite_metadataHeaderNav_linksSubnav_links {
+  label: String
+  url: String
+  style: String
+  icon_class: String
+  new_window: Boolean
+  no_follow: Boolean
+  type: String
+}
+
+type SiteDataDataSite_metadataFooter @derivedTypes {
+  has_social: Boolean
+  social_links: [SiteDataDataSite_metadataFooterSocial_links]
+  links: [SiteDataDataSite_metadataFooterLinks]
+  content: String
+}
+
+type SiteDataDataSite_metadataFooterSocial_links {
+  label: String
+  url: String
+  style: String
+  icon_class: String
+  new_window: Boolean
+  no_follow: Boolean
+  type: String
+}
+
+type SiteDataDataSite_metadataFooterLinks {
+  label: String
+  url: String
+  style: String
+  icon_class: String
+  new_window: Boolean
+  no_follow: Boolean
+  type: String
+}
+
+type SiteSiteMetadataHeader @derivedTypes {
+  logo_img: String
+  logo_img_alt: String
+  has_nav: Boolean
+  nav_links: [SiteSiteMetadataHeaderNav_links]
+  title: String
+}
+
+type SiteSiteMetadataHeaderNav_links @derivedTypes {
+  url: String
+  label: String
+  style: String
+  icon_class: String
+  new_window: Boolean
+  no_follow: Boolean
+  has_subnav: Boolean
+  subnav_links: [SiteSiteMetadataHeaderNav_linksSubnav_links]
+  type: String
+}
+
+type SiteSiteMetadataHeaderNav_linksSubnav_links {
+  label: String
+  url: String
+  style: String
+  icon_class: String
+  new_window: Boolean
+  no_follow: Boolean
+  type: String
+}
+
+type SiteSiteMetadataFooter @derivedTypes {
+  has_social: Boolean
+  social_links: [SiteSiteMetadataFooterSocial_links]
+  links: [SiteSiteMetadataFooterLinks]
+  content: String
+}
+
+type SiteSiteMetadataFooterSocial_links {
+  label: String
+  url: String
+  style: String
+  icon_class: String
+  new_window: Boolean
+  no_follow: Boolean
+  type: String
+}
+
+type SiteSiteMetadataFooterLinks {
+  label: String
+  url: String
+  style: String
+  icon_class: String
+  new_window: Boolean
+  no_follow: Boolean
+  type: String
+}
+
+type MarkdownRemarkFrontmatter @derivedTypes {
+  title: String
+  template: String
+  subtitle: String
+  excerpt: String
+  date: Date @dateformat
+  image: String
+  thumb_image: String
+  image_position: String
+  author: String
+  categories: [String]
+  tags: [String]
+  show_author_bio: Boolean
+  related_posts: [String]
+  cmseditable: Boolean
+  weight: Int
+  seo: MarkdownRemarkFrontmatterSeo
+  thumb_image_alt: String
+  sections: [MarkdownRemarkFrontmatterSections]
+  has_more_link: Boolean
+  more_link_text: String
+}
+
+type MarkdownRemarkFrontmatterSeo @derivedTypes {
+  title: String
+  description: String
+  extra: [MarkdownRemarkFrontmatterSeoExtra]
+  type: String
+}
+
+type MarkdownRemarkFrontmatterSeoExtra {
+  name: String
+  value: String
+  keyName: String
+  relativeUrl: Boolean
+}
+
+type MarkdownRemarkFrontmatterSections @derivedTypes {
+  section_id: String
+  type: String
+  title: String
+  image: String
+  content: String
+  col_number: String
+  grid_items: [MarkdownRemarkFrontmatterSectionsGrid_items]
+  image_alt: String
+  image_position: String
+  actions: [MarkdownRemarkFrontmatterSectionsActions]
+  subtitle: String
+}
+
+type MarkdownRemarkFrontmatterSectionsGrid_items @derivedTypes {
+  title: String
+  title_url: String
+  image: String
+  content: String
+  actions: [MarkdownRemarkFrontmatterSectionsGrid_itemsActions]
+  image_alt: String
+  type: String
+}
+
+type MarkdownRemarkFrontmatterSectionsGrid_itemsActions {
+  label: String
+  url: String
+  style: String
+  icon_class: String
+  new_window: Boolean
+  no_follow: Boolean
+  type: String
+}
+
+type MarkdownRemarkFrontmatterSectionsActions {
+  label: String
+  url: String
+  style: String
+  icon_class: String
+  new_window: Boolean
+  no_follow: Boolean
+  type: String
+}
+
+type MarkdownRemarkFields {
+  url: String
+  absolutePath: String
+  relativePath: String
+  absoluteDir: String
+  relativeDir: String
+  base: File @fileByRelativePath
+  ext: String
+  name: String
+}
