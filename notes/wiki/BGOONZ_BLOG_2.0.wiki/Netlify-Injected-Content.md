@@ -2290,11 +2290,11 @@
     <meta data-react-helmet="true" property="og:type" content="website" />
     <meta data-react-helmet="true" property="og:title" content="Web-Dev-Hub" />
     <meta data-react-helmet="true" property="og:description" content="The preview of the Web-Dev-Hub" />
-    <meta data-react-helmet="true" property="og:image" content="https://bgoonz-blog.netlify.app/images/4.jpg" />
+    <meta data-react-helmet="true" property="og:image" content="https://bgoonzblog20-backup.netlify.app/images/4.jpg" />
     <meta data-react-helmet="true" name="twitter:card" content="summary_large_image" />
     <meta data-react-helmet="true" name="twitter:title" content="Web-Dev-Hub" />
     <meta data-react-helmet="true" name="twitter:description" content="The preview of the Web-Dev-Hub" />
-    <meta data-react-helmet="true" name="twitter:image" content="https://bgoonz-blog.netlify.app/images/4.jpg" />
+    <meta data-react-helmet="true" name="twitter:image" content="https://bgoonzblog20-backup.netlify.app/images/4.jpg" />
     <link as="script" rel="preload" href="/webpack-runtime-45751f54f7424d040e60.js" />
     <link as="script" rel="preload" href="/framework-acf2edd04f295a3bec1d.js" />
     <link as="script" rel="preload" href="/app-3c57265fe85c14101a0f.js" />
