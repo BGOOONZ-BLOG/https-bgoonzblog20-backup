@@ -1,4 +1,4 @@
-### Type definitions saved at 2022-06-12T12:15:11.885Z ###
+### Type definitions saved at 2022-06-12T12:16:14.892Z ###
 
 enum RemoteFileFit {
   COVER
@@ -478,32 +478,21 @@ type SiteSiteMetadataFooterLinks {
 
 type MarkdownRemarkFrontmatter @derivedTypes {
   title: String
-  template: String
   subtitle: String
-  excerpt: String
-  date: Date @dateformat
-  image: String
-  thumb_image: String
-  image_position: String
-  author: String
-  categories: [String]
-  tags: [String]
-  show_author_bio: Boolean
-  related_posts: [String]
-  cmseditable: Boolean
-  weight: Int
   seo: MarkdownRemarkFrontmatterSeo
-  thumb_image_alt: String
+  template: String
+  image: String
   sections: [MarkdownRemarkFrontmatterSections]
-  has_more_link: Boolean
-  more_link_text: String
+  date: Date @dateformat
+  thumb_image_alt: String
+  excerpt: String
+  thumb_image: String
 }
 
 type MarkdownRemarkFrontmatterSeo @derivedTypes {
   title: String
   description: String
   extra: [MarkdownRemarkFrontmatterSeoExtra]
-  type: String
 }
 
 type MarkdownRemarkFrontmatterSeoExtra {
@@ -521,10 +510,10 @@ type MarkdownRemarkFrontmatterSections @derivedTypes {
   content: String
   col_number: String
   grid_items: [MarkdownRemarkFrontmatterSectionsGrid_items]
-  image_alt: String
-  image_position: String
   actions: [MarkdownRemarkFrontmatterSectionsActions]
   subtitle: String
+  image_alt: String
+  image_position: String
 }
 
 type MarkdownRemarkFrontmatterSectionsGrid_items @derivedTypes {
@@ -560,7 +549,7 @@ type MarkdownRemarkFrontmatterSectionsActions {
 type MarkdownRemarkFields {
   url: String
   absolutePath: String
-  relativePath: String
+  relativePath: File @fileByRelativePath
   absoluteDir: String
   relativeDir: String
   base: File @fileByRelativePath
