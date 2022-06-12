@@ -1,5 +1,4 @@
 const siteMetadata = require('./site-metadata.json');
-
 module.exports = {
     pathPrefix: '/',
     siteMetadata: siteMetadata,
@@ -15,6 +14,19 @@ module.exports = {
             }
         },
         {
+            resolve: 'gatsby-transformer-remark',
+            options: {
+                plugins: ['gatsby-remark-prismjs'],
+            },
+        },
+
+        {
+            resolve: 'gatsby-plugin-disqus',
+            options: {
+                shortname: 'webdevhub-1',
+            }
+        },
+        {
             resolve: 'gatsby-plugin-sass',
             options: {}
         },
@@ -26,8 +38,14 @@ module.exports = {
             resolve: '@stackbit/gatsby-plugin-menus',
             options: {
                 sourceUrlPath: 'fields.url',
-                pageContextProperty: 'menus'
+                pageContextProperty: 'menus',
+            },
+        },
+        {
+            resolve: 'gatsby-plugin-disqus',
+            options: {
+                shortname: 'webdevhub-1'
             }
-        }
+        },
     ]
 };
