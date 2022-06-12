@@ -1,4 +1,4 @@
-### Type definitions saved at 2022-06-12T12:16:14.892Z ###
+### Type definitions saved at 2022-06-12T12:16:48.387Z ###
 
 enum RemoteFileFit {
   COVER
@@ -478,21 +478,32 @@ type SiteSiteMetadataFooterLinks {
 
 type MarkdownRemarkFrontmatter @derivedTypes {
   title: String
-  subtitle: String
-  seo: MarkdownRemarkFrontmatterSeo
   template: String
-  image: String
-  sections: [MarkdownRemarkFrontmatterSections]
-  date: Date @dateformat
-  thumb_image_alt: String
+  subtitle: String
   excerpt: String
+  date: Date @dateformat
+  image: String
   thumb_image: String
+  image_position: String
+  author: String
+  categories: [String]
+  tags: [String]
+  show_author_bio: Boolean
+  related_posts: [String]
+  cmseditable: Boolean
+  seo: MarkdownRemarkFrontmatterSeo
+  weight: Int
+  thumb_image_alt: String
+  sections: [MarkdownRemarkFrontmatterSections]
+  has_more_link: Boolean
+  more_link_text: String
 }
 
 type MarkdownRemarkFrontmatterSeo @derivedTypes {
   title: String
   description: String
   extra: [MarkdownRemarkFrontmatterSeoExtra]
+  type: String
 }
 
 type MarkdownRemarkFrontmatterSeoExtra {
@@ -549,7 +560,7 @@ type MarkdownRemarkFrontmatterSectionsActions {
 type MarkdownRemarkFields {
   url: String
   absolutePath: String
-  relativePath: File @fileByRelativePath
+  relativePath: String
   absoluteDir: String
   relativeDir: String
   base: File @fileByRelativePath
