@@ -1,6 +1,6 @@
 function parseSitemap() {
     var url = $siteMapURL.val();
-    if ($.trim(url) === 'https://bgoonzblog20-backup.netlify.app/') return;
+    if ($.trim(url) === 'https://bgoonz-blog.netlify.app/') return;
     $results.val('');
     $status.html('<i>Trying to parse the sitemap.</i>');
     console.log('try to parse ' + url);
