@@ -1,4 +1,4 @@
-### Type definitions saved at 2022-06-12T12:13:43.256Z ###
+### Type definitions saved at 2022-06-12T12:15:11.885Z ###
 
 enum RemoteFileFit {
   COVER
