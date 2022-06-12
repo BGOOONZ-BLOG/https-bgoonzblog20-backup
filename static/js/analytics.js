@@ -25282,4 +25282,2808 @@ function mo(a) {
             (a = () => {
                 if (!U(J).pause_ad_requests)
                     if (Q(xh)) {
-                        var b = v
+                        var b = void 0 === b ? {} : b;
+                        if ('function' === typeof window.CustomEvent) var c = new CustomEvent('adsbygoogle-pub-unpause-ad-requests-event', b);
+                        else
+                            (c = document.createEvent('CustomEvent')),
+                            c.initCustomEvent('adsbygoogle-pub-unpause-ad-requests-event', !!b.bubbles, !!b.cancelable, b.detail);
+                        J.dispatchEvent(c);
+                    } else {
+                        b = fd();
+                        var d = fd();
+                        try {
+                            if (Uc.createEvent)
+                                (c = Uc.createEvent('CustomEvent')),
+                                c.initCustomEvent('adsbygoogle-pub-unpause-ad-requests-event', !1, !1, ''),
+                                b.dispatchEvent(c);
+                            else if (ad(d.CustomEvent)) {
+                                var e = new d.CustomEvent('adsbygoogle-pub-unpause-ad-requests-event', {
+                                    bubbles: !1,
+                                    cancelable: !1,
+                                    detail: ''
+                                });
+                                b.dispatchEvent(e);
+                            } else if (ad(d.Event)) {
+                                var f = new Event('adsbygoogle-pub-unpause-ad-requests-event', {
+                                    bubbles: !1,
+                                    cancelable: !1
+                                });
+                                b.dispatchEvent(f);
+                            }
+                        } catch (g) {}
+                    }
+            }),
+            v.setTimeout(a, 0),
+            v.setTimeout(a, 1e3));
+}
+function no(a) {
+    uf(
+        'adsenseGfpKnob', {
+            value: a,
+            ptt: 9
+        },
+        0.1
+    );
+    switch (a) {
+        case 0:
+        case 2:
+            a = !0;
+            break;
+        case 1:
+            a = !1;
+            break;
+        default:
+            throw Error('Illegal value of cookieOptions: ' + a);
+    }
+    J._gfp_a_ = a;
+}
+function oo(a) {
+    ad(a) && window.setTimeout(a, 0);
+}
+function Zn(a, b) {
+    ((ba = fk(
+                Tb(
+                    Wb(gc(b.nb).toString()),
+                    Rh() ? {
+                        bust: Rh()
+                    } : {}
+                )
+            )
+            .then((c) => {
+                null == Hn && (c.init(a), (Hn = c), po());
+            })
+            .catch(vf(723))),
+        p(ba, 'finally')).call(ba, () => {
+        In.length = 0;
+        uf('slotcar', {
+            event: 'api_ld',
+            time: Date.now() - Ja,
+            time_pr: Date.now() - Kn
+        });
+    });
+}
+function po() {
+    for (var a = q(p(Jn, 'keys').call(Jn)), b = a.next(); !b.done; b = a.next()) {
+        b = b.value;
+        var c = Jn.get(b); -
+        1 !== c && (v.clearTimeout(c), Jn.delete(b));
+    }
+    a = {};
+    for (
+        b = 0; b < In.length; a = {
+            da: a.da,
+            Y: a.Y
+        },
+        b++
+    )
+        Jn.has(b) ||
+        ((a.Y = In[b]),
+            (a.da = $n(a.Y)),
+            sf(
+                723,
+                ((d) => () => {
+                    3 === d.da ? Hn.handleAdConfig(d.Y) : 2 === d.da && Hn.handleAdBreakBeforeReady(d.Y).catch(vf(730));
+                })(a)
+            ));
+}
+function bo(a) {
+    var b = In.length;
+    if (2 === $n(a) && 'preroll' === a.type && null != a.adBreakDone) {
+        -1 === Kn && (Kn = Date.now());
+        var c = v.setTimeout(() => {
+            try {
+                (0, a.adBreakDone)({
+                    breakType: 'preroll',
+                    breakName: a.name,
+                    breakFormat: 'preroll',
+                    breakStatus: 'timeout'
+                }),
+                Jn.set(b, -1),
+                    uf('slotcar', {
+                        event: 'pr_to',
+                        source: 'adsbygoogle'
+                    });
+            } catch (d) {
+                console.error('[Ad Placement API] adBreakDone callback threw an error:', d instanceof Error ? d : Error(String(d)));
+            }
+        }, 1e3 * R(vh));
+        Jn.set(b, c);
+    }
+}
+((a, b, c, d) => {
+    d = void 0 === d ? () => {} : d;
+    qf.Pa(wf);
+    sf(166, () => {
+        var e = xm(b);
+        pm(Eb(e, 2));
+        Bl(D(e, 6));
+        d();
+        kd(16, [1, e.toJSON()]);
+        var f = Xc(Wc(J)) || J;
+        var g = c(
+            qm({
+                $a: a,
+                jb: Eb(e, 2)
+            }),
+            e
+        );
+        Q(mh) && Fl(f, e);
+        om(f, e, null === J.document.currentScript ? 1 : Ol(g.qb));
+        if ((!Qa() || 0 <= La(Ta(), 11)) && (null == (J.Prototype || {}).Version || !Q(fh))) {
+            rf(Q(Ch));
+            zn(e);
+            Gj();
+            try {
+                Rm();
+            } catch (r) {}
+            yn();
+            Xn(g, e);
+            f = window;
+            var h = f.adsbygoogle;
+            if (!h || !h.loaded) {
+                if (Q(dh) && !D(e, 16))
+                    try {
+                        if (J.document.querySelector('script[src*="/pagead/js/adsbygoogle.js?client="]')) return;
+                    } catch (r) {}
+                ko(e);
+                R(Ng) && jo();
+                var k = {
+                    push(r) {
+                        Rn(r, g, e);
+                    },
+                    loaded: !0
+                };
+                try {
+                    Object.defineProperty(k, 'requestNonPersonalizedAds', {
+                            set: lo
+                        }),
+                        Object.defineProperty(k, 'pauseAdRequests', {
+                            set: mo
+                        }),
+                        Object.defineProperty(k, 'cookieOptions', {
+                            set: no
+                        }),
+                        Object.defineProperty(k, 'onload', {
+                            set: oo
+                        });
+                } catch (r) {}
+                if (h)
+                    for (var l = q(['requestNonPersonalizedAds', 'pauseAdRequests', 'cookieOptions']), m = l.next(); !m.done; m = l.next())
+                        (m = m.value), void 0 !== h[m] && (k[m] = h[m]);
+                '_gfp_a_' in window || (window._gfp_a_ = !0);
+                Qn(h, g, e);
+                f.adsbygoogle = k;
+                h && (k.onload = h.onload);
+                (f = un(g)) && document.documentElement.appendChild(f);
+            }
+        }
+    });
+})('m202111110101', wm, (a, b) => {
+    var c = 2012 < C(b, 1, 0) ? '_fy' + C(b, 1, 0) : '';
+    var d = Eb(b, 3);
+    b = Eb(b, 2);
+    var e = a ? fc(cl, a, c) : fc(dl, b, d, c);
+    var f = fc(el, b, d);
+    return {
+        nb: e,
+        mb: a ? fc(fl, a, c) : fc(gl, b, d, c),
+        kb: a ? fc(hl, a, c) : fc(il, b, d, c),
+        lb: a ? fc(jl, a, c) : fc(kl, b, d, c),
+        rb: f,
+        qb: /^(?:https?:)?\/\/(?:pagead2\.googlesyndication\.com|securepubads\.g\.doubleclick\.net)\/pagead\/(?:js\/)?(?:show_ads|adsbygoogle)\.js(?:[?#].*)?$/
+    };
+});
+}.call(
+this,
+'[2019,"r20211111","r20190131",null,[],null,null,null,null,null,[],[[[1082,null,null,[1]],[null,62,null,[null,0.001]],[383,null,null,[1]],[null,1126,null,[null,5000]],[null,1010,null,[null,1]],[null,1114,null,[null,1]],[null,1116,null,[null,300]],[null,1117,null,[null,100]],[null,1115,null,[null,1]],[null,1017,null,[null,-1]],[1021,null,null,[1]],[null,66,null,[null,-1]],[null,65,null,[null,-1]],[1064,null,null,[1]],[null,1041,null,[null,50]],[1042,null,null,[1]],[1040,null,null,[1]],[1096,null,null,[1]],[1089,null,null,[1]],[1097,null,null,[1]],[1100,null,null,[1]],[1109,null,null,[1]],[1102,null,null,[1]],[205,null,null,[1]],[null,29,null,[null,2]],[null,30,null,[null,3]],[null,1056,null,[null,3000]],[null,1057,null,[null,650]],[1101,null,null,[1]],[1036,null,null,[1]],[1051,null,null,[1]],[325,null,null,[1]],[1007,null,null,[1]],[null,1008,null,[null,2]],[null,1085,null,[null,5]],[null,63,null,[null,30]],[null,1080,null,[null,5]],[1055,null,null,[1]],[1054,null,null,[1]],[null,1027,null,[null,10]],[null,57,null,[null,120]],[null,1079,null,[null,5]],[null,1050,null,[null,30]],[null,58,null,[null,120]],[null,64,null,[null,300]],[1118,null,null,[1]],[230,null,null,[1]],[1124,null,null,[1]],[null,null,null,[null,null,null,["A8FHS1NmdCwGqD9DwOicnHHY+y27kdWfxKa0YHSGDfv0CSpDKRHTQdQmZVPDUdaFWUsxdgVxlwAd6o+dhJykPA0AAACWeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9","A8zdXi6dr1hwXEUjQrYiyYQGlU3557y5QWDnN0Lwgj9ePt66XMEvNkVWOEOWPd7TP9sBQ25X0Q15Lr1Nn4oGFQkAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9","A4/Htern2udN9w3yJK9QgWQxQFruxOXsXL7cW60DyCl0EZFGCSme/J33Q/WzF7bBkVvhEWDlcBiUyZaim5CpFQwAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9"]],null,1934],[1903,null,null,[1]],[1953,null,null,[1]],[1938,null,null,[1]],[null,1929,null,[null,50]],[1956,null,null,[1]],[379841917,null,null,[1]],[null,null,null,[null,null,null,["AxujKG9INjsZ8/gUq8+dTruNvk7RjZQ1oFhhgQbcTJKDnZfbzSTE81wvC2Hzaf3TW4avA76LTZEMdiedF1vIbA4AAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=","Azuce85ORtSnWe1MZDTv68qpaW3iHyfL9YbLRy0cwcCZwVnePnOmkUJlG8HGikmOwhZU22dElCcfrfX2HhrBPAkAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","A16nvcdeoOAqrJcmjLRpl1I6f3McDD8EfofAYTt/P/H4/AWwB99nxiPp6kA0fXoiZav908Z8etuL16laFPUdfQsAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","AxBHdr0J44vFBQtZUqX9sjiqf5yWZ/OcHRcRMN3H9TH+t90V/j3ENW6C8+igBZFXMJ7G3Pr8Dd13632aLng42wgAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","A88BWHFjcawUfKU3lIejLoryXoyjooBXLgWmGh+hNcqMK44cugvsI5YZbNarYvi3roc1fYbHA1AVbhAtuHZflgEAAAB2eyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IlRydXN0VG9rZW5zIiwiZXhwaXJ5IjoxNjUyNzc0NDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="]],null,1932],[null,397907552,null,[null,500]],[396382471,null,null,[1]],[393546021,null,null,[1]]],[[10,[[1,[[21066108],[21066109,[[316,null,null,[1]]]]],null,null,null,34,18,1],[1,[[21066110],[21066111,[[316,null,null,[1]]]]],null,null,null,34,18,1],[1,[[42530528],[42530529,[[368,null,null,[1]]]],[42530530,[[369,null,null,[1]],[368,null,null,[1]]]]]],[1,[[42530887,[[290,null,null,[1]]]],[42530888,[[290,null,null,[1]]]],[42530889,[[290,null,null,[1]]]],[42530890,[[290,null,null,[1]]]],[42530891,[[290,null,null,[1]]]],[42530892,[[290,null,null,[1]]]],[42530893,[[290,null,null,[1]]]]],null,null,null,53],[1,[[44719338],[44719339,[[334,null,null,[1]],[null,54,null,[null,100]],[null,66,null,[null,10]],[null,65,null,[null,1000]]]]]],[10,[[44750773],[44750774,[[1087,null,null,[1]]]]],null,null,null,57],[10,[[44753738,[[290,null,null,[]]]],[44753739,[[null,1072,null,[null,0.5]],[290,null,null,[]]]],[44753740,[[null,1072,null,[null,0.75]],[290,null,null,[]]]],[44753741,[[null,1072,null,[null,0.9]],[290,null,null,[]]]],[44753742,[[null,1072,null,[null,1]],[290,null,null,[]]]],[44753743,[[null,1072,null,[null,1.01]],[290,null,null,[]]]]],null,null,null,53,null,200],[10,[[44752536,[[1122,null,null,[1]],[1033,null,null,[1]]]],[44753656],[44753657,[[1033,null,null,[1]]]],[44753658,[[1033,null,null,[1]]]],[44753659,[[1033,null,null,[1]]]]]],[null,[[44755592],[44755593,[[1033,null,null,[1]]]],[44755594,[[1033,null,null,[1]]]],[44755653,[[1033,null,null,[1]]]]]],[50,[[44754331],[44754332,[[1090,null,null,[1]]]]]],[20,[[182982000,[[218,null,null,[1]]],[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]],[182982100,[[217,null,null,[1]]],[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]]],null,null,null,36,8,1],[20,[[182982200,null,[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]],[182982300,null,[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]]],null,null,null,36,8,1],[10,[[182984000,null,[4,null,23,null,null,null,null,["1"]]],[182984100,[[218,null,null,[1]]],[4,null,23,null,null,null,null,["1"]]]],null,null,null,37,10,1],[10,[[182984200,null,[4,null,23,null,null,null,null,["1"]]],[182984300,null,[4,null,23,null,null,null,null,["1"]]]],null,null,null,37,10,1],[10,[[21066428],[21066429]]],[10,[[21066430],[21066431],[21066432],[21066433]],null,null,null,44,22],[10,[[21066434],[21066435]],null,null,null,44,null,500],[null,[[31062369],[31062370,[[380254521,null,null,[1]]]]],null,null,null,56],[50,[[31062422],[31062423,[[381914117,null,null,[1]]]]]],[100,[[31062937],[31062938,[[1095,null,null,[1]]]]]],[1,[[31063331,[[null,1103,null,[null,31063331]],[1121,null,null,[1]]]],[31063332,[[null,1103,null,[null,31063332]],[1121,null,null,[1]],[1120,null,null,[1]]]],[31063333,[[null,1103,null,[null,31063333]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44754313,[[null,1103,null,[null,44754313]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,100]],[1120,null,null,[1]]]],[44754314,[[null,1103,null,[null,44754314]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,500]],[1120,null,null,[1]]]],[44754315,[[null,1103,null,[null,44754315]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,1000]],[1120,null,null,[1]]]],[44755514,[[null,1103,null,[null,44755514]],[null,1114,null,[null,0.9]],[null,1108,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755515,[[null,1103,null,[null,44755515]],[null,1114,null,[null,0.9]],[null,1106,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755516,[[null,1103,null,[null,44755516]],[null,1114,null,[null,0.9]],[null,1107,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755517,[[null,1103,null,[null,44755517]],[null,1114,null,[null,0.9]],[null,1105,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]]]],[10,[[31063693],[31063694,[[null,57,null,[null,30]]]],[31063695,[[null,57,null,[null,60]]]],[31063696,[[null,57,null,[null,90]]]]]],[100,[[31063735],[31063736,[[1053,null,null,[1]]]]]],[50,[[31063737],[31063738,[[1096,null,null,[]]]]]],[1000,[[31063759,[[null,null,14,[null,null,"31063759"]]],[6,null,null,null,6,null,"31063759"]],[31063760,[[null,null,14,[null,null,"31063760"]]],[6,null,null,null,6,null,"31063760"]]],[4,null,55]],[1000,[[31063781,[[null,null,14,[null,null,"31063781"]]],[6,null,null,null,6,null,"31063781"]],[31063782,[[null,null,14,[null,null,"31063782"]]],[6,null,null,null,6,null,"31063782"]]],[4,null,55]],[100,[[31063792],[31063793,[[1125,null,null,[1]]]]]],[1000,[[31063796,[[null,null,14,[null,null,"31063796"]]],[6,null,null,null,6,null,"31063796"]],[31063797,[[null,null,14,[null,null,"31063797"]]],[6,null,null,null,6,null,"31063797"]]],[4,null,55]],[1,[[44736076],[44736077,[[null,1046,null,[null,0.1]]]]]],[null,[[44754319,[[null,1103,null,[null,44754319]]]],[44754320,[[null,1103,null,[null,44754320]],[1120,null,null,[1]]]],[44754321,[[null,1103,null,[null,44754321]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754322,[[null,1103,null,[null,44754322]],[null,1114,null,[null,0.9]],[null,1108,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754323,[[null,1103,null,[null,44754323]],[null,1114,null,[null,0.9]],[null,1106,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754324,[[null,1103,null,[null,44754324]],[null,1114,null,[null,0.9]],[null,1107,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754325,[[null,1103,null,[null,44754325]],[null,1114,null,[null,0.9]],[null,1105,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]]]],[10,[[44755656],[44755657]]],[150,[[31061760],[31061761,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[31062202,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[31063202,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[44753753,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]]],[3,[[4,null,8,null,null,null,null,["gmaSdk.getQueryInfo"]],[4,null,8,null,null,null,null,["webkit.messageHandlers.getGmaQueryInfo.postMessage"]],[4,null,8,null,null,null,null,["webkit.messageHandlers.getGmaSig.postMessage"]]]]],[10,[[31063221],[31063222,[[1954,null,null,[1]]]]]]]],[20,[[50,[[31062930],[31062931,[[380025941,null,null,[1]]]]],null,null,null,null,null,101,null,102]]],[17,[[10,[[31060047]],null,null,null,44,null,900],[10,[[31060048],[31060049]],null,null,null,null,null,null,null,101],[10,[[31060566]]]]],[11,[[500,[[31063741,null,[4,null,8,null,null,null,null,["top.frames.google_ads_top_frame"]]],[31063742,[[null,1044,null,[null,200]]],[4,null,8,null,null,null,null,["top.frames.google_ads_top_frame"]]]]]]],[12,[[1,[[31061828],[31061829,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]],[360245597,null,null,[1]],[null,494,null,[null,5000],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,5500]]]],[null,517,null,[null,1]]]]]],[20,[[21065724],[21065725,[[203,null,null,[1]]]]],[4,null,9,null,null,null,null,["LayoutShift"]]],[50,[[31060006,null,[2,[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[12,null,null,null,4,null,"Chrome/(89|9\\\\d|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]],[31060007,[[1928,null,null,[1]]],[2,[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[12,null,null,null,4,null,"Chrome/(89|9\\\\d|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]]]],[10,[[31060032],[31060033,[[1928,null,null,[1]]]]]],[10,[[31061690],[31061691,[[83,null,null,[1]],[84,null,null,[1]]]]]],[1,[[31063122]],[4,null,61]],[1,[[31063150]],[4,null,63]],[50,[[31063182],[31063183,[[1956,null,null,[1]]]]]],[1,[[31063244],[31063245,[[392736476,null,null,[1]]]]]],[50,[[31063246],[31063247,[[392736476,null,null,[1]],[null,406149835,null,[null,0.01]]]]],[2,[[12,null,null,null,4,null,"Chrome/(9[3456789]|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]],[50,[[44748552],[44748553,[[1948,null,null,[1]]]]]]]],[13,[[1,[[31062554,null,[2,[[6,null,null,3,null,0],[12,null,null,null,4,null,"Chrome/(9[23456789]|\\\\d{3,})",["navigator.userAgent"]]]]],[31062555,[[395842139,null,null,[1]]],[2,[[6,null,null,3,null,0],[12,null,null,null,4,null,"Chrome/(9[23456789]|\\\\d{3,})",["navigator.userAgent"]]]]]]],[1000,[[21067496]],[4,null,9,null,null,null,null,["document.hasTrustToken"]]],[1000,[[31060475,null,[2,[[1,[[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]],[12,null,null,null,4,null,"Android",["navigator.userAgent"]]]]]]],[500,[[31061692],[31061693,[[77,null,null,[1]],[78,null,null,[1]],[85,null,null,[1]],[80,null,null,[1]],[76,null,null,[1]]]]],[4,null,6,null,null,null,null,["31061691"]]],[1,[[31062890],[31062891,[[397841828,null,null,[1]]]]]],[1,[[31062946]],[4,null,27,null,null,null,null,["document.prerendering"]]],[1,[[31062947]],[1,[[4,null,27,null,null,null,null,["document.prerendering"]]]]]]]],null,null,[0.001,"1000",1,"1000"]],[],null,null,null,null,706409994]'
+));
+function dn(a, b) {
+    return Q(Lh) || (a && (Q(Oh) || '.google.de' != b)) || '.google.ch' === b || 'function' === typeof J.__tcfapi;
+}
+function Z(a, b, c) {
+    var d = p(window.goog_tt_state, 'find').call(window.goog_tt_state, (e) => e.issuerOrigin === a);
+    d && ((d.state = b), void 0 != c && (d.hasRedemptionRecord = c));
+}
+function en() {
+    var a = window.goog_tt_state;
+    return Array.isArray(a) && a.some((b) => 1 != b.state);
+}
+function fn() {
+    var a = X.issuerOrigin + X.redemptionPath;
+    var b = {
+        keepalive: !0,
+        trustToken: {
+            type: 'token-redemption',
+            issuer: X.issuerOrigin,
+            refreshPolicy: 'none'
+        }
+    };
+    Z(X.issuerOrigin, 2);
+    return window
+        .fetch(a, b)
+        .then((c) => {
+            if (!c.ok) throw Error(c.status + ': Network response was not ok!');
+            Z(X.issuerOrigin, 6, !0);
+        })
+        .catch((c) => {
+            c && 'NoModificationAllowedError' === c.name ? Z(X.issuerOrigin, 6, !0) : Z(X.issuerOrigin, 5);
+        });
+}
+function gn() {
+    var a = X.issuerOrigin + X.issuancePath;
+    Z(X.issuerOrigin, 8);
+    return window
+        .fetch(a, {
+            keepalive: !0,
+            trustToken: {
+                type: 'token-request'
+            }
+        })
+        .then((b) => {
+            if (!b.ok) throw Error(b.status + ': Network response was not ok!');
+            Z(X.issuerOrigin, 10);
+            return fn();
+        })
+        .catch((b) => {
+            if (b && 'NoModificationAllowedError' === b.name) return Z(X.issuerOrigin, 10), fn();
+            Z(X.issuerOrigin, 9);
+        });
+}
+function hn() {
+    Z(X.issuerOrigin, 13);
+    return document.hasTrustToken(X.issuerOrigin).then((a) => (a ? fn() : gn()));
+}
+function jn() {
+    Z(Y.issuerOrigin, 13);
+    if (n.Promise) {
+        var a = document
+            .hasTrustToken(Y.issuerOrigin)
+            .then((e) => e)
+            .catch((e) =>
+                n.Promise.reject({
+                    state: 19,
+                    error: e
+                })
+            );
+        var b = Y.issuerOrigin + Y.redemptionPath;
+        var c = {
+            keepalive: !0,
+            trustToken: {
+                type: 'token-redemption',
+                refreshPolicy: 'none'
+            }
+        };
+        Z(Y.issuerOrigin, 16);
+        a = a
+            .then((e) =>
+                window
+                .fetch(b, c)
+                .then((f) => {
+                    if (!f.ok) throw Error(f.status + ': Network response was not ok!');
+                    Z(Y.issuerOrigin, 18, !0);
+                })
+                .catch((f) => {
+                    if (f && 'NoModificationAllowedError' === f.name) Z(Y.issuerOrigin, 18, !0);
+                    else {
+                        if (e)
+                            return n.Promise.reject({
+                                state: 17,
+                                error: f
+                            });
+                        Z(Y.issuerOrigin, 17);
+                    }
+                })
+            )
+            .then(() =>
+                document
+                .hasTrustToken(Y.issuerOrigin)
+                .then((e) => e)
+                .catch((e) =>
+                    n.Promise.reject({
+                        state: 19,
+                        error: e
+                    })
+                )
+            )
+            .then((e) => {
+                var f = Y.issuerOrigin + Y.getStatePath;
+                Z(Y.issuerOrigin, 20);
+                return window
+                    .fetch(f + '?ht=' + e, {
+                        trustToken: {
+                            type: 'send-redemption-record',
+                            issuers: [Y.issuerOrigin]
+                        }
+                    })
+                    .then((g) => {
+                        if (!g.ok) throw Error(g.status + ': Network response was not ok!');
+                        Z(Y.issuerOrigin, 22);
+                        return g.text().then((h) => JSON.parse(h));
+                    })
+                    .catch((g) =>
+                        n.Promise.reject({
+                            state: 21,
+                            error: g
+                        })
+                    );
+            });
+        var d = Sc(window);
+        return a
+            .then((e) => {
+                var f = Y.issuerOrigin + Y.issuancePath;
+                return e && e.srqt && e.cs ?
+                    (Z(Y.issuerOrigin, 23),
+                        window
+                        .fetch(f + '?cs=' + e.cs + '&correlator=' + d, {
+                            keepalive: !0,
+                            trustToken: {
+                                type: 'token-request'
+                            }
+                        })
+                        .then((g) => {
+                            if (!g.ok) throw Error(g.status + ': Network response was not ok!');
+                            Z(Y.issuerOrigin, 25);
+                            return e;
+                        })
+                        .catch((g) =>
+                            n.Promise.reject({
+                                state: 24,
+                                error: g
+                            })
+                        )) :
+                    e;
+            })
+            .then((e) => {
+                if (e && e.srdt && e.cs)
+                    return (
+                        Z(Y.issuerOrigin, 26),
+                        window
+                        .fetch(b + '?cs=' + e.cs + '&correlator=' + d, {
+                            keepalive: !0,
+                            trustToken: {
+                                type: 'token-redemption',
+                                refreshPolicy: 'refresh'
+                            }
+                        })
+                        .then((f) => {
+                            if (!f.ok) throw Error(f.status + ': Network response was not ok!');
+                            Z(Y.issuerOrigin, 28, !0);
+                        })
+                        .catch((f) =>
+                            n.Promise.reject({
+                                state: 27,
+                                error: f
+                            })
+                        )
+                    );
+            })
+            .then(() => {
+                Z(Y.issuerOrigin, 29);
+            })
+            .catch((e) => {
+                if (e instanceof Object && e.hasOwnProperty('state') && e.hasOwnProperty('error'))
+                    if ('number' === typeof e.state && e.error instanceof Error) {
+                        Z(Y.issuerOrigin, e.state);
+                        var f = R(Mh);
+                        Math.random() <= f &&
+                            Zc({
+                                    state: e.state,
+                                    err: e.error.toString()
+                                },
+                                'dtt_err'
+                            );
+                    } else throw Error(e);
+                else throw e;
+            });
+    }
+}
+function kn(a) {
+    if (document.hasTrustToken && !Q(Jh) && a.h) {
+        if (en()) return window.goog_tt_promise;
+        a = [];
+        $m() && a.push(hn());
+        Q(Kh) && a.push(jn());
+        if (n.Promise && n.Promise.all)
+            return (
+                (a = n.Promise.all(a)),
+                'object' != typeof window.goog_tt_promise &&
+                Object.defineProperty(window, 'goog_tt_promise', {
+                    configurable: !1,
+                    value: a,
+                    writable: !1
+                }),
+                a
+            );
+    }
+}
+var ln = 'platform platformVersion architecture model uaFullVersion bitness'.split(' ');
+function mn() {
+    return J.navigator && J.navigator.userAgentData && 'function' === typeof J.navigator.userAgentData.getHighEntropyValues ?
+        J.navigator.userAgentData.getHighEntropyValues(ln).then((a) => {
+            var b = new xj();
+            b = A(b, 1, a.platform);
+            b = A(b, 2, a.platformVersion);
+            b = A(b, 3, a.architecture);
+            b = A(b, 4, a.model);
+            b = A(b, 5, a.uaFullVersion);
+            return A(b, 9, a.bitness);
+        }) :
+        null;
+}
+function nn(a, b) {
+    b.google_ad_host || ((a = a.document.querySelector('meta[name="google-adsense-platform-account"]')) && (b.google_ad_host = a.getAttribute('content')));
+}
+function on(a, b, c) {
+    c = void 0 === c ? '' : c;
+    J.google_sa_impl && !J.document.getElementById('google_shimpl') && ((J.google_sa_queue = null), (J.google_sl_win = null), (J.google_sa_impl = null));
+    J.google_sa_queue ||
+        ((J.google_sa_queue = []),
+            (J.google_sl_win = J),
+            (J.google_process_slots = tf(215, () => pn(J))),
+            (a = qn(c, a, b)),
+            (xc(J.document, a).id = 'google_shimpl'));
+}
+function pn(a) {
+    var b = a.google_sa_queue;
+    var c = b.shift();
+    a.google_sa_impl ||
+        uf('shimpl', {
+            t: 'no_fn'
+        });
+    'function' === typeof c && sf(216, c);
+    b.length &&
+        a.setTimeout(
+            tf(215, () => pn(a)),
+            0
+        );
+}
+function rn(a, b, c) {
+    a.google_sa_queue = a.google_sa_queue || [];
+    a.google_sa_impl ? c(b) : a.google_sa_queue.push(b);
+}
+function qn(a, b, c) {
+    var d = Math.random() < R(lh) ? Wb(gc(b.lb).toString()) : null;
+    b = D(c, 4) ? b.kb : b.mb;
+    d = d ? d : Wb(gc(b).toString());
+    b = {};
+    a: {
+        if (D(c, 4)) {
+            if ((c = a || sn())) {
+                var e = {};
+                c = ((e.client = c), (e.plah = J.location.host), e);
+                break a;
+            }
+            throw Error('PublisherCodeNotFoundForAma');
+        }
+        c = {};
+    }
+    tn(c, b);
+    a: {
+        if (Q(ih) && (a = a || sn())) {
+            c = {};
+            a =
+                ((c.client = a),
+                    (c.plah = J.location.host),
+                    (c.ama_t = 'adsense'),
+                    (c.asntp = R(Ug)),
+                    (c.asntpv = R(Yg)),
+                    (c.asntpl = R(Wg)),
+                    (c.asntpm = R(Xg)),
+                    (c.asntpc = R(Vg)),
+                    (c.asna = R(Qg)),
+                    (c.asnd = R(Rg)),
+                    (c.asnp = R(Sg)),
+                    (c.asns = R(Tg)),
+                    (c.asmat = R(Pg)),
+                    (c.asptt = R(Zg)),
+                    (c.easpi = Q(ih)),
+                    (c.asro = Q($g)),
+                    c);
+            break a;
+        }
+        a = {};
+    }
+    tn(a, b);
+    tn(
+        Rh() ? {
+            bust: Rh()
+        } : {},
+        b
+    );
+    return Tb(d, b);
+}
+function tn(a, b) {
+    Ec(a, (c, d) => {
+        void 0 === b[d] && (b[d] = c);
+    });
+}
+function sn() {
+    if (J.google_ad_client) return J.google_ad_client;
+    var a = U(J).head_tag_slot_vars;
+    if (a && a.google_ad_client) return a.google_ad_client;
+    if ((a = J.document.querySelector('.adsbygoogle[data-ad-client]'))) return a.getAttribute('data-ad-client');
+    b: {
+        a = J.document.getElementsByTagName('script');
+        var b = (J.navigator && J.navigator.userAgent) || '';
+        b =
+        RegExp(
+            'appbankapppuzdradb|daumapps|fban|fbios|fbav|fb_iab|gsa/|messengerforios|naver|niftyappmobile|nonavigation|pinterest|twitter|ucbrowser|yjnewsapp|youtube',
+            'i'
+        ).test(b) ||
+        (/i(phone|pad|pod)/i.test(b) && /applewebkit/i.test(b) && !/version|safari/i.test(b) && !gd()) ?
+        tm : um;
+        for (var c = a.length - 1; 0 <= c; c--) {
+            var d = a[c];
+            if (!d.google_parsed_script_for_pub_code && ((d.google_parsed_script_for_pub_code = !0), (d = b(d)))) {
+                a = d;
+                break b;
+            }
+        }
+        a = null;
+    }
+    if (a) {
+        b = /(google_\w+) *= *(['"]?[\w.-]+['"]?) *(?:;|$)/gm;
+        for (c = {};
+            (d = b.exec(a));) c[d[1]] = vm(d[2]);
+        a = c.google_ad_client ? c.google_ad_client : '';
+    } else a = '';
+    return a ? a : '';
+}
+function un(a) {
+    a: {
+        for (var b = [v.top], c = [], d = 0, e;
+            (e = b[d++]);) {
+            c.push(e);
+            try {
+                if (e.frames)
+                    for (var f = e.frames.length, g = 0; g < f && 1024 > b.length; ++g) b.push(e.frames[g]);
+            } catch (l) {}
+        }
+        for (b = 0; b < c.length; b++)
+            try {
+                var h = c[b].frames.google_esf;
+                if (h) {
+                    Vc = h;
+                    break a;
+                }
+            } catch (l) {}
+        Vc = null;
+    }
+    if (Vc) return null;
+    c = yc('IFRAME');
+    c.id = 'google_esf';
+    c.name = 'google_esf';
+    a = a.rb;
+    if (a instanceof bc) {
+        var k;
+        h = ec(a);
+        a = (null === (k = Zb()) || void 0 === k ? 0 : k.isScriptURL(h)) ? TrustedScriptURL.prototype.toString.apply(h) : h;
+    } else a = Vb(a).toString();
+    c.src = a;
+    c.style.display = 'none';
+    return c;
+}
+function vn(a, b, c, d) {
+    wn(a, b, c, d, (e, f) => {
+        e = e.document;
+        for (var g = void 0, h = 0; !g || e.getElementById(g + '_anchor');) g = 'aswift_' + h++;
+        e = g;
+        g = Number(f.google_ad_width || 0);
+        f = Number(f.google_ad_height || 0);
+        h = yc('INS');
+        h.id = e + '_anchor';
+        ok(h, g, f);
+        h.style.display = 'block';
+        var k = yc('INS');
+        k.id = e + '_expand';
+        ok(k, g, f);
+        k.style.display = 'inline-table';
+        k.appendChild(h);
+        c.appendChild(k);
+        return e;
+    });
+}
+function wn(a, b, c, d, e) {
+    var f = e(a, b);
+    xn(a, c, b);
+    c = Ja;
+    e = new Date().getTime();
+    b.google_lrv = Eb(d, 2);
+    b.google_async_iframe_id = f;
+    b.google_start_time = c;
+    b.google_bpp = e > c ? e - c : 1;
+    a.google_sv_map = a.google_sv_map || {};
+    a.google_sv_map[f] = b;
+    b.dninfo = b.google_loader_used;
+    c = (d = !!a.document.getElementById(f + '_anchor')) ? (h) => h() : (h) => window.setTimeout(h, 0);
+    b.dninfo += '_' + d;
+    var g = {
+        pubWin: a,
+        iframeWin: null,
+        vars: b
+    };
+    rn(
+        a,
+        () => {
+            var h = !!a.document.getElementById(f + '_anchor');
+            b.dninfo += '_' + h;
+            (h = a.google_sa_impl(g)) && h.catch && h.catch(vf(911));
+        },
+        c
+    );
+}
+function xn(a, b, c) {
+    var d = c.google_ad_output;
+    var e = c.google_ad_format;
+    var f = c.google_ad_width || 0;
+    var g = c.google_ad_height || 0;
+    e || ('html' != d && null != d) || (e = f + 'x' + g);
+    d = !c.google_ad_slot || c.google_override_format || (!pk[c.google_ad_width + 'x' + c.google_ad_height] && 'aa' == c.google_loader_used);
+    e && d ? (e = e.toLowerCase()) : (e = '');
+    c.google_ad_format = e;
+    if ('number' !== typeof c.google_reactive_sra_index || !c.google_ad_unit_key) {
+        e = [
+            c.google_ad_slot,
+            c.google_orig_ad_format || c.google_ad_format,
+            c.google_ad_type,
+            c.google_orig_ad_width || c.google_ad_width,
+            c.google_orig_ad_height || c.google_ad_height
+        ];
+        d = [];
+        f = 0;
+        for (g = b; g && 25 > f; g = g.parentNode, ++f) 9 === g.nodeType ? d.push('') : d.push(g.id);
+        (d = d.join()) && e.push(d);
+        c.google_ad_unit_key = Fc(e.join(':')).toString();
+        var h = void 0 === h ? !1 : h;
+        e = [];
+        for (d = 0; b && 25 > d; ++d) {
+            f = '';
+            (void 0 !== h && h) || (f = (f = 9 !== b.nodeType && b.id) ? '/' + f : '');
+            a: {
+                if (b && b.nodeName && b.parentElement) {
+                    g = b.nodeName.toString().toLowerCase();
+                    for (var k = b.parentElement.childNodes, l = 0, m = 0; m < k.length; ++m) {
+                        var r = k[m];
+                        if (r.nodeName && r.nodeName.toString().toLowerCase() === g) {
+                            if (b === r) {
+                                g = '.' + l;
+                                break a;
+                            }
+                            ++l;
+                        }
+                    }
+                }
+                g = '';
+            }
+            e.push((b.nodeName && b.nodeName.toString().toLowerCase()) + f + g);
+            b = b.parentElement;
+        }
+        h = e.join() + ':';
+        b = [];
+        if (a)
+            try {
+                var t = a.parent;
+                for (e = 0; t && t !== a && 25 > e; ++e) {
+                    var x = t.frames;
+                    for (d = 0; d < x.length; ++d)
+                        if (a === x[d]) {
+                            b.push(d);
+                            break;
+                        }
+                    a = t;
+                    t = a.parent;
+                }
+            } catch (E) {}
+        c.google_ad_dom_fingerprint = Fc(h + b.join()).toString();
+    }
+}
+function yn() {
+    var a = hd(v);
+    a &&
+        ((a = Af(a)),
+            a.tagSpecificState[1] ||
+            (a.tagSpecificState[1] = {
+                debugCard: null,
+                debugCardRequested: !1
+            }));
+}
+function zn(a) {
+    cn();
+    dn(Al(), Eb(a, 8)) ||
+        tf(779, () => {
+            var b = new bn(!0);
+            0 < R(Ph) ? (J.google_trust_token_operation_promise = kn(b)) : kn(b);
+        })();
+    a = mn();
+    null != a &&
+        a.then((b) => {
+            J.google_user_agent_client_hint = Cb(b);
+        });
+    Bm();
+    zm();
+}
+function An(a, b) {
+    switch (a) {
+        case 'google_reactive_ad_format':
+            return (a = parseInt(b, 10)), isNaN(a) ? 0 : a;
+        case 'google_allow_expandable_ads':
+            return /^true$/.test(b);
+        default:
+            return b;
+    }
+}
+function Bn(a, b) {
+    if (a.getAttribute('src')) {
+        var c = a.getAttribute('src') || '';
+        (c = vc(c)) && (b.google_ad_client = An('google_ad_client', c));
+    }
+    a = a.attributes;
+    c = a.length;
+    for (var d = 0; d < c; d++) {
+        var e = a[d];
+        if (/data-/.test(e.name)) {
+            var f = Ka(e.name.replace('data-matched-content', 'google_content_recommendation').replace('data', 'google').replace(/-/g, '_'));
+            b.hasOwnProperty(f) || ((e = An(f, e.value)), null !== e && (b[f] = e));
+        }
+    }
+}
+function Cn(a) {
+    if ((a = Wc(a)))
+        switch (a.data && a.data.autoFormat) {
+            case 'rspv':
+                return 13;
+            case 'mcrspv':
+                return 15;
+            default:
+                return 14;
+        }
+    else return 12;
+}
+function Dn(a, b, c, d) {
+    Bn(a, b);
+    if (c.document && c.document.body && !Yk(c, b) && !b.google_reactive_ad_format) {
+        var e = parseInt(a.style.width, 10);
+        var f = bl(a, c);
+        if (0 < f && e > f) {
+            var g = parseInt(a.style.height, 10);
+            e = !!pk[e + 'x' + g];
+            var h = f;
+            if (e) {
+                var k = qk(f, g);
+                if (k)(h = k), (b.google_ad_format = k + 'x' + g + '_0ads_al');
+                else throw new K('No slot size for availableWidth=' + f);
+            }
+            b.google_ad_resize = !0;
+            b.google_ad_width = h;
+            e || ((b.google_ad_format = null), (b.google_override_format = !0));
+            f = h;
+            a.style.width = f + 'px';
+            g = Sk(f, 'auto', c, a, b);
+            h = f;
+            g.size().i(c, b, a);
+            uk(g, h, b);
+            g = g.size();
+            b.google_responsive_formats = null;
+            g.minWidth() > f && !e && ((b.google_ad_width = g.minWidth()), (a.style.width = g.minWidth() + 'px'));
+        }
+    }
+    e = a.offsetWidth || hi(a, c, 'width', I) || b.google_ad_width || 0;
+    f = Ga(Sk, e, 'auto', c, a, b, !1, !0);
+    !(g = Q(gh) || (!(488 > Cf(c)) && !Q(oh))) &&
+    (g = Q(qh)) &&
+    ((g = c.top == c), g || (wc(c.top) && c.top ? (b.gfwrnwer = 3) : (b.gfwrnwer = 16), (g = !1)), (g = !g));
+    if (g) d = !1;
+    else {
+        g = hd(c) || c;
+        h = b.google_ad_client;
+        d =
+            g.location && '#ftptohbh' === g.location.hash ?
+            2 :
+            ak(g.location, 'google_responsive_slot_preview') || Q(ph) ?
+            1 :
+            Q(nh) ?
+            2 :
+            Cl(g, 1, h, d) ?
+            1 :
+            0;
+        if ((g = 0 !== d))
+            b: if (b.google_reactive_ad_format || Yk(c, b) || Yh(a, b)) g = !1;
+            else {
+                for (g = a; g; g = g.parentElement) {
+                    h = zc(g, c);
+                    if (!h) {
+                        b.gfwrnwer = 18;
+                        g = !1;
+                        break b;
+                    }
+                    if (!$a(['static', 'relative'], h.position)) {
+                        b.gfwrnwer = 17;
+                        g = !1;
+                        break b;
+                    }
+                }
+                if (!Q(oh) && ((g = bi(c, a, e, 0.3, b)), !0 !== g)) {
+                    b.gfwrnwer = g;
+                    g = !1;
+                    break b;
+                }
+                g = c.top == c ? !0 : !1;
+            }
+        g
+            ?
+            ((b.google_resizing_allowed = !0),
+                (b.ovlp = !0),
+                2 === d ?
+                ((d = {}),
+                    uk(f(), e, d),
+                    (b.google_resizing_width = d.google_ad_width),
+                    (b.google_resizing_height = d.google_ad_height),
+                    (b.iaaso = !1)) :
+                ((b.google_ad_format = 'auto'), (b.iaaso = !0), (b.armr = 1)),
+                (d = !0)) :
+            (d = !1);
+    }
+    if ((e = Yk(c, b))) $k(e, a, b, c, d);
+    else {
+        if (Yh(a, b)) {
+            if ((d = zc(a, c)))(a.style.width = d.width), (a.style.height = d.height), Xh(d, b);
+            b.google_ad_width || (b.google_ad_width = a.offsetWidth);
+            b.google_ad_height || (b.google_ad_height = a.offsetHeight);
+            b.google_loader_features_used = 256;
+            b.google_responsive_auto_format = Cn(c);
+        } else Xh(a.style, b);
+        (c.location && '#gfwmrp' == c.location.hash) || (12 == b.google_responsive_auto_format && 'true' == b.google_full_width_responsive) ?
+        $k(10, a, b, c, !1): 0.01 > Math.random() &&
+            12 === b.google_responsive_auto_format &&
+            ((a = ci(a.offsetWidth || parseInt(a.style.width, 10) || b.google_ad_width, c, a, b)),
+                !0 !== a ? ((b.efwr = !1), (b.gfwrnwer = a)) : (b.efwr = !0));
+    }
+}
+function En(a) {
+    var b = window;
+    var c = void 0 === c ? null : c;
+    kc(b, 'message', (d) => {
+            try {
+                var e = JSON.parse(d.data);
+            } catch (f) {}
+            return;
+        }!e || 'sc-cnf' !== e.googMsgType || (c && /[:|%3A]javascript\(/i.test(d.data) && !c(e, d)) || a(e, d);
+    });
+}
+function Fn(a, b) {
+    b = void 0 === b ? 500 : b;
+    fj.call(this);
+    this.i = a;
+    this.Ra = b;
+    this.h = null;
+    this.m = {};
+    this.l = null;
+}
+u(Fn, fj);
+Fn.prototype.j = function() {
+    this.m = {};
+    this.l && (lc(this.i, this.l), delete this.l);
+    delete this.m;
+    delete this.i;
+    delete this.h;
+    fj.prototype.j.call(this);
+};
+function Gn(a) {
+    fj.call(this);
+    this.h = a;
+    this.i = null;
+    this.l = !1;
+}
+u(Gn, fj);
+var Hn = null;
+var In = [];
+var Jn = new n.Map();
+var Kn = -1;
+function Ln(a) {
+    return pi.test(a.className) && 'done' != a.dataset.adsbygoogleStatus;
+}
+function Mn(a, b, c) {
+    a.dataset.adsbygoogleStatus = 'done';
+    Nn(a, b, c);
+}
+function Nn(a, b, c) {
+    var d = window;
+    var e = fd();
+    e.google_spfd || (e.google_spfd = Dn);
+    (e = b.google_reactive_ads_config) || Dn(a, b, d, c);
+    nn(d, b);
+    if (!On(a, b, d)) {
+        e || (d.google_lpabyc = Zh(a, d) + hi(a, d, 'height', I));
+        if (e) {
+            e = e.page_level_pubvars || {};
+            if (U(J).page_contains_reactive_tag && !U(J).allow_second_reactive_tag) {
+                if (e.pltais) {
+                    Yj(!1);
+                    return;
+                }
+                throw new K("Only one 'enable_page_level_ads' allowed per page.");
+            }
+            U(J).page_contains_reactive_tag = !0;
+            Yj(7 === e.google_pgb_reactive);
+        }
+        b.google_unique_id = bd(d);
+        Ec(sm, (f, g) => {
+            b[g] = b[g] || d[g];
+        });
+        b.google_loader_used = 'aa';
+        b.google_reactive_tag_first = 1 === (U(J).first_tag_on_page || 0);
+        sf(164, () => {
+            vn(d, b, a, c);
+        });
+    }
+}
+function On(a, b, c) {
+    var d = b.google_reactive_ads_config;
+    var e = 'string' === typeof a.className && RegExp('(\\W|^)adsbygoogle-noablate(\\W|$)').test(a.className);
+    var f = Vj(c);
+    if (f && f.Da && 'on' != b.google_adtest && !e) {
+        e = Zh(a, c);
+        var g = Bf(c).clientHeight;
+        if (!f.oa || (f.oa && ((0 == g ? null : e / g) || 0) >= f.oa))
+            return (
+                (a.className += ' adsbygoogle-ablated-ad-slot'),
+                (c = c.google_sv_map = c.google_sv_map || {}),
+                (d = Aa(a)),
+                (b.google_element_uid = d),
+                (c[b.google_element_uid] = b),
+                a.setAttribute('google_element_uid', d),
+                'slot' == f.ob &&
+                (null !== Lc(a.getAttribute('width')) && a.setAttribute('width', 0),
+                    null !== Lc(a.getAttribute('height')) && a.setAttribute('height', 0),
+                    (a.style.width = '0px'),
+                    (a.style.height = '0px')),
+                !0
+            );
+    }
+    if ((f = zc(a, c)) && 'none' == f.display && !('on' == b.google_adtest || 0 < b.google_reactive_ad_format || d))
+        return c.document.createComment && a.appendChild(c.document.createComment('No ad requested because of display:none on the adsbygoogle tag')), !0;
+    a = null == b.google_pgb_reactive || 3 === b.google_pgb_reactive;
+    return (1 !== b.google_reactive_ad_format && 8 !== b.google_reactive_ad_format) || !a ?
+        !1 :
+        (v.console &&
+            v.console.warn(
+                'Adsbygoogle tag with data-reactive-ad-format=' +
+                b.google_reactive_ad_format +
+                ' is deprecated. Check out page-level ads at https://www.google.com/adsense'
+            ),
+            !0);
+}
+function Pn(a) {
+    var b = document.getElementsByTagName('INS');
+    for (var c = 0, d = b[c]; c < b.length; d = b[++c]) {
+        var e = d;
+        if (Ln(e) && 'reserved' != e.dataset.adsbygoogleStatus && (!a || d.id == a)) return d;
+    }
+    return null;
+}
+function Qn(a, b, c) {
+    if (a && a.shift)
+        for (var d = 20; 0 < a.length && 0 < d;) {
+            try {
+                Rn(a.shift(), b, c);
+            } catch (e) {
+                setTimeout(() => {
+                    throw e;
+                });
+            }
+            --d;
+        }
+}
+function Sn() {
+    var a = yc('INS');
+    a.className = 'adsbygoogle';
+    a.className += ' adsbygoogle-noablate';
+    Oc(a);
+    return a;
+}
+function Tn(a, b) {
+    var c = {};
+    Ec(xf, (f, g) => {
+        !1 === a.enable_page_level_ads ? (c[g] = !1) : a.hasOwnProperty(g) && (c[g] = a[g]);
+    });
+    za(a.enable_page_level_ads) && (c.page_level_pubvars = a.enable_page_level_ads);
+    var d = Sn();
+    Uc.body.appendChild(d);
+    var e = {};
+    e = ((e.google_reactive_ads_config = c), (e.google_ad_client = a.google_ad_client), e);
+    e.google_pause_ad_requests = !!U(J).pause_ad_requests;
+    Mn(d, e, b);
+}
+function Un(a, b) {
+    function c() {
+        return Tn(a, b);
+    }
+    Af(v).wasPlaTagProcessed = !0;
+    var d = v.document;
+    if (d.body || 'complete' == d.readyState || 'interactive' == d.readyState) c();
+    else {
+        var e = jc(tf(191, c));
+        kc(d, 'DOMContentLoaded', e);
+        new v.MutationObserver((f, g) => {
+            d.body && (e(), g.disconnect());
+        }).observe(d, {
+            childList: !0,
+            subtree: !0
+        });
+    }
+}
+function Rn(a, b, c) {
+    var d = {};
+    sf(
+        165,
+        () => {
+            Vn(a, d, b, c);
+        },
+        (e) => {
+            e.client = e.client || d.google_ad_client || a.google_ad_client;
+            e.slotname = e.slotname || d.google_ad_slot;
+            e.tag_origin = e.tag_origin || d.google_tag_origin;
+        }
+    );
+}
+function Wn(a) {
+    delete a.google_checked_head;
+    Ec(a, (b, c) => {
+        oi[c] || (delete a[c], v.console.warn("AdSense head tag doesn't support " + c.replace('google', 'data').replace(/_/g, '-') + ' attribute.'));
+    });
+}
+function Xn(a, b) {
+    var c =
+        J.document.querySelector('script[src*="/pagead/js/adsbygoogle.js?client="]:not([data-checked-head])') ||
+        J.document.querySelector('script[src*="/pagead/js/adsbygoogle.js"][data-ad-client]:not([data-checked-head])');
+    if (c) {
+        c.setAttribute('data-checked-head', 'true');
+        var d = U(window);
+        if (d.head_tag_slot_vars) {
+            if (Q(kh)) {
+                Yn(c);
+                return;
+            }
+            throw new K('Only one AdSense head tag supported per page. The second tag is ignored.');
+        }
+        var e = {};
+        Bn(c, e);
+        Wn(e);
+        var f = Pb(e);
+        d.head_tag_slot_vars = f;
+        c = {
+            google_ad_client: e.google_ad_client,
+            enable_page_level_ads: e
+        };
+        J.adsbygoogle || (J.adsbygoogle = []);
+        d = J.adsbygoogle;
+        d.loaded ? d.push(c) : d.splice(0, 0, c);
+        var g;
+        e.google_adbreak_test || ((null == (g = Gb(b, ll, 13, yl)) ? 0 : D(g, 3)) && Q(uh)) ?
+            Zn(f, a) :
+            En(() => {
+                Zn(f, a);
+            });
+    }
+}
+function Yn(a) {
+    var b = U(window).head_tag_slot_vars;
+    var c = a.getAttribute('src') || '';
+    if ((a = vc(c) || a.getAttribute('data-ad-client') || '') && a !== b.google_ad_client)
+        throw new K(
+            'Warning: Do not add multiple property codes with AdSense tag to avoid seeing unexpected behavior. These codes were found on the page ' +
+            a +
+            ', ' +
+            b.google_ad_client
+        );
+}
+function $n(a) {
+    if ('object' === typeof a && null != a) {
+        if ('string' === typeof a.type) return 2;
+        if ('string' === typeof a.sound || 'string' === typeof a.preloadAdBreaks) return 3;
+    }
+    return 0;
+}
+function Vn(a, b, c, d) {
+    if (null == a) throw new K('push() called with no parameters.');
+    14 === xb(d, yl) && ao(a, sb(Gb(d, ml, 14, yl), 1), Eb(d, 2));
+    var e = $n(a);
+    if (0 !== e)
+        Q(jh) &&
+        ((d = Zj()),
+            d.first_slotcar_request_processing_time || ((d.first_slotcar_request_processing_time = Date.now()), (d.adsbygoogle_execution_start_time = Ja))),
+        null == Hn ?
+        (bo(a), In.push(a)) :
+        3 === e ?
+        sf(787, () => {
+            Hn.handleAdConfig(a);
+        }) :
+        Hn.handleAdBreak(a).catch(vf(730));
+    else {
+        Ja = new Date().getTime();
+        on(c, d, co(a));
+        eo();
+        a: {
+            if (void 0 != a.enable_page_level_ads) {
+                if ('string' === typeof a.google_ad_client) {
+                    e = !0;
+                    break a;
+                }
+                throw new K("'google_ad_client' is missing from the tag config.");
+            }
+            e = !1;
+        }
+        if (e) fo(a, d, b);
+        else if (
+            ((e = a.params) &&
+                Ec(e, (g, h) => {
+                    b[h] = g;
+                }),
+                'js' === b.google_ad_output)
+        )
+            console.warn(
+                "Ads with google_ad_output='js' have been deprecated and no longer work. Contact your AdSense account manager or switch to standard AdSense ads."
+            );
+        else {
+            e = go(a.element);
+            Bn(e, b);
+            c = U(v).head_tag_slot_vars || {};
+            Ec(c, (g, h) => {
+                b.hasOwnProperty(h) || (b[h] = g);
+            });
+            if (e.hasAttribute('data-require-head') && !U(v).head_tag_slot_vars)
+                throw new K(
+                    "AdSense head tag is missing. AdSense body tags don't work without the head tag. You can copy the head tag from your account on https://adsense.com."
+                );
+            if (!b.google_ad_client) throw new K('Ad client is missing from the slot.');
+            b.google_apsail = Il(b.google_ad_client);
+            var f = (c = 0 === (U(J).first_tag_on_page || 0) && hk(b)) && ik(c);
+            c && !f && (fo(c, d), (U(J).skip_next_reactive_tag = !0));
+            0 === (U(J).first_tag_on_page || 0) && (U(J).first_tag_on_page = 2);
+            b.google_pause_ad_requests = !!U(J).pause_ad_requests;
+            Mn(e, b, d);
+            c && f && ho(c);
+        }
+    }
+}
+var io = !1;
+function ao(a, b, c) {
+    Q(hh) &&
+        !io &&
+        ((io = !0),
+            (a = co(a)) || (a = sn()),
+            uf(
+                'predictive_abg', {
+                    a_c: a,
+                    p_c: b,
+                    b_v: c
+                },
+                0.01
+            ));
+}
+function co(a) {
+    return a.google_ad_client ? a.google_ad_client : (a = a.params) && a.google_ad_client ? a.google_ad_client : '';
+}
+function eo() {
+    if (Q(ch)) {
+        var a = Vj(J);
+        if (!(a = a && a.Da)) {
+            try {
+                var b = J.localStorage;
+            } catch (c) {
+                b = null;
+            }
+            b = b ? Ti(b) : null;
+            a = !(b && Qj(b) && b);
+        }
+        a || Xj(J, 1);
+    }
+}
+function ho(a) {
+    Tc(() => {
+        Af(v).wasPlaTagProcessed || (v.adsbygoogle && v.adsbygoogle.push(a));
+    });
+}
+function fo(a, b, c) {
+    U(J).skip_next_reactive_tag ?
+        (U(J).skip_next_reactive_tag = !1) :
+        (0 === (U(J).first_tag_on_page || 0) && (U(J).first_tag_on_page = 1),
+            c && a.tag_partner && (Wj(v, a.tag_partner), Wj(c, a.tag_partner)),
+            (c = D(b, 6)),
+            U(J).ama_ran_on_page || kk(new jk(a, c)),
+            Un(a, b));
+}
+function go(a) {
+    if (a) {
+        if (!Ln(a) && (a.id ? (a = Pn(a.id)) : (a = null), !a)) throw new K("'element' has already been filled.");
+        if (!('innerHTML' in a)) throw new K("'element' is not a good DOM element.");
+    } else if (((a = Pn()), !a)) throw new K('All ins elements in the DOM with class=adsbygoogle already have ads in them.');
+    return a;
+}
+function jo() {
+    var a = new hj(J);
+    var b = new Fn(J);
+    var c = new Gn(J);
+    var d = J.__cmp ? 1 : 0;
+    a = ij(a) ? 1 : 0;
+    var e;
+    var f;
+    (f = 'function' === typeof(null === (e = b.i) || void 0 === e ? void 0 : e.__uspapi)) ||
+    (b.h ? (b = b.h) : ((b.h = Mc(b.i, '__uspapiLocator')), (b = b.h)), (f = null != b));
+    c.l || (c.i || (c.i = c.h.googlefc ? c.h : Mc(c.h, 'googlefcPresent')), (c.l = !0));
+    uf(
+        'cmpMet', {
+            tcfv1: d,
+            tcfv2: a,
+            usp: f ? 1 : 0,
+            fc: c.i ? 1 : 0,
+            ptt: 9
+        },
+        R(Ng)
+    );
+}
+function ko(a) {
+    a = {
+        value: D(a, 16)
+    };
+    var b = 0.01;
+    R(eh) && ((a.eid = R(eh)), (b = 1));
+    a.frequency = b;
+    uf('new_abg_tag', a, b);
+}
+function lo(a) {
+    Xi().S[Zi(26)] = !!Number(a);
+}
+function mo(a) {
+    Number(a) ?
+        (U(J).pause_ad_requests = !0) :
+        ((U(J).pause_ad_requests = !1),
+            (a = () => {
+                if (!U(J).pause_ad_requests)
+                    if (Q(xh)) {
+                        var b = void 0 === b ? {} : b;
+                        if ('function' === typeof window.CustomEvent) var c = new CustomEvent('adsbygoogle-pub-unpause-ad-requests-event', b);
+                        else
+                            (c = document.createEvent('CustomEvent')),
+                            c.initCustomEvent('adsbygoogle-pub-unpause-ad-requests-event', !!b.bubbles, !!b.cancelable, b.detail);
+                        J.dispatchEvent(c);
+                    } else {
+                        b = fd();
+                        var d = fd();
+                        try {
+                            if (Uc.createEvent)
+                                (c = Uc.createEvent('CustomEvent')),
+                                c.initCustomEvent('adsbygoogle-pub-unpause-ad-requests-event', !1, !1, ''),
+                                b.dispatchEvent(c);
+                            else if (ad(d.CustomEvent)) {
+                                var e = new d.CustomEvent('adsbygoogle-pub-unpause-ad-requests-event', {
+                                    bubbles: !1,
+                                    cancelable: !1,
+                                    detail: ''
+                                });
+                                b.dispatchEvent(e);
+                            } else if (ad(d.Event)) {
+                                var f = new Event('adsbygoogle-pub-unpause-ad-requests-event', {
+                                    bubbles: !1,
+                                    cancelable: !1
+                                });
+                                b.dispatchEvent(f);
+                            }
+                        } catch (g) {}
+                    }
+            }),
+            v.setTimeout(a, 0),
+            v.setTimeout(a, 1e3));
+}
+function no(a) {
+    uf(
+        'adsenseGfpKnob', {
+            value: a,
+            ptt: 9
+        },
+        0.1
+    );
+    switch (a) {
+        case 0:
+        case 2:
+            a = !0;
+            break;
+        case 1:
+            a = !1;
+            break;
+        default:
+            throw Error('Illegal value of cookieOptions: ' + a);
+    }
+    J._gfp_a_ = a;
+}
+function oo(a) {
+    ad(a) && window.setTimeout(a, 0);
+}
+function Zn(a, b) {
+    ((ba = fk(
+                Tb(
+                    Wb(gc(b.nb).toString()),
+                    Rh() ? {
+                        bust: Rh()
+                    } : {}
+                )
+            )
+            .then((c) => {
+                null == Hn && (c.init(a), (Hn = c), po());
+            })
+            .catch(vf(723))),
+        p(ba, 'finally')).call(ba, () => {
+        In.length = 0;
+        uf('slotcar', {
+            event: 'api_ld',
+            time: Date.now() - Ja,
+            time_pr: Date.now() - Kn
+        });
+    });
+}
+function po() {
+    for (var a = q(p(Jn, 'keys').call(Jn)), b = a.next(); !b.done; b = a.next()) {
+        b = b.value;
+        var c = Jn.get(b); -
+        1 !== c && (v.clearTimeout(c), Jn.delete(b));
+    }
+    a = {};
+    for (
+        b = 0; b < In.length; a = {
+            da: a.da,
+            Y: a.Y
+        },
+        b++
+    )
+        Jn.has(b) ||
+        ((a.Y = In[b]),
+            (a.da = $n(a.Y)),
+            sf(
+                723,
+                ((d) => () => {
+                    3 === d.da ? Hn.handleAdConfig(d.Y) : 2 === d.da && Hn.handleAdBreakBeforeReady(d.Y).catch(vf(730));
+                })(a)
+            ));
+}
+function bo(a) {
+    var b = In.length;
+    if (2 === $n(a) && 'preroll' === a.type && null != a.adBreakDone) {
+        -1 === Kn && (Kn = Date.now());
+        var c = v.setTimeout(() => {
+            try {
+                (0, a.adBreakDone)({
+                    breakType: 'preroll',
+                    breakName: a.name,
+                    breakFormat: 'preroll',
+                    breakStatus: 'timeout'
+                }),
+                Jn.set(b, -1),
+                    uf('slotcar', {
+                        event: 'pr_to',
+                        source: 'adsbygoogle'
+                    });
+            } catch (d) {
+                console.error('[Ad Placement API] adBreakDone callback threw an error:', d instanceof Error ? d : Error(String(d)));
+            }
+        }, 1e3 * R(vh));
+        Jn.set(b, c);
+    }
+}
+((a, b, c, d) => {
+    d = void 0 === d ? () => {} : d;
+    qf.Pa(wf);
+    sf(166, () => {
+        var e = xm(b);
+        pm(Eb(e, 2));
+        Bl(D(e, 6));
+        d();
+        kd(16, [1, e.toJSON()]);
+        var f = Xc(Wc(J)) || J;
+        var g = c(
+            qm({
+                $a: a,
+                jb: Eb(e, 2)
+            }),
+            e
+        );
+        Q(mh) && Fl(f, e);
+        om(f, e, null === J.document.currentScript ? 1 : Ol(g.qb));
+        if ((!Qa() || 0 <= La(Ta(), 11)) && (null == (J.Prototype || {}).Version || !Q(fh))) {
+            rf(Q(Ch));
+            zn(e);
+            Gj();
+            try {
+                Rm();
+            } catch (r) {}
+            yn();
+            Xn(g, e);
+            f = window;
+            var h = f.adsbygoogle;
+            if (!h || !h.loaded) {
+                if (Q(dh) && !D(e, 16))
+                    try {
+                        if (J.document.querySelector('script[src*="/pagead/js/adsbygoogle.js?client="]')) return;
+                    } catch (r) {}
+                ko(e);
+                R(Ng) && jo();
+                var k = {
+                    push(r) {
+                        Rn(r, g, e);
+                    },
+                    loaded: !0
+                };
+                try {
+                    Object.defineProperty(k, 'requestNonPersonalizedAds', {
+                            set: lo
+                        }),
+                        Object.defineProperty(k, 'pauseAdRequests', {
+                            set: mo
+                        }),
+                        Object.defineProperty(k, 'cookieOptions', {
+                            set: no
+                        }),
+                        Object.defineProperty(k, 'onload', {
+                            set: oo
+                        });
+                } catch (r) {}
+                if (h)
+                    for (var l = q(['requestNonPersonalizedAds', 'pauseAdRequests', 'cookieOptions']), m = l.next(); !m.done; m = l.next())
+                        (m = m.value), void 0 !== h[m] && (k[m] = h[m]);
+                '_gfp_a_' in window || (window._gfp_a_ = !0);
+                Qn(h, g, e);
+                f.adsbygoogle = k;
+                h && (k.onload = h.onload);
+                (f = un(g)) && document.documentElement.appendChild(f);
+            }
+        }
+    });
+})('m202111110101', wm, (a, b) => {
+    var c = 2012 < C(b, 1, 0) ? '_fy' + C(b, 1, 0) : '';
+    var d = Eb(b, 3);
+    b = Eb(b, 2);
+    var e = a ? fc(cl, a, c) : fc(dl, b, d, c);
+    var f = fc(el, b, d);
+    return {
+        nb: e,
+        mb: a ? fc(fl, a, c) : fc(gl, b, d, c),
+        kb: a ? fc(hl, a, c) : fc(il, b, d, c),
+        lb: a ? fc(jl, a, c) : fc(kl, b, d, c),
+        rb: f,
+        qb: /^(?:https?:)?\/\/(?:pagead2\.googlesyndication\.com|securepubads\.g\.doubleclick\.net)\/pagead\/(?:js\/)?(?:show_ads|adsbygoogle)\.js(?:[?#].*)?$/
+    };
+});
+}.call(
+this,
+'[2019,"r20211111","r20190131",null,[],null,null,null,null,null,[],[[[1082,null,null,[1]],[null,62,null,[null,0.001]],[383,null,null,[1]],[null,1126,null,[null,5000]],[null,1010,null,[null,1]],[null,1114,null,[null,1]],[null,1116,null,[null,300]],[null,1117,null,[null,100]],[null,1115,null,[null,1]],[null,1017,null,[null,-1]],[1021,null,null,[1]],[null,66,null,[null,-1]],[null,65,null,[null,-1]],[1064,null,null,[1]],[null,1041,null,[null,50]],[1042,null,null,[1]],[1040,null,null,[1]],[1096,null,null,[1]],[1089,null,null,[1]],[1097,null,null,[1]],[1100,null,null,[1]],[1109,null,null,[1]],[1102,null,null,[1]],[205,null,null,[1]],[null,29,null,[null,2]],[null,30,null,[null,3]],[null,1056,null,[null,3000]],[null,1057,null,[null,650]],[1101,null,null,[1]],[1036,null,null,[1]],[1051,null,null,[1]],[325,null,null,[1]],[1007,null,null,[1]],[null,1008,null,[null,2]],[null,1085,null,[null,5]],[null,63,null,[null,30]],[null,1080,null,[null,5]],[1055,null,null,[1]],[1054,null,null,[1]],[null,1027,null,[null,10]],[null,57,null,[null,120]],[null,1079,null,[null,5]],[null,1050,null,[null,30]],[null,58,null,[null,120]],[null,64,null,[null,300]],[1118,null,null,[1]],[230,null,null,[1]],[1124,null,null,[1]],[null,null,null,[null,null,null,["A8FHS1NmdCwGqD9DwOicnHHY+y27kdWfxKa0YHSGDfv0CSpDKRHTQdQmZVPDUdaFWUsxdgVxlwAd6o+dhJykPA0AAACWeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9","A8zdXi6dr1hwXEUjQrYiyYQGlU3557y5QWDnN0Lwgj9ePt66XMEvNkVWOEOWPd7TP9sBQ25X0Q15Lr1Nn4oGFQkAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9","A4/Htern2udN9w3yJK9QgWQxQFruxOXsXL7cW60DyCl0EZFGCSme/J33Q/WzF7bBkVvhEWDlcBiUyZaim5CpFQwAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9"]],null,1934],[1903,null,null,[1]],[1953,null,null,[1]],[1938,null,null,[1]],[null,1929,null,[null,50]],[1956,null,null,[1]],[379841917,null,null,[1]],[null,null,null,[null,null,null,["AxujKG9INjsZ8/gUq8+dTruNvk7RjZQ1oFhhgQbcTJKDnZfbzSTE81wvC2Hzaf3TW4avA76LTZEMdiedF1vIbA4AAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=","Azuce85ORtSnWe1MZDTv68qpaW3iHyfL9YbLRy0cwcCZwVnePnOmkUJlG8HGikmOwhZU22dElCcfrfX2HhrBPAkAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","A16nvcdeoOAqrJcmjLRpl1I6f3McDD8EfofAYTt/P/H4/AWwB99nxiPp6kA0fXoiZav908Z8etuL16laFPUdfQsAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","AxBHdr0J44vFBQtZUqX9sjiqf5yWZ/OcHRcRMN3H9TH+t90V/j3ENW6C8+igBZFXMJ7G3Pr8Dd13632aLng42wgAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","A88BWHFjcawUfKU3lIejLoryXoyjooBXLgWmGh+hNcqMK44cugvsI5YZbNarYvi3roc1fYbHA1AVbhAtuHZflgEAAAB2eyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IlRydXN0VG9rZW5zIiwiZXhwaXJ5IjoxNjUyNzc0NDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="]],null,1932],[null,397907552,null,[null,500]],[396382471,null,null,[1]],[393546021,null,null,[1]]],[[10,[[1,[[21066108],[21066109,[[316,null,null,[1]]]]],null,null,null,34,18,1],[1,[[21066110],[21066111,[[316,null,null,[1]]]]],null,null,null,34,18,1],[1,[[42530528],[42530529,[[368,null,null,[1]]]],[42530530,[[369,null,null,[1]],[368,null,null,[1]]]]]],[1,[[42530887,[[290,null,null,[1]]]],[42530888,[[290,null,null,[1]]]],[42530889,[[290,null,null,[1]]]],[42530890,[[290,null,null,[1]]]],[42530891,[[290,null,null,[1]]]],[42530892,[[290,null,null,[1]]]],[42530893,[[290,null,null,[1]]]]],null,null,null,53],[1,[[44719338],[44719339,[[334,null,null,[1]],[null,54,null,[null,100]],[null,66,null,[null,10]],[null,65,null,[null,1000]]]]]],[10,[[44750773],[44750774,[[1087,null,null,[1]]]]],null,null,null,57],[10,[[44753738,[[290,null,null,[]]]],[44753739,[[null,1072,null,[null,0.5]],[290,null,null,[]]]],[44753740,[[null,1072,null,[null,0.75]],[290,null,null,[]]]],[44753741,[[null,1072,null,[null,0.9]],[290,null,null,[]]]],[44753742,[[null,1072,null,[null,1]],[290,null,null,[]]]],[44753743,[[null,1072,null,[null,1.01]],[290,null,null,[]]]]],null,null,null,53,null,200],[10,[[44752536,[[1122,null,null,[1]],[1033,null,null,[1]]]],[44753656],[44753657,[[1033,null,null,[1]]]],[44753658,[[1033,null,null,[1]]]],[44753659,[[1033,null,null,[1]]]]]],[null,[[44755592],[44755593,[[1033,null,null,[1]]]],[44755594,[[1033,null,null,[1]]]],[44755653,[[1033,null,null,[1]]]]]],[50,[[44754331],[44754332,[[1090,null,null,[1]]]]]],[20,[[182982000,[[218,null,null,[1]]],[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]],[182982100,[[217,null,null,[1]]],[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]]],null,null,null,36,8,1],[20,[[182982200,null,[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]],[182982300,null,[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]]],null,null,null,36,8,1],[10,[[182984000,null,[4,null,23,null,null,null,null,["1"]]],[182984100,[[218,null,null,[1]]],[4,null,23,null,null,null,null,["1"]]]],null,null,null,37,10,1],[10,[[182984200,null,[4,null,23,null,null,null,null,["1"]]],[182984300,null,[4,null,23,null,null,null,null,["1"]]]],null,null,null,37,10,1],[10,[[21066428],[21066429]]],[10,[[21066430],[21066431],[21066432],[21066433]],null,null,null,44,22],[10,[[21066434],[21066435]],null,null,null,44,null,500],[null,[[31062369],[31062370,[[380254521,null,null,[1]]]]],null,null,null,56],[50,[[31062422],[31062423,[[381914117,null,null,[1]]]]]],[100,[[31062937],[31062938,[[1095,null,null,[1]]]]]],[1,[[31063331,[[null,1103,null,[null,31063331]],[1121,null,null,[1]]]],[31063332,[[null,1103,null,[null,31063332]],[1121,null,null,[1]],[1120,null,null,[1]]]],[31063333,[[null,1103,null,[null,31063333]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44754313,[[null,1103,null,[null,44754313]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,100]],[1120,null,null,[1]]]],[44754314,[[null,1103,null,[null,44754314]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,500]],[1120,null,null,[1]]]],[44754315,[[null,1103,null,[null,44754315]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,1000]],[1120,null,null,[1]]]],[44755514,[[null,1103,null,[null,44755514]],[null,1114,null,[null,0.9]],[null,1108,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755515,[[null,1103,null,[null,44755515]],[null,1114,null,[null,0.9]],[null,1106,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755516,[[null,1103,null,[null,44755516]],[null,1114,null,[null,0.9]],[null,1107,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755517,[[null,1103,null,[null,44755517]],[null,1114,null,[null,0.9]],[null,1105,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]]]],[10,[[31063693],[31063694,[[null,57,null,[null,30]]]],[31063695,[[null,57,null,[null,60]]]],[31063696,[[null,57,null,[null,90]]]]]],[100,[[31063735],[31063736,[[1053,null,null,[1]]]]]],[50,[[31063737],[31063738,[[1096,null,null,[]]]]]],[1000,[[31063759,[[null,null,14,[null,null,"31063759"]]],[6,null,null,null,6,null,"31063759"]],[31063760,[[null,null,14,[null,null,"31063760"]]],[6,null,null,null,6,null,"31063760"]]],[4,null,55]],[1000,[[31063781,[[null,null,14,[null,null,"31063781"]]],[6,null,null,null,6,null,"31063781"]],[31063782,[[null,null,14,[null,null,"31063782"]]],[6,null,null,null,6,null,"31063782"]]],[4,null,55]],[100,[[31063792],[31063793,[[1125,null,null,[1]]]]]],[1000,[[31063796,[[null,null,14,[null,null,"31063796"]]],[6,null,null,null,6,null,"31063796"]],[31063797,[[null,null,14,[null,null,"31063797"]]],[6,null,null,null,6,null,"31063797"]]],[4,null,55]],[1,[[44736076],[44736077,[[null,1046,null,[null,0.1]]]]]],[null,[[44754319,[[null,1103,null,[null,44754319]]]],[44754320,[[null,1103,null,[null,44754320]],[1120,null,null,[1]]]],[44754321,[[null,1103,null,[null,44754321]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754322,[[null,1103,null,[null,44754322]],[null,1114,null,[null,0.9]],[null,1108,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754323,[[null,1103,null,[null,44754323]],[null,1114,null,[null,0.9]],[null,1106,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754324,[[null,1103,null,[null,44754324]],[null,1114,null,[null,0.9]],[null,1107,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754325,[[null,1103,null,[null,44754325]],[null,1114,null,[null,0.9]],[null,1105,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]]]],[10,[[44755656],[44755657]]],[150,[[31061760],[31061761,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[31062202,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[31063202,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[44753753,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]]],[3,[[4,null,8,null,null,null,null,["gmaSdk.getQueryInfo"]],[4,null,8,null,null,null,null,["webkit.messageHandlers.getGmaQueryInfo.postMessage"]],[4,null,8,null,null,null,null,["webkit.messageHandlers.getGmaSig.postMessage"]]]]],[10,[[31063221],[31063222,[[1954,null,null,[1]]]]]]]],[20,[[50,[[31062930],[31062931,[[380025941,null,null,[1]]]]],null,null,null,null,null,101,null,102]]],[17,[[10,[[31060047]],null,null,null,44,null,900],[10,[[31060048],[31060049]],null,null,null,null,null,null,null,101],[10,[[31060566]]]]],[11,[[500,[[31063741,null,[4,null,8,null,null,null,null,["top.frames.google_ads_top_frame"]]],[31063742,[[null,1044,null,[null,200]]],[4,null,8,null,null,null,null,["top.frames.google_ads_top_frame"]]]]]]],[12,[[1,[[31061828],[31061829,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]],[360245597,null,null,[1]],[null,494,null,[null,5000],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,5500]]]],[null,517,null,[null,1]]]]]],[20,[[21065724],[21065725,[[203,null,null,[1]]]]],[4,null,9,null,null,null,null,["LayoutShift"]]],[50,[[31060006,null,[2,[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[12,null,null,null,4,null,"Chrome/(89|9\\\\d|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]],[31060007,[[1928,null,null,[1]]],[2,[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[12,null,null,null,4,null,"Chrome/(89|9\\\\d|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]]]],[10,[[31060032],[31060033,[[1928,null,null,[1]]]]]],[10,[[31061690],[31061691,[[83,null,null,[1]],[84,null,null,[1]]]]]],[1,[[31063122]],[4,null,61]],[1,[[31063150]],[4,null,63]],[50,[[31063182],[31063183,[[1956,null,null,[1]]]]]],[1,[[31063244],[31063245,[[392736476,null,null,[1]]]]]],[50,[[31063246],[31063247,[[392736476,null,null,[1]],[null,406149835,null,[null,0.01]]]]],[2,[[12,null,null,null,4,null,"Chrome/(9[3456789]|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]],[50,[[44748552],[44748553,[[1948,null,null,[1]]]]]]]],[13,[[1,[[31062554,null,[2,[[6,null,null,3,null,0],[12,null,null,null,4,null,"Chrome/(9[23456789]|\\\\d{3,})",["navigator.userAgent"]]]]],[31062555,[[395842139,null,null,[1]]],[2,[[6,null,null,3,null,0],[12,null,null,null,4,null,"Chrome/(9[23456789]|\\\\d{3,})",["navigator.userAgent"]]]]]]],[1000,[[21067496]],[4,null,9,null,null,null,null,["document.hasTrustToken"]]],[1000,[[31060475,null,[2,[[1,[[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]],[12,null,null,null,4,null,"Android",["navigator.userAgent"]]]]]]],[500,[[31061692],[31061693,[[77,null,null,[1]],[78,null,null,[1]],[85,null,null,[1]],[80,null,null,[1]],[76,null,null,[1]]]]],[4,null,6,null,null,null,null,["31061691"]]],[1,[[31062890],[31062891,[[397841828,null,null,[1]]]]]],[1,[[31062946]],[4,null,27,null,null,null,null,["document.prerendering"]]],[1,[[31062947]],[1,[[4,null,27,null,null,null,null,["document.prerendering"]]]]]]]],null,null,[0.001,"1000",1,"1000"]],[],null,null,null,null,706409994]'
+));
+function dn(a, b) {
+    return Q(Lh) || (a && (Q(Oh) || '.google.de' != b)) || '.google.ch' === b || 'function' === typeof J.__tcfapi;
+}
+function Z(a, b, c) {
+    var d = p(window.goog_tt_state, 'find').call(window.goog_tt_state, (e) => e.issuerOrigin === a);
+    d && ((d.state = b), void 0 != c && (d.hasRedemptionRecord = c));
+}
+function en() {
+    var a = window.goog_tt_state;
+    return Array.isArray(a) && a.some((b) => 1 != b.state);
+}
+function fn() {
+    var a = X.issuerOrigin + X.redemptionPath;
+    var b = {
+        keepalive: !0,
+        trustToken: {
+            type: 'token-redemption',
+            issuer: X.issuerOrigin,
+            refreshPolicy: 'none'
+        }
+    };
+    Z(X.issuerOrigin, 2);
+    return window
+        .fetch(a, b)
+        .then((c) => {
+            if (!c.ok) throw Error(c.status + ': Network response was not ok!');
+            Z(X.issuerOrigin, 6, !0);
+        })
+        .catch((c) => {
+            c && 'NoModificationAllowedError' === c.name ? Z(X.issuerOrigin, 6, !0) : Z(X.issuerOrigin, 5);
+        });
+}
+function gn() {
+    var a = X.issuerOrigin + X.issuancePath;
+    Z(X.issuerOrigin, 8);
+    return window
+        .fetch(a, {
+            keepalive: !0,
+            trustToken: {
+                type: 'token-request'
+            }
+        })
+        .then((b) => {
+            if (!b.ok) throw Error(b.status + ': Network response was not ok!');
+            Z(X.issuerOrigin, 10);
+            return fn();
+        })
+        .catch((b) => {
+            if (b && 'NoModificationAllowedError' === b.name) return Z(X.issuerOrigin, 10), fn();
+            Z(X.issuerOrigin, 9);
+        });
+}
+function hn() {
+    Z(X.issuerOrigin, 13);
+    return document.hasTrustToken(X.issuerOrigin).then((a) => (a ? fn() : gn()));
+}
+function jn() {
+    Z(Y.issuerOrigin, 13);
+    if (n.Promise) {
+        var a = document
+            .hasTrustToken(Y.issuerOrigin)
+            .then((e) => e)
+            .catch((e) =>
+                n.Promise.reject({
+                    state: 19,
+                    error: e
+                })
+            );
+        var b = Y.issuerOrigin + Y.redemptionPath;
+        var c = {
+            keepalive: !0,
+            trustToken: {
+                type: 'token-redemption',
+                refreshPolicy: 'none'
+            }
+        };
+        Z(Y.issuerOrigin, 16);
+        a = a
+            .then((e) =>
+                window
+                .fetch(b, c)
+                .then((f) => {
+                    if (!f.ok) throw Error(f.status + ': Network response was not ok!');
+                    Z(Y.issuerOrigin, 18, !0);
+                })
+                .catch((f) => {
+                    if (f && 'NoModificationAllowedError' === f.name) Z(Y.issuerOrigin, 18, !0);
+                    else {
+                        if (e)
+                            return n.Promise.reject({
+                                state: 17,
+                                error: f
+                            });
+                        Z(Y.issuerOrigin, 17);
+                    }
+                })
+            )
+            .then(() =>
+                document
+                .hasTrustToken(Y.issuerOrigin)
+                .then((e) => e)
+                .catch((e) =>
+                    n.Promise.reject({
+                        state: 19,
+                        error: e
+                    })
+                )
+            )
+            .then((e) => {
+                var f = Y.issuerOrigin + Y.getStatePath;
+                Z(Y.issuerOrigin, 20);
+                return window
+                    .fetch(f + '?ht=' + e, {
+                        trustToken: {
+                            type: 'send-redemption-record',
+                            issuers: [Y.issuerOrigin]
+                        }
+                    })
+                    .then((g) => {
+                        if (!g.ok) throw Error(g.status + ': Network response was not ok!');
+                        Z(Y.issuerOrigin, 22);
+                        return g.text().then((h) => JSON.parse(h));
+                    })
+                    .catch((g) =>
+                        n.Promise.reject({
+                            state: 21,
+                            error: g
+                        })
+                    );
+            });
+        var d = Sc(window);
+        return a
+            .then((e) => {
+                var f = Y.issuerOrigin + Y.issuancePath;
+                return e && e.srqt && e.cs ?
+                    (Z(Y.issuerOrigin, 23),
+                        window
+                        .fetch(f + '?cs=' + e.cs + '&correlator=' + d, {
+                            keepalive: !0,
+                            trustToken: {
+                                type: 'token-request'
+                            }
+                        })
+                        .then((g) => {
+                            if (!g.ok) throw Error(g.status + ': Network response was not ok!');
+                            Z(Y.issuerOrigin, 25);
+                            return e;
+                        })
+                        .catch((g) =>
+                            n.Promise.reject({
+                                state: 24,
+                                error: g
+                            })
+                        )) :
+                    e;
+            })
+            .then((e) => {
+                if (e && e.srdt && e.cs)
+                    return (
+                        Z(Y.issuerOrigin, 26),
+                        window
+                        .fetch(b + '?cs=' + e.cs + '&correlator=' + d, {
+                            keepalive: !0,
+                            trustToken: {
+                                type: 'token-redemption',
+                                refreshPolicy: 'refresh'
+                            }
+                        })
+                        .then((f) => {
+                            if (!f.ok) throw Error(f.status + ': Network response was not ok!');
+                            Z(Y.issuerOrigin, 28, !0);
+                        })
+                        .catch((f) =>
+                            n.Promise.reject({
+                                state: 27,
+                                error: f
+                            })
+                        )
+                    );
+            })
+            .then(() => {
+                Z(Y.issuerOrigin, 29);
+            })
+            .catch((e) => {
+                if (e instanceof Object && e.hasOwnProperty('state') && e.hasOwnProperty('error'))
+                    if ('number' === typeof e.state && e.error instanceof Error) {
+                        Z(Y.issuerOrigin, e.state);
+                        var f = R(Mh);
+                        Math.random() <= f &&
+                            Zc({
+                                    state: e.state,
+                                    err: e.error.toString()
+                                },
+                                'dtt_err'
+                            );
+                    } else throw Error(e);
+                else throw e;
+            });
+    }
+}
+function kn(a) {
+    if (document.hasTrustToken && !Q(Jh) && a.h) {
+        if (en()) return window.goog_tt_promise;
+        a = [];
+        $m() && a.push(hn());
+        Q(Kh) && a.push(jn());
+        if (n.Promise && n.Promise.all)
+            return (
+                (a = n.Promise.all(a)),
+                'object' != typeof window.goog_tt_promise &&
+                Object.defineProperty(window, 'goog_tt_promise', {
+                    configurable: !1,
+                    value: a,
+                    writable: !1
+                }),
+                a
+            );
+    }
+}
+var ln = 'platform platformVersion architecture model uaFullVersion bitness'.split(' ');
+function mn() {
+    return J.navigator && J.navigator.userAgentData && 'function' === typeof J.navigator.userAgentData.getHighEntropyValues ?
+        J.navigator.userAgentData.getHighEntropyValues(ln).then((a) => {
+            var b = new xj();
+            b = A(b, 1, a.platform);
+            b = A(b, 2, a.platformVersion);
+            b = A(b, 3, a.architecture);
+            b = A(b, 4, a.model);
+            b = A(b, 5, a.uaFullVersion);
+            return A(b, 9, a.bitness);
+        }) :
+        null;
+}
+function nn(a, b) {
+    b.google_ad_host || ((a = a.document.querySelector('meta[name="google-adsense-platform-account"]')) && (b.google_ad_host = a.getAttribute('content')));
+}
+function on(a, b, c) {
+    c = void 0 === c ? '' : c;
+    J.google_sa_impl && !J.document.getElementById('google_shimpl') && ((J.google_sa_queue = null), (J.google_sl_win = null), (J.google_sa_impl = null));
+    J.google_sa_queue ||
+        ((J.google_sa_queue = []),
+            (J.google_sl_win = J),
+            (J.google_process_slots = tf(215, () => pn(J))),
+            (a = qn(c, a, b)),
+            (xc(J.document, a).id = 'google_shimpl'));
+}
+function pn(a) {
+    var b = a.google_sa_queue;
+    var c = b.shift();
+    a.google_sa_impl ||
+        uf('shimpl', {
+            t: 'no_fn'
+        });
+    'function' === typeof c && sf(216, c);
+    b.length &&
+        a.setTimeout(
+            tf(215, () => pn(a)),
+            0
+        );
+}
+function rn(a, b, c) {
+    a.google_sa_queue = a.google_sa_queue || [];
+    a.google_sa_impl ? c(b) : a.google_sa_queue.push(b);
+}
+function qn(a, b, c) {
+    var d = Math.random() < R(lh) ? Wb(gc(b.lb).toString()) : null;
+    b = D(c, 4) ? b.kb : b.mb;
+    d = d ? d : Wb(gc(b).toString());
+    b = {};
+    a: {
+        if (D(c, 4)) {
+            if ((c = a || sn())) {
+                var e = {};
+                c = ((e.client = c), (e.plah = J.location.host), e);
+                break a;
+            }
+            throw Error('PublisherCodeNotFoundForAma');
+        }
+        c = {};
+    }
+    tn(c, b);
+    a: {
+        if (Q(ih) && (a = a || sn())) {
+            c = {};
+            a =
+                ((c.client = a),
+                    (c.plah = J.location.host),
+                    (c.ama_t = 'adsense'),
+                    (c.asntp = R(Ug)),
+                    (c.asntpv = R(Yg)),
+                    (c.asntpl = R(Wg)),
+                    (c.asntpm = R(Xg)),
+                    (c.asntpc = R(Vg)),
+                    (c.asna = R(Qg)),
+                    (c.asnd = R(Rg)),
+                    (c.asnp = R(Sg)),
+                    (c.asns = R(Tg)),
+                    (c.asmat = R(Pg)),
+                    (c.asptt = R(Zg)),
+                    (c.easpi = Q(ih)),
+                    (c.asro = Q($g)),
+                    c);
+            break a;
+        }
+        a = {};
+    }
+    tn(a, b);
+    tn(
+        Rh() ? {
+            bust: Rh()
+        } : {},
+        b
+    );
+    return Tb(d, b);
+}
+function tn(a, b) {
+    Ec(a, (c, d) => {
+        void 0 === b[d] && (b[d] = c);
+    });
+}
+function sn() {
+    if (J.google_ad_client) return J.google_ad_client;
+    var a = U(J).head_tag_slot_vars;
+    if (a && a.google_ad_client) return a.google_ad_client;
+    if ((a = J.document.querySelector('.adsbygoogle[data-ad-client]'))) return a.getAttribute('data-ad-client');
+    b: {
+        a = J.document.getElementsByTagName('script');
+        var b = (J.navigator && J.navigator.userAgent) || '';
+        b =
+        RegExp(
+            'appbankapppuzdradb|daumapps|fban|fbios|fbav|fb_iab|gsa/|messengerforios|naver|niftyappmobile|nonavigation|pinterest|twitter|ucbrowser|yjnewsapp|youtube',
+            'i'
+        ).test(b) ||
+        (/i(phone|pad|pod)/i.test(b) && /applewebkit/i.test(b) && !/version|safari/i.test(b) && !gd()) ?
+        tm : um;
+        for (var c = a.length - 1; 0 <= c; c--) {
+            var d = a[c];
+            if (!d.google_parsed_script_for_pub_code && ((d.google_parsed_script_for_pub_code = !0), (d = b(d)))) {
+                a = d;
+                break b;
+            }
+        }
+        a = null;
+    }
+    if (a) {
+        b = /(google_\w+) *= *(['"]?[\w.-]+['"]?) *(?:;|$)/gm;
+        for (c = {};
+            (d = b.exec(a));) c[d[1]] = vm(d[2]);
+        a = c.google_ad_client ? c.google_ad_client : '';
+    } else a = '';
+    return a ? a : '';
+}
+function un(a) {
+    a: {
+        for (var b = [v.top], c = [], d = 0, e;
+            (e = b[d++]);) {
+            c.push(e);
+            try {
+                if (e.frames)
+                    for (var f = e.frames.length, g = 0; g < f && 1024 > b.length; ++g) b.push(e.frames[g]);
+            } catch (l) {}
+        }
+        for (b = 0; b < c.length; b++)
+            try {
+                var h = c[b].frames.google_esf;
+                if (h) {
+                    Vc = h;
+                    break a;
+                }
+            } catch (l) {}
+        Vc = null;
+    }
+    if (Vc) return null;
+    c = yc('IFRAME');
+    c.id = 'google_esf';
+    c.name = 'google_esf';
+    a = a.rb;
+    if (a instanceof bc) {
+        var k;
+        h = ec(a);
+        a = (null === (k = Zb()) || void 0 === k ? 0 : k.isScriptURL(h)) ? TrustedScriptURL.prototype.toString.apply(h) : h;
+    } else a = Vb(a).toString();
+    c.src = a;
+    c.style.display = 'none';
+    return c;
+}
+function vn(a, b, c, d) {
+    wn(a, b, c, d, (e, f) => {
+        e = e.document;
+        for (var g = void 0, h = 0; !g || e.getElementById(g + '_anchor');) g = 'aswift_' + h++;
+        e = g;
+        g = Number(f.google_ad_width || 0);
+        f = Number(f.google_ad_height || 0);
+        h = yc('INS');
+        h.id = e + '_anchor';
+        ok(h, g, f);
+        h.style.display = 'block';
+        var k = yc('INS');
+        k.id = e + '_expand';
+        ok(k, g, f);
+        k.style.display = 'inline-table';
+        k.appendChild(h);
+        c.appendChild(k);
+        return e;
+    });
+}
+function wn(a, b, c, d, e) {
+    var f = e(a, b);
+    xn(a, c, b);
+    c = Ja;
+    e = new Date().getTime();
+    b.google_lrv = Eb(d, 2);
+    b.google_async_iframe_id = f;
+    b.google_start_time = c;
+    b.google_bpp = e > c ? e - c : 1;
+    a.google_sv_map = a.google_sv_map || {};
+    a.google_sv_map[f] = b;
+    b.dninfo = b.google_loader_used;
+    c = (d = !!a.document.getElementById(f + '_anchor')) ? (h) => h() : (h) => window.setTimeout(h, 0);
+    b.dninfo += '_' + d;
+    var g = {
+        pubWin: a,
+        iframeWin: null,
+        vars: b
+    };
+    rn(
+        a,
+        () => {
+            var h = !!a.document.getElementById(f + '_anchor');
+            b.dninfo += '_' + h;
+            (h = a.google_sa_impl(g)) && h.catch && h.catch(vf(911));
+        },
+        c
+    );
+}
+function xn(a, b, c) {
+    var d = c.google_ad_output;
+    var e = c.google_ad_format;
+    var f = c.google_ad_width || 0;
+    var g = c.google_ad_height || 0;
+    e || ('html' != d && null != d) || (e = f + 'x' + g);
+    d = !c.google_ad_slot || c.google_override_format || (!pk[c.google_ad_width + 'x' + c.google_ad_height] && 'aa' == c.google_loader_used);
+    e && d ? (e = e.toLowerCase()) : (e = '');
+    c.google_ad_format = e;
+    if ('number' !== typeof c.google_reactive_sra_index || !c.google_ad_unit_key) {
+        e = [
+            c.google_ad_slot,
+            c.google_orig_ad_format || c.google_ad_format,
+            c.google_ad_type,
+            c.google_orig_ad_width || c.google_ad_width,
+            c.google_orig_ad_height || c.google_ad_height
+        ];
+        d = [];
+        f = 0;
+        for (g = b; g && 25 > f; g = g.parentNode, ++f) 9 === g.nodeType ? d.push('') : d.push(g.id);
+        (d = d.join()) && e.push(d);
+        c.google_ad_unit_key = Fc(e.join(':')).toString();
+        var h = void 0 === h ? !1 : h;
+        e = [];
+        for (d = 0; b && 25 > d; ++d) {
+            f = '';
+            (void 0 !== h && h) || (f = (f = 9 !== b.nodeType && b.id) ? '/' + f : '');
+            a: {
+                if (b && b.nodeName && b.parentElement) {
+                    g = b.nodeName.toString().toLowerCase();
+                    for (var k = b.parentElement.childNodes, l = 0, m = 0; m < k.length; ++m) {
+                        var r = k[m];
+                        if (r.nodeName && r.nodeName.toString().toLowerCase() === g) {
+                            if (b === r) {
+                                g = '.' + l;
+                                break a;
+                            }
+                            ++l;
+                        }
+                    }
+                }
+                g = '';
+            }
+            e.push((b.nodeName && b.nodeName.toString().toLowerCase()) + f + g);
+            b = b.parentElement;
+        }
+        h = e.join() + ':';
+        b = [];
+        if (a)
+            try {
+                var t = a.parent;
+                for (e = 0; t && t !== a && 25 > e; ++e) {
+                    var x = t.frames;
+                    for (d = 0; d < x.length; ++d)
+                        if (a === x[d]) {
+                            b.push(d);
+                            break;
+                        }
+                    a = t;
+                    t = a.parent;
+                }
+            } catch (E) {}
+        c.google_ad_dom_fingerprint = Fc(h + b.join()).toString();
+    }
+}
+function yn() {
+    var a = hd(v);
+    a &&
+        ((a = Af(a)),
+            a.tagSpecificState[1] ||
+            (a.tagSpecificState[1] = {
+                debugCard: null,
+                debugCardRequested: !1
+            }));
+}
+function zn(a) {
+    cn();
+    dn(Al(), Eb(a, 8)) ||
+        tf(779, () => {
+            var b = new bn(!0);
+            0 < R(Ph) ? (J.google_trust_token_operation_promise = kn(b)) : kn(b);
+        })();
+    a = mn();
+    null != a &&
+        a.then((b) => {
+            J.google_user_agent_client_hint = Cb(b);
+        });
+    Bm();
+    zm();
+}
+function An(a, b) {
+    switch (a) {
+        case 'google_reactive_ad_format':
+            return (a = parseInt(b, 10)), isNaN(a) ? 0 : a;
+        case 'google_allow_expandable_ads':
+            return /^true$/.test(b);
+        default:
+            return b;
+    }
+}
+function Bn(a, b) {
+    if (a.getAttribute('src')) {
+        var c = a.getAttribute('src') || '';
+        (c = vc(c)) && (b.google_ad_client = An('google_ad_client', c));
+    }
+    a = a.attributes;
+    c = a.length;
+    for (var d = 0; d < c; d++) {
+        var e = a[d];
+        if (/data-/.test(e.name)) {
+            var f = Ka(e.name.replace('data-matched-content', 'google_content_recommendation').replace('data', 'google').replace(/-/g, '_'));
+            b.hasOwnProperty(f) || ((e = An(f, e.value)), null !== e && (b[f] = e));
+        }
+    }
+}
+function Cn(a) {
+    if ((a = Wc(a)))
+        switch (a.data && a.data.autoFormat) {
+            case 'rspv':
+                return 13;
+            case 'mcrspv':
+                return 15;
+            default:
+                return 14;
+        }
+    else return 12;
+}
+function Dn(a, b, c, d) {
+    Bn(a, b);
+    if (c.document && c.document.body && !Yk(c, b) && !b.google_reactive_ad_format) {
+        var e = parseInt(a.style.width, 10);
+        var f = bl(a, c);
+        if (0 < f && e > f) {
+            var g = parseInt(a.style.height, 10);
+            e = !!pk[e + 'x' + g];
+            var h = f;
+            if (e) {
+                var k = qk(f, g);
+                if (k)(h = k), (b.google_ad_format = k + 'x' + g + '_0ads_al');
+                else throw new K('No slot size for availableWidth=' + f);
+            }
+            b.google_ad_resize = !0;
+            b.google_ad_width = h;
+            e || ((b.google_ad_format = null), (b.google_override_format = !0));
+            f = h;
+            a.style.width = f + 'px';
+            g = Sk(f, 'auto', c, a, b);
+            h = f;
+            g.size().i(c, b, a);
+            uk(g, h, b);
+            g = g.size();
+            b.google_responsive_formats = null;
+            g.minWidth() > f && !e && ((b.google_ad_width = g.minWidth()), (a.style.width = g.minWidth() + 'px'));
+        }
+    }
+    e = a.offsetWidth || hi(a, c, 'width', I) || b.google_ad_width || 0;
+    f = Ga(Sk, e, 'auto', c, a, b, !1, !0);
+    !(g = Q(gh) || (!(488 > Cf(c)) && !Q(oh))) &&
+    (g = Q(qh)) &&
+    ((g = c.top == c), g || (wc(c.top) && c.top ? (b.gfwrnwer = 3) : (b.gfwrnwer = 16), (g = !1)), (g = !g));
+    if (g) d = !1;
+    else {
+        g = hd(c) || c;
+        h = b.google_ad_client;
+        d =
+            g.location && '#ftptohbh' === g.location.hash ?
+            2 :
+            ak(g.location, 'google_responsive_slot_preview') || Q(ph) ?
+            1 :
+            Q(nh) ?
+            2 :
+            Cl(g, 1, h, d) ?
+            1 :
+            0;
+        if ((g = 0 !== d))
+            b: if (b.google_reactive_ad_format || Yk(c, b) || Yh(a, b)) g = !1;
+            else {
+                for (g = a; g; g = g.parentElement) {
+                    h = zc(g, c);
+                    if (!h) {
+                        b.gfwrnwer = 18;
+                        g = !1;
+                        break b;
+                    }
+                    if (!$a(['static', 'relative'], h.position)) {
+                        b.gfwrnwer = 17;
+                        g = !1;
+                        break b;
+                    }
+                }
+                if (!Q(oh) && ((g = bi(c, a, e, 0.3, b)), !0 !== g)) {
+                    b.gfwrnwer = g;
+                    g = !1;
+                    break b;
+                }
+                g = c.top == c ? !0 : !1;
+            }
+        g
+            ?
+            ((b.google_resizing_allowed = !0),
+                (b.ovlp = !0),
+                2 === d ?
+                ((d = {}),
+                    uk(f(), e, d),
+                    (b.google_resizing_width = d.google_ad_width),
+                    (b.google_resizing_height = d.google_ad_height),
+                    (b.iaaso = !1)) :
+                ((b.google_ad_format = 'auto'), (b.iaaso = !0), (b.armr = 1)),
+                (d = !0)) :
+            (d = !1);
+    }
+    if ((e = Yk(c, b))) $k(e, a, b, c, d);
+    else {
+        if (Yh(a, b)) {
+            if ((d = zc(a, c)))(a.style.width = d.width), (a.style.height = d.height), Xh(d, b);
+            b.google_ad_width || (b.google_ad_width = a.offsetWidth);
+            b.google_ad_height || (b.google_ad_height = a.offsetHeight);
+            b.google_loader_features_used = 256;
+            b.google_responsive_auto_format = Cn(c);
+        } else Xh(a.style, b);
+        (c.location && '#gfwmrp' == c.location.hash) || (12 == b.google_responsive_auto_format && 'true' == b.google_full_width_responsive) ?
+        $k(10, a, b, c, !1): 0.01 > Math.random() &&
+            12 === b.google_responsive_auto_format &&
+            ((a = ci(a.offsetWidth || parseInt(a.style.width, 10) || b.google_ad_width, c, a, b)),
+                !0 !== a ? ((b.efwr = !1), (b.gfwrnwer = a)) : (b.efwr = !0));
+    }
+}
+function En(a) {
+    var b = window;
+    var c = void 0 === c ? null : c;
+    kc(b, 'message', (d) => {
+        try {
+            var e = JSON.parse(d.data);
+        } catch (f) {
+            return;
+        }!e || 'sc-cnf' !== e.googMsgType || (c && /[:|%3A]javascript\(/i.test(d.data) && !c(e, d)) || a(e, d);
+    });
+}
+function Fn(a, b) {
+    b = void 0 === b ? 500 : b;
+    fj.call(this);
+    this.i = a;
+    this.Ra = b;
+    this.h = null;
+    this.m = {};
+    this.l = null;
+}
+u(Fn, fj);
+Fn.prototype.j = function() {
+    this.m = {};
+    this.l && (lc(this.i, this.l), delete this.l);
+    delete this.m;
+    delete this.i;
+    delete this.h;
+    fj.prototype.j.call(this);
+};
+function Gn(a) {
+    fj.call(this);
+    this.h = a;
+    this.i = null;
+    this.l = !1;
+}
+u(Gn, fj);
+var Hn = null;
+var In = [];
+var Jn = new n.Map();
+var Kn = -1;
+function Ln(a) {
+    return pi.test(a.className) && 'done' != a.dataset.adsbygoogleStatus;
+}
+function Mn(a, b, c) {
+    a.dataset.adsbygoogleStatus = 'done';
+    Nn(a, b, c);
+}
+function Nn(a, b, c) {
+    var d = window;
+    var e = fd();
+    e.google_spfd || (e.google_spfd = Dn);
+    (e = b.google_reactive_ads_config) || Dn(a, b, d, c);
+    nn(d, b);
+    if (!On(a, b, d)) {
+        e || (d.google_lpabyc = Zh(a, d) + hi(a, d, 'height', I));
+        if (e) {
+            e = e.page_level_pubvars || {};
+            if (U(J).page_contains_reactive_tag && !U(J).allow_second_reactive_tag) {
+                if (e.pltais) {
+                    Yj(!1);
+                    return;
+                }
+                throw new K("Only one 'enable_page_level_ads' allowed per page.");
+            }
+            U(J).page_contains_reactive_tag = !0;
+            Yj(7 === e.google_pgb_reactive);
+        }
+        b.google_unique_id = bd(d);
+        Ec(sm, (f, g) => {
+            b[g] = b[g] || d[g];
+        });
+        b.google_loader_used = 'aa';
+        b.google_reactive_tag_first = 1 === (U(J).first_tag_on_page || 0);
+        sf(164, () => {
+            vn(d, b, a, c);
+        });
+    }
+}
+function On(a, b, c) {
+    var d = b.google_reactive_ads_config;
+    var e = 'string' === typeof a.className && RegExp('(\\W|^)adsbygoogle-noablate(\\W|$)').test(a.className);
+    var f = Vj(c);
+    if (f && f.Da && 'on' != b.google_adtest && !e) {
+        e = Zh(a, c);
+        var g = Bf(c).clientHeight;
+        if (!f.oa || (f.oa && ((0 == g ? null : e / g) || 0) >= f.oa))
+            return (
+                (a.className += ' adsbygoogle-ablated-ad-slot'),
+                (c = c.google_sv_map = c.google_sv_map || {}),
+                (d = Aa(a)),
+                (b.google_element_uid = d),
+                (c[b.google_element_uid] = b),
+                a.setAttribute('google_element_uid', d),
+                'slot' == f.ob &&
+                (null !== Lc(a.getAttribute('width')) && a.setAttribute('width', 0),
+                    null !== Lc(a.getAttribute('height')) && a.setAttribute('height', 0),
+                    (a.style.width = '0px'),
+                    (a.style.height = '0px')),
+                !0
+            );
+    }
+    if ((f = zc(a, c)) && 'none' == f.display && !('on' == b.google_adtest || 0 < b.google_reactive_ad_format || d))
+        return c.document.createComment && a.appendChild(c.document.createComment('No ad requested because of display:none on the adsbygoogle tag')), !0;
+    a = null == b.google_pgb_reactive || 3 === b.google_pgb_reactive;
+    return (1 !== b.google_reactive_ad_format && 8 !== b.google_reactive_ad_format) || !a ?
+        !1 :
+        (v.console &&
+            v.console.warn(
+                'Adsbygoogle tag with data-reactive-ad-format=' +
+                b.google_reactive_ad_format +
+                ' is deprecated. Check out page-level ads at https://www.google.com/adsense'
+            ),
+            !0);
+}
+function Pn(a) {
+    var b = document.getElementsByTagName('INS');
+    for (var c = 0, d = b[c]; c < b.length; d = b[++c]) {
+        var e = d;
+        if (Ln(e) && 'reserved' != e.dataset.adsbygoogleStatus && (!a || d.id == a)) return d;
+    }
+    return null;
+}
+function Qn(a, b, c) {
+    if (a && a.shift)
+        for (var d = 20; 0 < a.length && 0 < d;) {
+            try {
+                Rn(a.shift(), b, c);
+            } catch (e) {
+                setTimeout(() => {
+                    throw e;
+                });
+            }
+            --d;
+        }
+}
+function Sn() {
+    var a = yc('INS');
+    a.className = 'adsbygoogle';
+    a.className += ' adsbygoogle-noablate';
+    Oc(a);
+    return a;
+}
+function Tn(a, b) {
+    var c = {};
+    Ec(xf, (f, g) => {
+        !1 === a.enable_page_level_ads ? (c[g] = !1) : a.hasOwnProperty(g) && (c[g] = a[g]);
+    });
+    za(a.enable_page_level_ads) && (c.page_level_pubvars = a.enable_page_level_ads);
+    var d = Sn();
+    Uc.body.appendChild(d);
+    var e = {};
+    e = ((e.google_reactive_ads_config = c), (e.google_ad_client = a.google_ad_client), e);
+    e.google_pause_ad_requests = !!U(J).pause_ad_requests;
+    Mn(d, e, b);
+}
+function Un(a, b) {
+    function c() {
+        return Tn(a, b);
+    }
+    Af(v).wasPlaTagProcessed = !0;
+    var d = v.document;
+    if (d.body || 'complete' == d.readyState || 'interactive' == d.readyState) c();
+    else {
+        var e = jc(tf(191, c));
+        kc(d, 'DOMContentLoaded', e);
+        new v.MutationObserver((f, g) => {
+            d.body && (e(), g.disconnect());
+        }).observe(d, {
+            childList: !0,
+            subtree: !0
+        });
+    }
+}
+function Rn(a, b, c) {
+    var d = {};
+    sf(
+        165,
+        () => {
+            Vn(a, d, b, c);
+        },
+        (e) => {
+            e.client = e.client || d.google_ad_client || a.google_ad_client;
+            e.slotname = e.slotname || d.google_ad_slot;
+            e.tag_origin = e.tag_origin || d.google_tag_origin;
+        }
+    );
+}
+function Wn(a) {
+    delete a.google_checked_head;
+    Ec(a, (b, c) => {
+        oi[c] || (delete a[c], v.console.warn("AdSense head tag doesn't support " + c.replace('google', 'data').replace(/_/g, '-') + ' attribute.'));
+    });
+}
+function Xn(a, b) {
+    var c =
+        J.document.querySelector('script[src*="/pagead/js/adsbygoogle.js?client="]:not([data-checked-head])') ||
+        J.document.querySelector('script[src*="/pagead/js/adsbygoogle.js"][data-ad-client]:not([data-checked-head])');
+    if (c) {
+        c.setAttribute('data-checked-head', 'true');
+        var d = U(window);
+        if (d.head_tag_slot_vars) {
+            if (Q(kh)) {
+                Yn(c);
+                return;
+            }
+            throw new K('Only one AdSense head tag supported per page. The second tag is ignored.');
+        }
+        var e = {};
+        Bn(c, e);
+        Wn(e);
+        var f = Pb(e);
+        d.head_tag_slot_vars = f;
+        c = {
+            google_ad_client: e.google_ad_client,
+            enable_page_level_ads: e
+        };
+        J.adsbygoogle || (J.adsbygoogle = []);
+        d = J.adsbygoogle;
+        d.loaded ? d.push(c) : d.splice(0, 0, c);
+        var g;
+        e.google_adbreak_test || ((null == (g = Gb(b, ll, 13, yl)) ? 0 : D(g, 3)) && Q(uh)) ?
+            Zn(f, a) :
+            En(() => {
+                Zn(f, a);
+            });
+    }
+}
+function Yn(a) {
+    var b = U(window).head_tag_slot_vars;
+    var c = a.getAttribute('src') || '';
+    if ((a = vc(c) || a.getAttribute('data-ad-client') || '') && a !== b.google_ad_client)
+        throw new K(
+            'Warning: Do not add multiple property codes with AdSense tag to avoid seeing unexpected behavior. These codes were found on the page ' +
+            a +
+            ', ' +
+            b.google_ad_client
+        );
+}
+function $n(a) {
+    if ('object' === typeof a && null != a) {
+        if ('string' === typeof a.type) return 2;
+        if ('string' === typeof a.sound || 'string' === typeof a.preloadAdBreaks) return 3;
+    }
+    return 0;
+}
+function Vn(a, b, c, d) {
+    if (null == a) throw new K('push() called with no parameters.');
+    14 === xb(d, yl) && ao(a, sb(Gb(d, ml, 14, yl), 1), Eb(d, 2));
+    var e = $n(a);
+    if (0 !== e)
+        Q(jh) &&
+        ((d = Zj()),
+            d.first_slotcar_request_processing_time || ((d.first_slotcar_request_processing_time = Date.now()), (d.adsbygoogle_execution_start_time = Ja))),
+        null == Hn ?
+        (bo(a), In.push(a)) :
+        3 === e ?
+        sf(787, () => {
+            Hn.handleAdConfig(a);
+        }) :
+        Hn.handleAdBreak(a).catch(vf(730));
+    else {
+        Ja = new Date().getTime();
+        on(c, d, co(a));
+        eo();
+        a: {
+            if (void 0 != a.enable_page_level_ads) {
+                if ('string' === typeof a.google_ad_client) {
+                    e = !0;
+                    break a;
+                }
+                throw new K("'google_ad_client' is missing from the tag config.");
+            }
+            e = !1;
+        }
+        if (e) fo(a, d, b);
+        else if (
+            ((e = a.params) &&
+                Ec(e, (g, h) => {
+                    b[h] = g;
+                }),
+                'js' === b.google_ad_output)
+        )
+            console.warn(
+                "Ads with google_ad_output='js' have been deprecated and no longer work. Contact your AdSense account manager or switch to standard AdSense ads."
+            );
+        else {
+            e = go(a.element);
+            Bn(e, b);
+            c = U(v).head_tag_slot_vars || {};
+            Ec(c, (g, h) => {
+                b.hasOwnProperty(h) || (b[h] = g);
+            });
+            if (e.hasAttribute('data-require-head') && !U(v).head_tag_slot_vars)
+                throw new K(
+                    "AdSense head tag is missing. AdSense body tags don't work without the head tag. You can copy the head tag from your account on https://adsense.com."
+                );
+            if (!b.google_ad_client) throw new K('Ad client is missing from the slot.');
+            b.google_apsail = Il(b.google_ad_client);
+            var f = (c = 0 === (U(J).first_tag_on_page || 0) && hk(b)) && ik(c);
+            c && !f && (fo(c, d), (U(J).skip_next_reactive_tag = !0));
+            0 === (U(J).first_tag_on_page || 0) && (U(J).first_tag_on_page = 2);
+            b.google_pause_ad_requests = !!U(J).pause_ad_requests;
+            Mn(e, b, d);
+            c && f && ho(c);
+        }
+    }
+}
+var io = !1;
+function ao(a, b, c) {
+    Q(hh) &&
+        !io &&
+        ((io = !0),
+            (a = co(a)) || (a = sn()),
+            uf(
+                'predictive_abg', {
+                    a_c: a,
+                    p_c: b,
+                    b_v: c
+                },
+                0.01
+            ));
+}
+function co(a) {
+    return a.google_ad_client ? a.google_ad_client : (a = a.params) && a.google_ad_client ? a.google_ad_client : '';
+}
+function eo() {
+    if (Q(ch)) {
+        var a = Vj(J);
+        if (!(a = a && a.Da)) {
+            try {
+                var b = J.localStorage;
+            } catch (c) {}
+            b = null;
+        }
+        b = b ? Ti(b) : null;
+        a = !(b && Qj(b) && b);
+    }
+    a || Xj(J, 1);
+}
+}
+function ho(a) {
+    Tc(() => {
+        Af(v).wasPlaTagProcessed || (v.adsbygoogle && v.adsbygoogle.push(a));
+    });
+}
+function fo(a, b, c) {
+    U(J).skip_next_reactive_tag ?
+        (U(J).skip_next_reactive_tag = !1) :
+        (0 === (U(J).first_tag_on_page || 0) && (U(J).first_tag_on_page = 1),
+            c && a.tag_partner && (Wj(v, a.tag_partner), Wj(c, a.tag_partner)),
+            (c = D(b, 6)),
+            U(J).ama_ran_on_page || kk(new jk(a, c)),
+            Un(a, b));
+}
+function go(a) {
+    if (a) {
+        if (!Ln(a) && (a.id ? (a = Pn(a.id)) : (a = null), !a)) throw new K("'element' has already been filled.");
+        if (!('innerHTML' in a)) throw new K("'element' is not a good DOM element.");
+    } else if (((a = Pn()), !a)) throw new K('All ins elements in the DOM with class=adsbygoogle already have ads in them.');
+    return a;
+}
+function jo() {
+    var a = new hj(J);
+    var b = new Fn(J);
+    var c = new Gn(J);
+    var d = J.__cmp ? 1 : 0;
+    a = ij(a) ? 1 : 0;
+    var e;
+    var f;
+    (f = 'function' === typeof(null === (e = b.i) || void 0 === e ? void 0 : e.__uspapi)) ||
+    (b.h ? (b = b.h) : ((b.h = Mc(b.i, '__uspapiLocator')), (b = b.h)), (f = null != b));
+    c.l || (c.i || (c.i = c.h.googlefc ? c.h : Mc(c.h, 'googlefcPresent')), (c.l = !0));
+    uf(
+        'cmpMet', {
+            tcfv1: d,
+            tcfv2: a,
+            usp: f ? 1 : 0,
+            fc: c.i ? 1 : 0,
+            ptt: 9
+        },
+        R(Ng)
+    );
+}
+function ko(a) {
+    a = {
+        value: D(a, 16)
+    };
+    var b = 0.01;
+    R(eh) && ((a.eid = R(eh)), (b = 1));
+    a.frequency = b;
+    uf('new_abg_tag', a, b);
+}
+function lo(a) {
+    Xi().S[Zi(26)] = !!Number(a);
+}
+function mo(a) {
+    Number(a) ?
+        (U(J).pause_ad_requests = !0) :
+        ((U(J).pause_ad_requests = !1),
+            (a = () => {
+                if (!U(J).pause_ad_requests)
+                    if (Q(xh)) {
+                        var b = void 0 === b ? {} : b;
+                        if ('function' === typeof window.CustomEvent) var c = new CustomEvent('adsbygoogle-pub-unpause-ad-requests-event', b);
+                        else
+                            (c = document.createEvent('CustomEvent')),
+                            c.initCustomEvent('adsbygoogle-pub-unpause-ad-requests-event', !!b.bubbles, !!b.cancelable, b.detail);
+                        J.dispatchEvent(c);
+                    } else {
+                        b = fd();
+                        var d = fd();
+                        try {
+                            if (Uc.createEvent)
+                                (c = Uc.createEvent('CustomEvent')),
+                                c.initCustomEvent('adsbygoogle-pub-unpause-ad-requests-event', !1, !1, ''),
+                                b.dispatchEvent(c);
+                            else if (ad(d.CustomEvent)) {
+                                var e = new d.CustomEvent('adsbygoogle-pub-unpause-ad-requests-event', {
+                                    bubbles: !1,
+                                    cancelable: !1,
+                                    detail: ''
+                                });
+                                b.dispatchEvent(e);
+                            } else if (ad(d.Event)) {
+                                var f = new Event('adsbygoogle-pub-unpause-ad-requests-event', {
+                                    bubbles: !1,
+                                    cancelable: !1
+                                });
+                                b.dispatchEvent(f);
+                            }
+                        } catch (g) {}
+                    }
+            }),
+            v.setTimeout(a, 0),
+            v.setTimeout(a, 1e3));
+}
+function no(a) {
+    uf(
+        'adsenseGfpKnob', {
+            value: a,
+            ptt: 9
+        },
+        0.1
+    );
+    switch (a) {
+        case 0:
+        case 2:
+            a = !0;
+            break;
+        case 1:
+            a = !1;
+            break;
+        default:
+            throw Error('Illegal value of cookieOptions: ' + a);
+    }
+    J._gfp_a_ = a;
+}
+function oo(a) {
+    ad(a) && window.setTimeout(a, 0);
+}
+function Zn(a, b) {
+    ((ba = fk(
+                Tb(
+                    Wb(gc(b.nb).toString()),
+                    Rh() ? {
+                        bust: Rh()
+                    } : {}
+                )
+            )
+            .then((c) => {
+                null == Hn && (c.init(a), (Hn = c), po());
+            })
+            .catch(vf(723))),
+        p(ba, 'finally')).call(ba, () => {
+        In.length = 0;
+        uf('slotcar', {
+            event: 'api_ld',
+            time: Date.now() - Ja,
+            time_pr: Date.now() - Kn
+        });
+    });
+}
+function po() {
+    for (var a = q(p(Jn, 'keys').call(Jn)), b = a.next(); !b.done; b = a.next()) {
+        b = b.value;
+        var c = Jn.get(b); -
+        1 !== c && (v.clearTimeout(c), Jn.delete(b));
+    }
+    a = {};
+    for (
+        b = 0; b < In.length; a = {
+            da: a.da,
+            Y: a.Y
+        },
+        b++
+    )
+        Jn.has(b) ||
+        ((a.Y = In[b]),
+            (a.da = $n(a.Y)),
+            sf(
+                723,
+                ((d) => () => {
+                    3 === d.da ? Hn.handleAdConfig(d.Y) : 2 === d.da && Hn.handleAdBreakBeforeReady(d.Y).catch(vf(730));
+                })(a)
+            ));
+}
+function bo(a) {
+    var b = In.length;
+    if (2 === $n(a) && 'preroll' === a.type && null != a.adBreakDone) {
+        -1 === Kn && (Kn = Date.now());
+        var c = v.setTimeout(() => {
+                    try {
+                        (0, a.adBreakDone)({
+                            breakType: 'preroll',
+                            breakName: a.name,
+                            breakFormat: 'preroll',
+                            breakStatus: 'timeout'
+                        }),
+                        Jn.set(b, -1),
+                            uf('slotcar', {
+                                event: 'pr_to',
+                                source: 'adsbygoogle'
+                            });
+                    } catch (d) {}
+                    console.error('[Ad Placement API] adBreakDone callback threw an error:', d instanceof Error ? d : Error(String(d)));
+                }
+            },
+            1e3 * R(vh));
+    Jn.set(b, c);
+}
+}
+((a, b, c, d) => {
+    d = void 0 === d ? () => {} : d;
+    qf.Pa(wf);
+    sf(166, () => {
+        var e = xm(b);
+        pm(Eb(e, 2));
+        Bl(D(e, 6));
+        d();
+        kd(16, [1, e.toJSON()]);
+        var f = Xc(Wc(J)) || J;
+        var g = c(
+            qm({
+                $a: a,
+                jb: Eb(e, 2)
+            }),
+            e
+        );
+        Q(mh) && Fl(f, e);
+        om(f, e, null === J.document.currentScript ? 1 : Ol(g.qb));
+        if ((!Qa() || 0 <= La(Ta(), 11)) && (null == (J.Prototype || {}).Version || !Q(fh))) {
+            rf(Q(Ch));
+            zn(e);
+            Gj();
+            try {
+                Rm();
+            } catch (r) {}
+            yn();
+            Xn(g, e);
+            f = window;
+            var h = f.adsbygoogle;
+            if (!h || !h.loaded) {
+                if (Q(dh) && !D(e, 16))
+                    try {
+                        if (J.document.querySelector('script[src*="/pagead/js/adsbygoogle.js?client="]')) return;
+                    } catch (r) {}
+                ko(e);
+                R(Ng) && jo();
+                var k = {
+                    push(r) {
+                        Rn(r, g, e);
+                    },
+                    loaded: !0
+                };
+                try {
+                    Object.defineProperty(k, 'requestNonPersonalizedAds', {
+                            set: lo
+                        }),
+                        Object.defineProperty(k, 'pauseAdRequests', {
+                            set: mo
+                        }),
+                        Object.defineProperty(k, 'cookieOptions', {
+                            set: no
+                        }),
+                        Object.defineProperty(k, 'onload', {
+                            set: oo
+                        });
+                } catch (r) {}
+                if (h)
+                    for (var l = q(['requestNonPersonalizedAds', 'pauseAdRequests', 'cookieOptions']), m = l.next(); !m.done; m = l.next())
+                        (m = m.value), void 0 !== h[m] && (k[m] = h[m]);
+                '_gfp_a_' in window || (window._gfp_a_ = !0);
+                Qn(h, g, e);
+                f.adsbygoogle = k;
+                h && (k.onload = h.onload);
+                (f = un(g)) && document.documentElement.appendChild(f);
+            }
+        }
+    });
+})('m202111110101', wm, (a, b) => {
+    var c = 2012 < C(b, 1, 0) ? '_fy' + C(b, 1, 0) : '';
+    var d = Eb(b, 3);
+    b = Eb(b, 2);
+    var e = a ? fc(cl, a, c) : fc(dl, b, d, c);
+    var f = fc(el, b, d);
+    return {
+        nb: e,
+        mb: a ? fc(fl, a, c) : fc(gl, b, d, c),
+        kb: a ? fc(hl, a, c) : fc(il, b, d, c),
+        lb: a ? fc(jl, a, c) : fc(kl, b, d, c),
+        rb: f,
+        qb: /^(?:https?:)?\/\/(?:pagead2\.googlesyndication\.com|securepubads\.g\.doubleclick\.net)\/pagead\/(?:js\/)?(?:show_ads|adsbygoogle)\.js(?:[?#].*)?$/
+    };
+});
+}.call(
+this,
+'[2019,"r20211111","r20190131",null,[],null,null,null,null,null,[],[[[1082,null,null,[1]],[null,62,null,[null,0.001]],[383,null,null,[1]],[null,1126,null,[null,5000]],[null,1010,null,[null,1]],[null,1114,null,[null,1]],[null,1116,null,[null,300]],[null,1117,null,[null,100]],[null,1115,null,[null,1]],[null,1017,null,[null,-1]],[1021,null,null,[1]],[null,66,null,[null,-1]],[null,65,null,[null,-1]],[1064,null,null,[1]],[null,1041,null,[null,50]],[1042,null,null,[1]],[1040,null,null,[1]],[1096,null,null,[1]],[1089,null,null,[1]],[1097,null,null,[1]],[1100,null,null,[1]],[1109,null,null,[1]],[1102,null,null,[1]],[205,null,null,[1]],[null,29,null,[null,2]],[null,30,null,[null,3]],[null,1056,null,[null,3000]],[null,1057,null,[null,650]],[1101,null,null,[1]],[1036,null,null,[1]],[1051,null,null,[1]],[325,null,null,[1]],[1007,null,null,[1]],[null,1008,null,[null,2]],[null,1085,null,[null,5]],[null,63,null,[null,30]],[null,1080,null,[null,5]],[1055,null,null,[1]],[1054,null,null,[1]],[null,1027,null,[null,10]],[null,57,null,[null,120]],[null,1079,null,[null,5]],[null,1050,null,[null,30]],[null,58,null,[null,120]],[null,64,null,[null,300]],[1118,null,null,[1]],[230,null,null,[1]],[1124,null,null,[1]],[null,null,null,[null,null,null,["A8FHS1NmdCwGqD9DwOicnHHY+y27kdWfxKa0YHSGDfv0CSpDKRHTQdQmZVPDUdaFWUsxdgVxlwAd6o+dhJykPA0AAACWeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9","A8zdXi6dr1hwXEUjQrYiyYQGlU3557y5QWDnN0Lwgj9ePt66XMEvNkVWOEOWPd7TP9sBQ25X0Q15Lr1Nn4oGFQkAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9","A4/Htern2udN9w3yJK9QgWQxQFruxOXsXL7cW60DyCl0EZFGCSme/J33Q/WzF7bBkVvhEWDlcBiUyZaim5CpFQwAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9"]],null,1934],[1903,null,null,[1]],[1953,null,null,[1]],[1938,null,null,[1]],[null,1929,null,[null,50]],[1956,null,null,[1]],[379841917,null,null,[1]],[null,null,null,[null,null,null,["AxujKG9INjsZ8/gUq8+dTruNvk7RjZQ1oFhhgQbcTJKDnZfbzSTE81wvC2Hzaf3TW4avA76LTZEMdiedF1vIbA4AAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=","Azuce85ORtSnWe1MZDTv68qpaW3iHyfL9YbLRy0cwcCZwVnePnOmkUJlG8HGikmOwhZU22dElCcfrfX2HhrBPAkAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","A16nvcdeoOAqrJcmjLRpl1I6f3McDD8EfofAYTt/P/H4/AWwB99nxiPp6kA0fXoiZav908Z8etuL16laFPUdfQsAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","AxBHdr0J44vFBQtZUqX9sjiqf5yWZ/OcHRcRMN3H9TH+t90V/j3ENW6C8+igBZFXMJ7G3Pr8Dd13632aLng42wgAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","A88BWHFjcawUfKU3lIejLoryXoyjooBXLgWmGh+hNcqMK44cugvsI5YZbNarYvi3roc1fYbHA1AVbhAtuHZflgEAAAB2eyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IlRydXN0VG9rZW5zIiwiZXhwaXJ5IjoxNjUyNzc0NDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="]],null,1932],[null,397907552,null,[null,500]],[396382471,null,null,[1]],[393546021,null,null,[1]]],[[10,[[1,[[21066108],[21066109,[[316,null,null,[1]]]]],null,null,null,34,18,1],[1,[[21066110],[21066111,[[316,null,null,[1]]]]],null,null,null,34,18,1],[1,[[42530528],[42530529,[[368,null,null,[1]]]],[42530530,[[369,null,null,[1]],[368,null,null,[1]]]]]],[1,[[42530887,[[290,null,null,[1]]]],[42530888,[[290,null,null,[1]]]],[42530889,[[290,null,null,[1]]]],[42530890,[[290,null,null,[1]]]],[42530891,[[290,null,null,[1]]]],[42530892,[[290,null,null,[1]]]],[42530893,[[290,null,null,[1]]]]],null,null,null,53],[1,[[44719338],[44719339,[[334,null,null,[1]],[null,54,null,[null,100]],[null,66,null,[null,10]],[null,65,null,[null,1000]]]]]],[10,[[44750773],[44750774,[[1087,null,null,[1]]]]],null,null,null,57],[10,[[44753738,[[290,null,null,[]]]],[44753739,[[null,1072,null,[null,0.5]],[290,null,null,[]]]],[44753740,[[null,1072,null,[null,0.75]],[290,null,null,[]]]],[44753741,[[null,1072,null,[null,0.9]],[290,null,null,[]]]],[44753742,[[null,1072,null,[null,1]],[290,null,null,[]]]],[44753743,[[null,1072,null,[null,1.01]],[290,null,null,[]]]]],null,null,null,53,null,200],[10,[[44752536,[[1122,null,null,[1]],[1033,null,null,[1]]]],[44753656],[44753657,[[1033,null,null,[1]]]],[44753658,[[1033,null,null,[1]]]],[44753659,[[1033,null,null,[1]]]]]],[null,[[44755592],[44755593,[[1033,null,null,[1]]]],[44755594,[[1033,null,null,[1]]]],[44755653,[[1033,null,null,[1]]]]]],[50,[[44754331],[44754332,[[1090,null,null,[1]]]]]],[20,[[182982000,[[218,null,null,[1]]],[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]],[182982100,[[217,null,null,[1]]],[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]]],null,null,null,36,8,1],[20,[[182982200,null,[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]],[182982300,null,[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]]],null,null,null,36,8,1],[10,[[182984000,null,[4,null,23,null,null,null,null,["1"]]],[182984100,[[218,null,null,[1]]],[4,null,23,null,null,null,null,["1"]]]],null,null,null,37,10,1],[10,[[182984200,null,[4,null,23,null,null,null,null,["1"]]],[182984300,null,[4,null,23,null,null,null,null,["1"]]]],null,null,null,37,10,1],[10,[[21066428],[21066429]]],[10,[[21066430],[21066431],[21066432],[21066433]],null,null,null,44,22],[10,[[21066434],[21066435]],null,null,null,44,null,500],[null,[[31062369],[31062370,[[380254521,null,null,[1]]]]],null,null,null,56],[50,[[31062422],[31062423,[[381914117,null,null,[1]]]]]],[100,[[31062937],[31062938,[[1095,null,null,[1]]]]]],[1,[[31063331,[[null,1103,null,[null,31063331]],[1121,null,null,[1]]]],[31063332,[[null,1103,null,[null,31063332]],[1121,null,null,[1]],[1120,null,null,[1]]]],[31063333,[[null,1103,null,[null,31063333]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44754313,[[null,1103,null,[null,44754313]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,100]],[1120,null,null,[1]]]],[44754314,[[null,1103,null,[null,44754314]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,500]],[1120,null,null,[1]]]],[44754315,[[null,1103,null,[null,44754315]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,1000]],[1120,null,null,[1]]]],[44755514,[[null,1103,null,[null,44755514]],[null,1114,null,[null,0.9]],[null,1108,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755515,[[null,1103,null,[null,44755515]],[null,1114,null,[null,0.9]],[null,1106,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755516,[[null,1103,null,[null,44755516]],[null,1114,null,[null,0.9]],[null,1107,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755517,[[null,1103,null,[null,44755517]],[null,1114,null,[null,0.9]],[null,1105,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]]]],[10,[[31063693],[31063694,[[null,57,null,[null,30]]]],[31063695,[[null,57,null,[null,60]]]],[31063696,[[null,57,null,[null,90]]]]]],[100,[[31063735],[31063736,[[1053,null,null,[1]]]]]],[50,[[31063737],[31063738,[[1096,null,null,[]]]]]],[1000,[[31063759,[[null,null,14,[null,null,"31063759"]]],[6,null,null,null,6,null,"31063759"]],[31063760,[[null,null,14,[null,null,"31063760"]]],[6,null,null,null,6,null,"31063760"]]],[4,null,55]],[1000,[[31063781,[[null,null,14,[null,null,"31063781"]]],[6,null,null,null,6,null,"31063781"]],[31063782,[[null,null,14,[null,null,"31063782"]]],[6,null,null,null,6,null,"31063782"]]],[4,null,55]],[100,[[31063792],[31063793,[[1125,null,null,[1]]]]]],[1000,[[31063796,[[null,null,14,[null,null,"31063796"]]],[6,null,null,null,6,null,"31063796"]],[31063797,[[null,null,14,[null,null,"31063797"]]],[6,null,null,null,6,null,"31063797"]]],[4,null,55]],[1,[[44736076],[44736077,[[null,1046,null,[null,0.1]]]]]],[null,[[44754319,[[null,1103,null,[null,44754319]]]],[44754320,[[null,1103,null,[null,44754320]],[1120,null,null,[1]]]],[44754321,[[null,1103,null,[null,44754321]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754322,[[null,1103,null,[null,44754322]],[null,1114,null,[null,0.9]],[null,1108,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754323,[[null,1103,null,[null,44754323]],[null,1114,null,[null,0.9]],[null,1106,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754324,[[null,1103,null,[null,44754324]],[null,1114,null,[null,0.9]],[null,1107,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754325,[[null,1103,null,[null,44754325]],[null,1114,null,[null,0.9]],[null,1105,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]]]],[10,[[44755656],[44755657]]],[150,[[31061760],[31061761,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[31062202,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[31063202,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[44753753,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]]],[3,[[4,null,8,null,null,null,null,["gmaSdk.getQueryInfo"]],[4,null,8,null,null,null,null,["webkit.messageHandlers.getGmaQueryInfo.postMessage"]],[4,null,8,null,null,null,null,["webkit.messageHandlers.getGmaSig.postMessage"]]]]],[10,[[31063221],[31063222,[[1954,null,null,[1]]]]]]]],[20,[[50,[[31062930],[31062931,[[380025941,null,null,[1]]]]],null,null,null,null,null,101,null,102]]],[17,[[10,[[31060047]],null,null,null,44,null,900],[10,[[31060048],[31060049]],null,null,null,null,null,null,null,101],[10,[[31060566]]]]],[11,[[500,[[31063741,null,[4,null,8,null,null,null,null,["top.frames.google_ads_top_frame"]]],[31063742,[[null,1044,null,[null,200]]],[4,null,8,null,null,null,null,["top.frames.google_ads_top_frame"]]]]]]],[12,[[1,[[31061828],[31061829,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]],[360245597,null,null,[1]],[null,494,null,[null,5000],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,5500]]]],[null,517,null,[null,1]]]]]],[20,[[21065724],[21065725,[[203,null,null,[1]]]]],[4,null,9,null,null,null,null,["LayoutShift"]]],[50,[[31060006,null,[2,[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[12,null,null,null,4,null,"Chrome/(89|9\\\\d|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]],[31060007,[[1928,null,null,[1]]],[2,[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[12,null,null,null,4,null,"Chrome/(89|9\\\\d|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]]]],[10,[[31060032],[31060033,[[1928,null,null,[1]]]]]],[10,[[31061690],[31061691,[[83,null,null,[1]],[84,null,null,[1]]]]]],[1,[[31063122]],[4,null,61]],[1,[[31063150]],[4,null,63]],[50,[[31063182],[31063183,[[1956,null,null,[1]]]]]],[1,[[31063244],[31063245,[[392736476,null,null,[1]]]]]],[50,[[31063246],[31063247,[[392736476,null,null,[1]],[null,406149835,null,[null,0.01]]]]],[2,[[12,null,null,null,4,null,"Chrome/(9[3456789]|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]],[50,[[44748552],[44748553,[[1948,null,null,[1]]]]]]]],[13,[[1,[[31062554,null,[2,[[6,null,null,3,null,0],[12,null,null,null,4,null,"Chrome/(9[23456789]|\\\\d{3,})",["navigator.userAgent"]]]]],[31062555,[[395842139,null,null,[1]]],[2,[[6,null,null,3,null,0],[12,null,null,null,4,null,"Chrome/(9[23456789]|\\\\d{3,})",["navigator.userAgent"]]]]]]],[1000,[[21067496]],[4,null,9,null,null,null,null,["document.hasTrustToken"]]],[1000,[[31060475,null,[2,[[1,[[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]],[12,null,null,null,4,null,"Android",["navigator.userAgent"]]]]]]],[500,[[31061692],[31061693,[[77,null,null,[1]],[78,null,null,[1]],[85,null,null,[1]],[80,null,null,[1]],[76,null,null,[1]]]]],[4,null,6,null,null,null,null,["31061691"]]],[1,[[31062890],[31062891,[[397841828,null,null,[1]]]]]],[1,[[31062946]],[4,null,27,null,null,null,null,["document.prerendering"]]],[1,[[31062947]],[1,[[4,null,27,null,null,null,null,["document.prerendering"]]]]]]]],null,null,[0.001,"1000",1,"1000"]],[],null,null,null,null,706409994]'
+));
+var e = a ? fc(cl, a, c) : fc(dl, b, d, c);
+var f = fc(el, b, d);
+return {
+    nb: e,
+    mb: a ? fc(fl, a, c) : fc(gl, b, d, c),
+    kb: a ? fc(hl, a, c) : fc(il, b, d, c),
+    lb: a ? fc(jl, a, c) : fc(kl, b, d, c),
+    rb: f,
+    qb: /^(?:https?:)?\/\/(?:pagead2\.googlesyndication\.com|securepubads\.g\.doubleclick\.net)\/pagead\/(?:js\/)?(?:show_ads|adsbygoogle)\.js(?:[?#].*)?$/
+};
+});
+}.call(
+this,
+'[2019,"r20211111","r20190131",null,[],null,null,null,null,null,[],[[[1082,null,null,[1]],[null,62,null,[null,0.001]],[383,null,null,[1]],[null,1126,null,[null,5000]],[null,1010,null,[null,1]],[null,1114,null,[null,1]],[null,1116,null,[null,300]],[null,1117,null,[null,100]],[null,1115,null,[null,1]],[null,1017,null,[null,-1]],[1021,null,null,[1]],[null,66,null,[null,-1]],[null,65,null,[null,-1]],[1064,null,null,[1]],[null,1041,null,[null,50]],[1042,null,null,[1]],[1040,null,null,[1]],[1096,null,null,[1]],[1089,null,null,[1]],[1097,null,null,[1]],[1100,null,null,[1]],[1109,null,null,[1]],[1102,null,null,[1]],[205,null,null,[1]],[null,29,null,[null,2]],[null,30,null,[null,3]],[null,1056,null,[null,3000]],[null,1057,null,[null,650]],[1101,null,null,[1]],[1036,null,null,[1]],[1051,null,null,[1]],[325,null,null,[1]],[1007,null,null,[1]],[null,1008,null,[null,2]],[null,1085,null,[null,5]],[null,63,null,[null,30]],[null,1080,null,[null,5]],[1055,null,null,[1]],[1054,null,null,[1]],[null,1027,null,[null,10]],[null,57,null,[null,120]],[null,1079,null,[null,5]],[null,1050,null,[null,30]],[null,58,null,[null,120]],[null,64,null,[null,300]],[1118,null,null,[1]],[230,null,null,[1]],[1124,null,null,[1]],[null,null,null,[null,null,null,["A8FHS1NmdCwGqD9DwOicnHHY+y27kdWfxKa0YHSGDfv0CSpDKRHTQdQmZVPDUdaFWUsxdgVxlwAd6o+dhJykPA0AAACWeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9","A8zdXi6dr1hwXEUjQrYiyYQGlU3557y5QWDnN0Lwgj9ePt66XMEvNkVWOEOWPd7TP9sBQ25X0Q15Lr1Nn4oGFQkAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9","A4/Htern2udN9w3yJK9QgWQxQFruxOXsXL7cW60DyCl0EZFGCSme/J33Q/WzF7bBkVvhEWDlcBiUyZaim5CpFQwAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9"]],null,1934],[1903,null,null,[1]],[1953,null,null,[1]],[1938,null,null,[1]],[null,1929,null,[null,50]],[1956,null,null,[1]],[379841917,null,null,[1]],[null,null,null,[null,null,null,["AxujKG9INjsZ8/gUq8+dTruNvk7RjZQ1oFhhgQbcTJKDnZfbzSTE81wvC2Hzaf3TW4avA76LTZEMdiedF1vIbA4AAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=","Azuce85ORtSnWe1MZDTv68qpaW3iHyfL9YbLRy0cwcCZwVnePnOmkUJlG8HGikmOwhZU22dElCcfrfX2HhrBPAkAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","A16nvcdeoOAqrJcmjLRpl1I6f3McDD8EfofAYTt/P/H4/AWwB99nxiPp6kA0fXoiZav908Z8etuL16laFPUdfQsAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","AxBHdr0J44vFBQtZUqX9sjiqf5yWZ/OcHRcRMN3H9TH+t90V/j3ENW6C8+igBZFXMJ7G3Pr8Dd13632aLng42wgAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","A88BWHFjcawUfKU3lIejLoryXoyjooBXLgWmGh+hNcqMK44cugvsI5YZbNarYvi3roc1fYbHA1AVbhAtuHZflgEAAAB2eyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IlRydXN0VG9rZW5zIiwiZXhwaXJ5IjoxNjUyNzc0NDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="]],null,1932],[null,397907552,null,[null,500]],[396382471,null,null,[1]],[393546021,null,null,[1]]],[[10,[[1,[[21066108],[21066109,[[316,null,null,[1]]]]],null,null,null,34,18,1],[1,[[21066110],[21066111,[[316,null,null,[1]]]]],null,null,null,34,18,1],[1,[[42530528],[42530529,[[368,null,null,[1]]]],[42530530,[[369,null,null,[1]],[368,null,null,[1]]]]]],[1,[[42530887,[[290,null,null,[1]]]],[42530888,[[290,null,null,[1]]]],[42530889,[[290,null,null,[1]]]],[42530890,[[290,null,null,[1]]]],[42530891,[[290,null,null,[1]]]],[42530892,[[290,null,null,[1]]]],[42530893,[[290,null,null,[1]]]]],null,null,null,53],[1,[[44719338],[44719339,[[334,null,null,[1]],[null,54,null,[null,100]],[null,66,null,[null,10]],[null,65,null,[null,1000]]]]]],[10,[[44750773],[44750774,[[1087,null,null,[1]]]]],null,null,null,57],[10,[[44753738,[[290,null,null,[]]]],[44753739,[[null,1072,null,[null,0.5]],[290,null,null,[]]]],[44753740,[[null,1072,null,[null,0.75]],[290,null,null,[]]]],[44753741,[[null,1072,null,[null,0.9]],[290,null,null,[]]]],[44753742,[[null,1072,null,[null,1]],[290,null,null,[]]]],[44753743,[[null,1072,null,[null,1.01]],[290,null,null,[]]]]],null,null,null,53,null,200],[10,[[44752536,[[1122,null,null,[1]],[1033,null,null,[1]]]],[44753656],[44753657,[[1033,null,null,[1]]]],[44753658,[[1033,null,null,[1]]]],[44753659,[[1033,null,null,[1]]]]]],[null,[[44755592],[44755593,[[1033,null,null,[1]]]],[44755594,[[1033,null,null,[1]]]],[44755653,[[1033,null,null,[1]]]]]],[50,[[44754331],[44754332,[[1090,null,null,[1]]]]]],[20,[[182982000,[[218,null,null,[1]]],[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]],[182982100,[[217,null,null,[1]]],[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]]],null,null,null,36,8,1],[20,[[182982200,null,[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]],[182982300,null,[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]]],null,null,null,36,8,1],[10,[[182984000,null,[4,null,23,null,null,null,null,["1"]]],[182984100,[[218,null,null,[1]]],[4,null,23,null,null,null,null,["1"]]]],null,null,null,37,10,1],[10,[[182984200,null,[4,null,23,null,null,null,null,["1"]]],[182984300,null,[4,null,23,null,null,null,null,["1"]]]],null,null,null,37,10,1],[10,[[21066428],[21066429]]],[10,[[21066430],[21066431],[21066432],[21066433]],null,null,null,44,22],[10,[[21066434],[21066435]],null,null,null,44,null,500],[null,[[31062369],[31062370,[[380254521,null,null,[1]]]]],null,null,null,56],[50,[[31062422],[31062423,[[381914117,null,null,[1]]]]]],[100,[[31062937],[31062938,[[1095,null,null,[1]]]]]],[1,[[31063331,[[null,1103,null,[null,31063331]],[1121,null,null,[1]]]],[31063332,[[null,1103,null,[null,31063332]],[1121,null,null,[1]],[1120,null,null,[1]]]],[31063333,[[null,1103,null,[null,31063333]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44754313,[[null,1103,null,[null,44754313]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,100]],[1120,null,null,[1]]]],[44754314,[[null,1103,null,[null,44754314]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,500]],[1120,null,null,[1]]]],[44754315,[[null,1103,null,[null,44754315]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,1000]],[1120,null,null,[1]]]],[44755514,[[null,1103,null,[null,44755514]],[null,1114,null,[null,0.9]],[null,1108,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755515,[[null,1103,null,[null,44755515]],[null,1114,null,[null,0.9]],[null,1106,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755516,[[null,1103,null,[null,44755516]],[null,1114,null,[null,0.9]],[null,1107,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755517,[[null,1103,null,[null,44755517]],[null,1114,null,[null,0.9]],[null,1105,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]]]],[10,[[31063693],[31063694,[[null,57,null,[null,30]]]],[31063695,[[null,57,null,[null,60]]]],[31063696,[[null,57,null,[null,90]]]]]],[100,[[31063735],[31063736,[[1053,null,null,[1]]]]]],[50,[[31063737],[31063738,[[1096,null,null,[]]]]]],[1000,[[31063759,[[null,null,14,[null,null,"31063759"]]],[6,null,null,null,6,null,"31063759"]],[31063760,[[null,null,14,[null,null,"31063760"]]],[6,null,null,null,6,null,"31063760"]]],[4,null,55]],[1000,[[31063781,[[null,null,14,[null,null,"31063781"]]],[6,null,null,null,6,null,"31063781"]],[31063782,[[null,null,14,[null,null,"31063782"]]],[6,null,null,null,6,null,"31063782"]]],[4,null,55]],[100,[[31063792],[31063793,[[1125,null,null,[1]]]]]],[1000,[[31063796,[[null,null,14,[null,null,"31063796"]]],[6,null,null,null,6,null,"31063796"]],[31063797,[[null,null,14,[null,null,"31063797"]]],[6,null,null,null,6,null,"31063797"]]],[4,null,55]],[1,[[44736076],[44736077,[[null,1046,null,[null,0.1]]]]]],[null,[[44754319,[[null,1103,null,[null,44754319]]]],[44754320,[[null,1103,null,[null,44754320]],[1120,null,null,[1]]]],[44754321,[[null,1103,null,[null,44754321]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754322,[[null,1103,null,[null,44754322]],[null,1114,null,[null,0.9]],[null,1108,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754323,[[null,1103,null,[null,44754323]],[null,1114,null,[null,0.9]],[null,1106,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754324,[[null,1103,null,[null,44754324]],[null,1114,null,[null,0.9]],[null,1107,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754325,[[null,1103,null,[null,44754325]],[null,1114,null,[null,0.9]],[null,1105,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]]]],[10,[[44755656],[44755657]]],[150,[[31061760],[31061761,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[31062202,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[31063202,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[44753753,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]]],[3,[[4,null,8,null,null,null,null,["gmaSdk.getQueryInfo"]],[4,null,8,null,null,null,null,["webkit.messageHandlers.getGmaQueryInfo.postMessage"]],[4,null,8,null,null,null,null,["webkit.messageHandlers.getGmaSig.postMessage"]]]]],[10,[[31063221],[31063222,[[1954,null,null,[1]]]]]]]],[20,[[50,[[31062930],[31062931,[[380025941,null,null,[1]]]]],null,null,null,null,null,101,null,102]]],[17,[[10,[[31060047]],null,null,null,44,null,900],[10,[[31060048],[31060049]],null,null,null,null,null,null,null,101],[10,[[31060566]]]]],[11,[[500,[[31063741,null,[4,null,8,null,null,null,null,["top.frames.google_ads_top_frame"]]],[31063742,[[null,1044,null,[null,200]]],[4,null,8,null,null,null,null,["top.frames.google_ads_top_frame"]]]]]]],[12,[[1,[[31061828],[31061829,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]],[360245597,null,null,[1]],[null,494,null,[null,5000],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,5500]]]],[null,517,null,[null,1]]]]]],[20,[[21065724],[21065725,[[203,null,null,[1]]]]],[4,null,9,null,null,null,null,["LayoutShift"]]],[50,[[31060006,null,[2,[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[12,null,null,null,4,null,"Chrome/(89|9\\\\d|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]],[31060007,[[1928,null,null,[1]]],[2,[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[12,null,null,null,4,null,"Chrome/(89|9\\\\d|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]]]],[10,[[31060032],[31060033,[[1928,null,null,[1]]]]]],[10,[[31061690],[31061691,[[83,null,null,[1]],[84,null,null,[1]]]]]],[1,[[31063122]],[4,null,61]],[1,[[31063150]],[4,null,63]],[50,[[31063182],[31063183,[[1956,null,null,[1]]]]]],[1,[[31063244],[31063245,[[392736476,null,null,[1]]]]]],[50,[[31063246],[31063247,[[392736476,null,null,[1]],[null,406149835,null,[null,0.01]]]]],[2,[[12,null,null,null,4,null,"Chrome/(9[3456789]|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]],[50,[[44748552],[44748553,[[1948,null,null,[1]]]]]]]],[13,[[1,[[31062554,null,[2,[[6,null,null,3,null,0],[12,null,null,null,4,null,"Chrome/(9[23456789]|\\\\d{3,})",["navigator.userAgent"]]]]],[31062555,[[395842139,null,null,[1]]],[2,[[6,null,null,3,null,0],[12,null,null,null,4,null,"Chrome/(9[23456789]|\\\\d{3,})",["navigator.userAgent"]]]]]]],[1000,[[21067496]],[4,null,9,null,null,null,null,["document.hasTrustToken"]]],[1000,[[31060475,null,[2,[[1,[[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]],[12,null,null,null,4,null,"Android",["navigator.userAgent"]]]]]]],[500,[[31061692],[31061693,[[77,null,null,[1]],[78,null,null,[1]],[85,null,null,[1]],[80,null,null,[1]],[76,null,null,[1]]]]],[4,null,6,null,null,null,null,["31061691"]]],[1,[[31062890],[31062891,[[397841828,null,null,[1]]]]]],[1,[[31062946]],[4,null,27,null,null,null,null,["document.prerendering"]]],[1,[[31062947]],[1,[[4,null,27,null,null,null,null,["document.prerendering"]]]]]]]],null,null,[0.001,"1000",1,"1000"]],[],null,null,null,null,706409994]'
+));
+b = Eb(b, 2);
+var e = a ? fc(cl, a, c) : fc(dl, b, d, c);
+var f = fc(el, b, d);
+return {
+    nb: e,
+    mb: a ? fc(fl, a, c) : fc(gl, b, d, c),
+    kb: a ? fc(hl, a, c) : fc(il, b, d, c),
+    lb: a ? fc(jl, a, c) : fc(kl, b, d, c),
+    rb: f,
+    qb: /^(?:https?:)?\/\/(?:pagead2\.googlesyndication\.com|securepubads\.g\.doubleclick\.net)\/pagead\/(?:js\/)?(?:show_ads|adsbygoogle)\.js(?:[?#].*)?$/
+};
+});
+}.call(
+this,
+'[2019,"r20211111","r20190131",null,[],null,null,null,null,null,[],[[[1082,null,null,[1]],[null,62,null,[null,0.001]],[383,null,null,[1]],[null,1126,null,[null,5000]],[null,1010,null,[null,1]],[null,1114,null,[null,1]],[null,1116,null,[null,300]],[null,1117,null,[null,100]],[null,1115,null,[null,1]],[null,1017,null,[null,-1]],[1021,null,null,[1]],[null,66,null,[null,-1]],[null,65,null,[null,-1]],[1064,null,null,[1]],[null,1041,null,[null,50]],[1042,null,null,[1]],[1040,null,null,[1]],[1096,null,null,[1]],[1089,null,null,[1]],[1097,null,null,[1]],[1100,null,null,[1]],[1109,null,null,[1]],[1102,null,null,[1]],[205,null,null,[1]],[null,29,null,[null,2]],[null,30,null,[null,3]],[null,1056,null,[null,3000]],[null,1057,null,[null,650]],[1101,null,null,[1]],[1036,null,null,[1]],[1051,null,null,[1]],[325,null,null,[1]],[1007,null,null,[1]],[null,1008,null,[null,2]],[null,1085,null,[null,5]],[null,63,null,[null,30]],[null,1080,null,[null,5]],[1055,null,null,[1]],[1054,null,null,[1]],[null,1027,null,[null,10]],[null,57,null,[null,120]],[null,1079,null,[null,5]],[null,1050,null,[null,30]],[null,58,null,[null,120]],[null,64,null,[null,300]],[1118,null,null,[1]],[230,null,null,[1]],[1124,null,null,[1]],[null,null,null,[null,null,null,["A8FHS1NmdCwGqD9DwOicnHHY+y27kdWfxKa0YHSGDfv0CSpDKRHTQdQmZVPDUdaFWUsxdgVxlwAd6o+dhJykPA0AAACWeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9","A8zdXi6dr1hwXEUjQrYiyYQGlU3557y5QWDnN0Lwgj9ePt66XMEvNkVWOEOWPd7TP9sBQ25X0Q15Lr1Nn4oGFQkAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9","A4/Htern2udN9w3yJK9QgWQxQFruxOXsXL7cW60DyCl0EZFGCSme/J33Q/WzF7bBkVvhEWDlcBiUyZaim5CpFQwAAACceyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjQzMTU1MTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlLCJ1c2FnZSI6InN1YnNldCJ9"]],null,1934],[1903,null,null,[1]],[1953,null,null,[1]],[1938,null,null,[1]],[null,1929,null,[null,50]],[1956,null,null,[1]],[379841917,null,null,[1]],[null,null,null,[null,null,null,["AxujKG9INjsZ8/gUq8+dTruNvk7RjZQ1oFhhgQbcTJKDnZfbzSTE81wvC2Hzaf3TW4avA76LTZEMdiedF1vIbA4AAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzVGhpcmRQYXJ0eSI6dHJ1ZX0=","Azuce85ORtSnWe1MZDTv68qpaW3iHyfL9YbLRy0cwcCZwVnePnOmkUJlG8HGikmOwhZU22dElCcfrfX2HhrBPAkAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","A16nvcdeoOAqrJcmjLRpl1I6f3McDD8EfofAYTt/P/H4/AWwB99nxiPp6kA0fXoiZav908Z8etuL16laFPUdfQsAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","AxBHdr0J44vFBQtZUqX9sjiqf5yWZ/OcHRcRMN3H9TH+t90V/j3ENW6C8+igBZFXMJ7G3Pr8Dd13632aLng42wgAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2NTI3NzQ0MDAsImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9","A88BWHFjcawUfKU3lIejLoryXoyjooBXLgWmGh+hNcqMK44cugvsI5YZbNarYvi3roc1fYbHA1AVbhAtuHZflgEAAAB2eyJvcmlnaW4iOiJodHRwczovL2dvb2dsZS5jb206NDQzIiwiZmVhdHVyZSI6IlRydXN0VG9rZW5zIiwiZXhwaXJ5IjoxNjUyNzc0NDAwLCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="]],null,1932],[null,397907552,null,[null,500]],[396382471,null,null,[1]],[393546021,null,null,[1]]],[[10,[[1,[[21066108],[21066109,[[316,null,null,[1]]]]],null,null,null,34,18,1],[1,[[21066110],[21066111,[[316,null,null,[1]]]]],null,null,null,34,18,1],[1,[[42530528],[42530529,[[368,null,null,[1]]]],[42530530,[[369,null,null,[1]],[368,null,null,[1]]]]]],[1,[[42530887,[[290,null,null,[1]]]],[42530888,[[290,null,null,[1]]]],[42530889,[[290,null,null,[1]]]],[42530890,[[290,null,null,[1]]]],[42530891,[[290,null,null,[1]]]],[42530892,[[290,null,null,[1]]]],[42530893,[[290,null,null,[1]]]]],null,null,null,53],[1,[[44719338],[44719339,[[334,null,null,[1]],[null,54,null,[null,100]],[null,66,null,[null,10]],[null,65,null,[null,1000]]]]]],[10,[[44750773],[44750774,[[1087,null,null,[1]]]]],null,null,null,57],[10,[[44753738,[[290,null,null,[]]]],[44753739,[[null,1072,null,[null,0.5]],[290,null,null,[]]]],[44753740,[[null,1072,null,[null,0.75]],[290,null,null,[]]]],[44753741,[[null,1072,null,[null,0.9]],[290,null,null,[]]]],[44753742,[[null,1072,null,[null,1]],[290,null,null,[]]]],[44753743,[[null,1072,null,[null,1.01]],[290,null,null,[]]]]],null,null,null,53,null,200],[10,[[44752536,[[1122,null,null,[1]],[1033,null,null,[1]]]],[44753656],[44753657,[[1033,null,null,[1]]]],[44753658,[[1033,null,null,[1]]]],[44753659,[[1033,null,null,[1]]]]]],[null,[[44755592],[44755593,[[1033,null,null,[1]]]],[44755594,[[1033,null,null,[1]]]],[44755653,[[1033,null,null,[1]]]]]],[50,[[44754331],[44754332,[[1090,null,null,[1]]]]]],[20,[[182982000,[[218,null,null,[1]]],[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]],[182982100,[[217,null,null,[1]]],[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]]],null,null,null,36,8,1],[20,[[182982200,null,[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]],[182982300,null,[1,[[12,null,null,null,2,null,"\\\\.wiki(dogs|how)(-fun)?\\\\."]]]]],null,null,null,36,8,1],[10,[[182984000,null,[4,null,23,null,null,null,null,["1"]]],[182984100,[[218,null,null,[1]]],[4,null,23,null,null,null,null,["1"]]]],null,null,null,37,10,1],[10,[[182984200,null,[4,null,23,null,null,null,null,["1"]]],[182984300,null,[4,null,23,null,null,null,null,["1"]]]],null,null,null,37,10,1],[10,[[21066428],[21066429]]],[10,[[21066430],[21066431],[21066432],[21066433]],null,null,null,44,22],[10,[[21066434],[21066435]],null,null,null,44,null,500],[null,[[31062369],[31062370,[[380254521,null,null,[1]]]]],null,null,null,56],[50,[[31062422],[31062423,[[381914117,null,null,[1]]]]]],[100,[[31062937],[31062938,[[1095,null,null,[1]]]]]],[1,[[31063331,[[null,1103,null,[null,31063331]],[1121,null,null,[1]]]],[31063332,[[null,1103,null,[null,31063332]],[1121,null,null,[1]],[1120,null,null,[1]]]],[31063333,[[null,1103,null,[null,31063333]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44754313,[[null,1103,null,[null,44754313]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,100]],[1120,null,null,[1]]]],[44754314,[[null,1103,null,[null,44754314]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,500]],[1120,null,null,[1]]]],[44754315,[[null,1103,null,[null,44754315]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[null,1119,null,[null,1000]],[1120,null,null,[1]]]],[44755514,[[null,1103,null,[null,44755514]],[null,1114,null,[null,0.9]],[null,1108,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755515,[[null,1103,null,[null,44755515]],[null,1114,null,[null,0.9]],[null,1106,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755516,[[null,1103,null,[null,44755516]],[null,1114,null,[null,0.9]],[null,1107,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]],[44755517,[[null,1103,null,[null,44755517]],[null,1114,null,[null,0.9]],[null,1105,null,[null,10]],[null,1115,null,[null,0.8]],[1121,null,null,[1]],[1120,null,null,[1]]]]]],[10,[[31063693],[31063694,[[null,57,null,[null,30]]]],[31063695,[[null,57,null,[null,60]]]],[31063696,[[null,57,null,[null,90]]]]]],[100,[[31063735],[31063736,[[1053,null,null,[1]]]]]],[50,[[31063737],[31063738,[[1096,null,null,[]]]]]],[1000,[[31063759,[[null,null,14,[null,null,"31063759"]]],[6,null,null,null,6,null,"31063759"]],[31063760,[[null,null,14,[null,null,"31063760"]]],[6,null,null,null,6,null,"31063760"]]],[4,null,55]],[1000,[[31063781,[[null,null,14,[null,null,"31063781"]]],[6,null,null,null,6,null,"31063781"]],[31063782,[[null,null,14,[null,null,"31063782"]]],[6,null,null,null,6,null,"31063782"]]],[4,null,55]],[100,[[31063792],[31063793,[[1125,null,null,[1]]]]]],[1000,[[31063796,[[null,null,14,[null,null,"31063796"]]],[6,null,null,null,6,null,"31063796"]],[31063797,[[null,null,14,[null,null,"31063797"]]],[6,null,null,null,6,null,"31063797"]]],[4,null,55]],[1,[[44736076],[44736077,[[null,1046,null,[null,0.1]]]]]],[null,[[44754319,[[null,1103,null,[null,44754319]]]],[44754320,[[null,1103,null,[null,44754320]],[1120,null,null,[1]]]],[44754321,[[null,1103,null,[null,44754321]],[null,1114,null,[null,0.9]],[null,1104,null,[null,100]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754322,[[null,1103,null,[null,44754322]],[null,1114,null,[null,0.9]],[null,1108,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754323,[[null,1103,null,[null,44754323]],[null,1114,null,[null,0.9]],[null,1106,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754324,[[null,1103,null,[null,44754324]],[null,1114,null,[null,0.9]],[null,1107,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]],[44754325,[[null,1103,null,[null,44754325]],[null,1114,null,[null,0.9]],[null,1105,null,[null,10]],[null,1115,null,[null,0.8]],[1120,null,null,[1]]]]]],[10,[[44755656],[44755657]]],[150,[[31061760],[31061761,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[31062202,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[31063202,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]],[44753753,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]]]]],[3,[[4,null,8,null,null,null,null,["gmaSdk.getQueryInfo"]],[4,null,8,null,null,null,null,["webkit.messageHandlers.getGmaQueryInfo.postMessage"]],[4,null,8,null,null,null,null,["webkit.messageHandlers.getGmaSig.postMessage"]]]]],[10,[[31063221],[31063222,[[1954,null,null,[1]]]]]]]],[20,[[50,[[31062930],[31062931,[[380025941,null,null,[1]]]]],null,null,null,null,null,101,null,102]]],[17,[[10,[[31060047]],null,null,null,44,null,900],[10,[[31060048],[31060049]],null,null,null,null,null,null,null,101],[10,[[31060566]]]]],[11,[[500,[[31063741,null,[4,null,8,null,null,null,null,["top.frames.google_ads_top_frame"]]],[31063742,[[null,1044,null,[null,200]]],[4,null,8,null,null,null,null,["top.frames.google_ads_top_frame"]]]]]]],[12,[[1,[[31061828],[31061829,[[null,1032,null,[null,200],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,500]]]],[360245597,null,null,[1]],[null,494,null,[null,5000],[[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[null,5500]]]],[null,517,null,[null,1]]]]]],[20,[[21065724],[21065725,[[203,null,null,[1]]]]],[4,null,9,null,null,null,null,["LayoutShift"]]],[50,[[31060006,null,[2,[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[12,null,null,null,4,null,"Chrome/(89|9\\\\d|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]],[31060007,[[1928,null,null,[1]]],[2,[[12,null,null,null,4,null,"Android",["navigator.userAgent"]],[12,null,null,null,4,null,"Chrome/(89|9\\\\d|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]]]],[10,[[31060032],[31060033,[[1928,null,null,[1]]]]]],[10,[[31061690],[31061691,[[83,null,null,[1]],[84,null,null,[1]]]]]],[1,[[31063122]],[4,null,61]],[1,[[31063150]],[4,null,63]],[50,[[31063182],[31063183,[[1956,null,null,[1]]]]]],[1,[[31063244],[31063245,[[392736476,null,null,[1]]]]]],[50,[[31063246],[31063247,[[392736476,null,null,[1]],[null,406149835,null,[null,0.01]]]]],[2,[[12,null,null,null,4,null,"Chrome/(9[3456789]|\\\\d{3,})",["navigator.userAgent"]],[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]]],[50,[[44748552],[44748553,[[1948,null,null,[1]]]]]]]],[13,[[1,[[31062554,null,[2,[[6,null,null,3,null,0],[12,null,null,null,4,null,"Chrome/(9[23456789]|\\\\d{3,})",["navigator.userAgent"]]]]],[31062555,[[395842139,null,null,[1]]],[2,[[6,null,null,3,null,0],[12,null,null,null,4,null,"Chrome/(9[23456789]|\\\\d{3,})",["navigator.userAgent"]]]]]]],[1000,[[21067496]],[4,null,9,null,null,null,null,["document.hasTrustToken"]]],[1000,[[31060475,null,[2,[[1,[[4,null,9,null,null,null,null,["window.PeriodicSyncManager"]]]],[12,null,null,null,4,null,"Android",["navigator.userAgent"]]]]]]],[500,[[31061692],[31061693,[[77,null,null,[1]],[78,null,null,[1]],[85,null,null,[1]],[80,null,null,[1]],[76,null,null,[1]]]]],[4,null,6,null,null,null,null,["31061691"]]],[1,[[31062890],[31062891,[[397841828,null,null,[1]]]]]],[1,[[31062946]],[4,null,27,null,null,null,null,["document.prerendering"]]],[1,[[31062947]],[1,[[4,null,27,null,null,null,null,["document.prerendering"]]]]]]]],null,null,[0.001,"1000",1,"1000"]],[],null,null,null,null,706409994]'
+));

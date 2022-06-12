@@ -10189,4 +10189,13851 @@
                                               var n = ur(e, t);
                                               if (n && !ba(e, t) && !xn(e.display, t)) {
                                                   be(t);
-                                          
+                                                  var r = e.findWordAt(n);
+                                                  Ki(e.doc, r.anchor, r.head);
+                                              }
+                                          }
+                                      })
+                                    : function (t) {
+                                          return me(e, t) || be(t);
+                                      }
+                            ),
+                            de(t.scroller, 'contextmenu', function (t) {
+                                return _a(e, t);
+                            }),
+                            de(t.input.getField(), 'contextmenu', function (n) {
+                                t.scroller.contains(n.target) || _a(e, n);
+                            });
+                        var n,
+                            r = { end: 0 };
+                        function i() {
+                            t.activeTouch &&
+                                ((n = setTimeout(function () {
+                                    return (t.activeTouch = null);
+                                }, 1e3)),
+                                ((r = t.activeTouch).end = +new Date()));
+                        }
+                        function o(e, t) {
+                            if (null == t.left) return !0;
+                            var n = t.left - e.left,
+                                r = t.top - e.top;
+                            return n * n + r * r > 400;
+                        }
+                        de(t.scroller, 'touchstart', function (i) {
+                            if (
+                                !me(e, i) &&
+                                !(function (e) {
+                                    if (1 != e.touches.length) return !1;
+                                    var t = e.touches[0];
+                                    return t.radiusX <= 1 && t.radiusY <= 1;
+                                })(i) &&
+                                !ba(e, i)
+                            ) {
+                                t.input.ensurePolled(), clearTimeout(n);
+                                var o = +new Date();
+                                (t.activeTouch = {
+                                    start: o,
+                                    moved: !1,
+                                    prev: o - r.end <= 300 ? r : null
+                                }),
+                                    1 == i.touches.length && ((t.activeTouch.left = i.touches[0].pageX), (t.activeTouch.top = i.touches[0].pageY));
+                            }
+                        }),
+                            de(t.scroller, 'touchmove', function () {
+                                t.activeTouch && (t.activeTouch.moved = !0);
+                            }),
+                            de(t.scroller, 'touchend', function (n) {
+                                var r = t.activeTouch;
+                                if (r && !xn(t, n) && null != r.left && !r.moved && new Date() - r.start < 300) {
+                                    var a,
+                                        s = e.coordsChar(t.activeTouch, 'page');
+                                    (a =
+                                        !r.prev || o(r, r.prev)
+                                            ? new ki(s, s)
+                                            : !r.prev.prev || o(r, r.prev.prev)
+                                            ? e.findWordAt(s)
+                                            : new ki(et(s.line, 0), st(e.doc, et(s.line + 1, 0)))),
+                                        e.setSelection(a.anchor, a.head),
+                                        e.focus(),
+                                        be(n);
+                                }
+                                i();
+                            }),
+                            de(t.scroller, 'touchcancel', i),
+                            de(t.scroller, 'scroll', function () {
+                                t.scroller.clientHeight && (Lr(e, t.scroller.scrollTop), Nr(e, t.scroller.scrollLeft, !0), he(e, 'scroll', e));
+                            }),
+                            de(t.scroller, 'mousewheel', function (t) {
+                                return wi(e, t);
+                            }),
+                            de(t.scroller, 'DOMMouseScroll', function (t) {
+                                return wi(e, t);
+                            }),
+                            de(t.wrapper, 'scroll', function () {
+                                return (t.wrapper.scrollTop = t.wrapper.scrollLeft = 0);
+                            }),
+                            (t.dragFunctions = {
+                                enter: function (t) {
+                                    me(e, t) || xe(t);
+                                },
+                                over: function (t) {
+                                    me(e, t) ||
+                                        ((function (e, t) {
+                                            var n = ur(e, t);
+                                            if (n) {
+                                                var r = document.createDocumentFragment();
+                                                yr(e, n, r),
+                                                    e.display.dragCursor ||
+                                                        ((e.display.dragCursor = A('div', null, 'CodeMirror-cursors CodeMirror-dragcursors')),
+                                                        e.display.lineSpace.insertBefore(e.display.dragCursor, e.display.cursorDiv)),
+                                                    T(e.display.dragCursor, r);
+                                            }
+                                        })(e, t),
+                                        xe(t));
+                                },
+                                start: function (t) {
+                                    return (function (e, t) {
+                                        if (a && (!e.state.draggingText || +new Date() - Mo < 100)) xe(t);
+                                        else if (
+                                            !me(e, t) &&
+                                            !xn(e.display, t) &&
+                                            (t.dataTransfer.setData('Text', e.getSelection()),
+                                            (t.dataTransfer.effectAllowed = 'copyMove'),
+                                            t.dataTransfer.setDragImage && !f)
+                                        ) {
+                                            var n = A('img', null, null, 'position: fixed; left: 0; top: 0;');
+                                            (n.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='),
+                                                d && ((n.width = n.height = 1), e.display.wrapper.appendChild(n), (n._top = n.offsetTop)),
+                                                t.dataTransfer.setDragImage(n, 0, 0),
+                                                d && n.parentNode.removeChild(n);
+                                        }
+                                    })(e, t);
+                                },
+                                drop: ei(e, Io),
+                                leave: function (t) {
+                                    me(e, t) || jo(e);
+                                }
+                            });
+                        var l = t.input.getField();
+                        de(l, 'keyup', function (t) {
+                            return da.call(e, t);
+                        }),
+                            de(l, 'keydown', ei(e, ca)),
+                            de(l, 'keypress', ei(e, fa)),
+                            de(l, 'focus', function (t) {
+                                return Er(e, t);
+                            }),
+                            de(l, 'blur', function (t) {
+                                return Sr(e, t);
+                            });
+                    })(this),
+                    No(),
+                    $r(this),
+                    (this.curOp.forceUpdate = !0),
+                    Li(this, r),
+                    (t.autofocus && !v) || this.hasFocus()
+                        ? setTimeout(function () {
+                              n.hasFocus() && !n.state.focused && Er(n);
+                          }, 20)
+                        : Sr(this),
+                    Ea))
+                        Ea.hasOwnProperty(u) && Ea[u](this, t[u], xa);
+                    fi(this), t.finishInit && t.finishInit(this);
+                    for (var c = 0; c < Ta.length; ++c) Ta[c](this);
+                    Vr(this),
+                        l && t.lineWrapping && 'optimizelegibility' == getComputedStyle(o.lineDiv).textRendering && (o.lineDiv.style.textRendering = 'auto');
+                }
+                (Ca.defaults = ka), (Ca.optionHandlers = Ea);
+                var Ta = [];
+                function Aa(e, t, n, r) {
+                    var i,
+                        o = e.doc;
+                    null == n && (n = 'add'), 'smart' == n && (o.mode.indent ? (i = pt(e, t).state) : (n = 'prev'));
+                    var a = e.options.tabSize,
+                        s = $e(o, t),
+                        l = F(s.text, null, a);
+                    s.stateAfter && (s.stateAfter = null);
+                    var u,
+                        c = s.text.match(/^\s*/)[0];
+                    if (r || /\S/.test(s.text)) {
+                        if ('smart' == n && ((u = o.mode.indent(i, s.text.slice(c.length), s.text)) == U || u > 150)) {
+                            if (!r) return;
+                            n = 'prev';
+                        }
+                    } else (u = 0), (n = 'not');
+                    'prev' == n
+                        ? (u = t > o.first ? F($e(o, t - 1).text, null, a) : 0)
+                        : 'add' == n
+                        ? (u = l + e.options.indentUnit)
+                        : 'subtract' == n
+                        ? (u = l - e.options.indentUnit)
+                        : 'number' == typeof n && (u = l + n),
+                        (u = Math.max(0, u));
+                    var d = '',
+                        f = 0;
+                    if (e.options.indentWithTabs) for (var p = Math.floor(u / a); p; --p) (f += a), (d += '\t');
+                    if ((f < u && (d += V(u - f)), d != c)) return mo(o, d, et(t, 0), et(t, c.length), '+input'), (s.stateAfter = null), !0;
+                    for (var h = 0; h < o.sel.ranges.length; h++) {
+                        var m = o.sel.ranges[h];
+                        if (m.head.line == t && m.head.ch < c.length) {
+                            var g = et(t, c.length);
+                            Qi(o, h, new ki(g, g));
+                            break;
+                        }
+                    }
+                }
+                Ca.defineInitHook = function (e) {
+                    return Ta.push(e);
+                };
+                var Pa = null;
+                function Ra(e) {
+                    Pa = e;
+                }
+                function Ma(e, t, n, r, i) {
+                    var o = e.doc;
+                    (e.display.shift = !1), r || (r = o.sel);
+                    var a = +new Date() - 200,
+                        s = 'paste' == i || e.state.pasteIncoming > a,
+                        l = Re(t),
+                        u = null;
+                    if (s && r.ranges.length > 1)
+                        if (Pa && Pa.text.join('\n') == t) {
+                            if (r.ranges.length % Pa.text.length == 0) {
+                                u = [];
+                                for (var c = 0; c < Pa.text.length; c++) u.push(o.splitLines(Pa.text[c]));
+                            }
+                        } else
+                            l.length == r.ranges.length &&
+                                e.options.pasteLinesPerSelection &&
+                                (u = Y(l, function (e) {
+                                    return [e];
+                                }));
+                    for (var d = e.curOp.updateInput, f = r.ranges.length - 1; f >= 0; f--) {
+                        var p = r.ranges[f],
+                            h = p.from(),
+                            m = p.to();
+                        p.empty() &&
+                            (n && n > 0
+                                ? (h = et(h.line, h.ch - n))
+                                : e.state.overwrite && !s
+                                ? (m = et(m.line, Math.min($e(o, m.line).text.length, m.ch + K(l).length)))
+                                : s && Pa && Pa.lineWise && Pa.text.join('\n') == l.join('\n') && (h = m = et(h.line, 0)));
+                        var g = {
+                            from: h,
+                            to: m,
+                            text: u ? u[f % u.length] : l,
+                            origin: i || (s ? 'paste' : e.state.cutIncoming > a ? 'cut' : '+input')
+                        };
+                        uo(e.doc, g), ln(e, 'inputRead', e, g);
+                    }
+                    t && !s && ja(e, t),
+                        Rr(e),
+                        e.curOp.updateInput < 2 && (e.curOp.updateInput = d),
+                        (e.curOp.typing = !0),
+                        (e.state.pasteIncoming = e.state.cutIncoming = -1);
+                }
+                function Ia(e, t) {
+                    var n = e.clipboardData && e.clipboardData.getData('Text');
+                    if (n)
+                        return (
+                            e.preventDefault(),
+                            t.isReadOnly() ||
+                                t.options.disableInput ||
+                                Zr(t, function () {
+                                    return Ma(t, n, 0, null, 'paste');
+                                }),
+                            !0
+                        );
+                }
+                function ja(e, t) {
+                    if (e.options.electricChars && e.options.smartIndent)
+                        for (var n = e.doc.sel, r = n.ranges.length - 1; r >= 0; r--) {
+                            var i = n.ranges[r];
+                            if (!(i.head.ch > 100 || (r && n.ranges[r - 1].head.line == i.head.line))) {
+                                var o = e.getModeAt(i.head),
+                                    a = !1;
+                                if (o.electricChars) {
+                                    for (var s = 0; s < o.electricChars.length; s++)
+                                        if (t.indexOf(o.electricChars.charAt(s)) > -1) {
+                                            a = Aa(e, i.head.line, 'smart');
+                                            break;
+                                        }
+                                } else
+                                    o.electricInput &&
+                                        o.electricInput.test($e(e.doc, i.head.line).text.slice(0, i.head.ch)) &&
+                                        (a = Aa(e, i.head.line, 'smart'));
+                                a && ln(e, 'electricInput', e, i.head.line);
+                            }
+                        }
+                }
+                function La(e) {
+                    for (var t = [], n = [], r = 0; r < e.doc.sel.ranges.length; r++) {
+                        var i = e.doc.sel.ranges[r].head.line,
+                            o = { anchor: et(i, 0), head: et(i + 1, 0) };
+                        n.push(o), t.push(e.getRange(o.anchor, o.head));
+                    }
+                    return { text: t, ranges: n };
+                }
+                function Da(e, t, n, r) {
+                    e.setAttribute('autocorrect', n ? '' : 'off'), e.setAttribute('autocapitalize', r ? '' : 'off'), e.setAttribute('spellcheck', !!t);
+                }
+                function Na() {
+                    var e = A('textarea', null, null, 'position: absolute; bottom: -1em; padding: 0; width: 1px; height: 1em; outline: none'),
+                        t = A('div', [e], null, 'overflow: hidden; position: relative; width: 3px; height: 0px;');
+                    return l ? (e.style.width = '1000px') : e.setAttribute('wrap', 'off'), m && (e.style.border = '1px solid black'), Da(e), t;
+                }
+                function Fa(e, t, n, r, i) {
+                    var o = t,
+                        a = n,
+                        s = $e(e, t.line),
+                        l = i && 'rtl' == e.direction ? -n : n;
+                    function u(o) {
+                        var a;
+                        if ('codepoint' == r) {
+                            var u = s.text.charCodeAt(t.ch + (r > 0 ? 0 : -1));
+                            a = isNaN(u) ? null : new et(t.line, Math.max(0, Math.min(s.text.length, t.ch + n * (u >= 55296 && u < 56320 ? 2 : 1))), -n);
+                        } else
+                            a = i
+                                ? (function (e, t, n, r) {
+                                      var i = ue(t, e.doc.direction);
+                                      if (!i) return Zo(t, n, r);
+                                      n.ch >= t.text.length ? ((n.ch = t.text.length), (n.sticky = 'before')) : n.ch <= 0 && ((n.ch = 0), (n.sticky = 'after'));
+                                      var o = se(i, n.ch, n.sticky),
+                                          a = i[o];
+                                      if ('ltr' == e.doc.direction && a.level % 2 == 0 && (r > 0 ? a.to > n.ch : a.from < n.ch)) return Zo(t, n, r);
+                                      var s,
+                                          l = function (e, n) {
+                                              return Jo(t, e instanceof et ? e.ch : e, n);
+                                          },
+                                          u = function (n) {
+                                              return e.options.lineWrapping ? ((s = s || Mn(e, t)), Jn(e, t, s, n)) : { begin: 0, end: t.text.length };
+                                          },
+                                          c = u('before' == n.sticky ? l(n, -1) : n.ch);
+                                      if ('rtl' == e.doc.direction || 1 == a.level) {
+                                          var d = (1 == a.level) == r < 0,
+                                              f = l(n, d ? 1 : -1);
+                                          if (null != f && (d ? f <= a.to && f <= c.end : f >= a.from && f >= c.begin)) {
+                                              var p = d ? 'before' : 'after';
+                                              return new et(n.line, f, p);
+                                          }
+                                      }
+                                      var h = function (e, t, r) {
+                                              for (
+                                                  var o = function (e, t) {
+                                                      return t ? new et(n.line, l(e, 1), 'before') : new et(n.line, e, 'after');
+                                                  };
+                                                  e >= 0 && e < i.length;
+                                                  e += t
+                                              ) {
+                                                  var a = i[e],
+                                                      s = t > 0 == (1 != a.level),
+                                                      u = s ? r.begin : l(r.end, -1);
+                                                  if (a.from <= u && u < a.to) return o(u, s);
+                                                  if (((u = s ? a.from : l(a.to, -1)), r.begin <= u && u < r.end)) return o(u, s);
+                                              }
+                                          },
+                                          m = h(o + r, r, c);
+                                      if (m) return m;
+                                      var g = r > 0 ? c.end : l(c.begin, -1);
+                                      return null == g || (r > 0 && g == t.text.length) || !(m = h(r > 0 ? 0 : i.length - 1, r, u(g))) ? null : m;
+                                  })(e.cm, s, t, n)
+                                : Zo(s, t, n);
+                        if (null == a) {
+                            if (
+                                o ||
+                                !(function () {
+                                    var n = t.line + l;
+                                    return !(n < e.first || n >= e.first + e.size) && ((t = new et(n, t.ch, t.sticky)), (s = $e(e, n)));
+                                })()
+                            )
+                                return !1;
+                            t = ea(i, e.cm, s, t.line, l);
+                        } else t = a;
+                        return !0;
+                    }
+                    if ('char' == r || 'codepoint' == r) u();
+                    else if ('column' == r) u(!0);
+                    else if ('word' == r || 'group' == r)
+                        for (var c = null, d = 'group' == r, f = e.cm && e.cm.getHelper(t, 'wordChars'), p = !0; !(n < 0) || u(!p); p = !1) {
+                            var h = s.text.charAt(t.ch) || '\n',
+                                m = ee(h, f) ? 'w' : d && '\n' == h ? 'n' : !d || /\s/.test(h) ? null : 'p';
+                            if ((!d || p || m || (m = 's'), c && c != m)) {
+                                n < 0 && ((n = 1), u(), (t.sticky = 'after'));
+                                break;
+                            }
+                            if ((m && (c = m), n > 0 && !u(!p))) break;
+                        }
+                    var g = oo(e, t, o, a, !0);
+                    return nt(o, g) && (g.hitSide = !0), g;
+                }
+                function Ba(e, t, n, r) {
+                    var i,
+                        o,
+                        a = e.doc,
+                        s = t.left;
+                    if ('page' == r) {
+                        var l = Math.min(e.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight),
+                            u = Math.max(l - 0.5 * rr(e.display), 3);
+                        i = (n > 0 ? t.bottom : t.top) + n * u;
+                    } else 'line' == r && (i = n > 0 ? t.bottom + 3 : t.top - 3);
+                    for (; (o = Qn(e, s, i)).outside; ) {
+                        if (n < 0 ? i <= 0 : i >= a.height) {
+                            o.hitSide = !0;
+                            break;
+                        }
+                        i += 5 * n;
+                    }
+                    return o;
+                }
+                var za = function (e) {
+                    (this.cm = e),
+                        (this.lastAnchorNode = this.lastAnchorOffset = this.lastFocusNode = this.lastFocusOffset = null),
+                        (this.polling = new B()),
+                        (this.composing = null),
+                        (this.gracePeriod = !1),
+                        (this.readDOMTimeout = null);
+                };
+                function Ua(e, t) {
+                    var n = Rn(e, t.line);
+                    if (!n || n.hidden) return null;
+                    var r = $e(e.doc, t.line),
+                        i = An(n, r, t.line),
+                        o = ue(r, e.doc.direction),
+                        a = 'left';
+                    o && (a = se(o, t.ch) % 2 ? 'right' : 'left');
+                    var s = Dn(i.map, t.ch, a);
+                    return (s.offset = 'right' == s.collapse ? s.end : s.start), s;
+                }
+                function qa(e, t) {
+                    return t && (e.bad = !0), e;
+                }
+                function Ha(e, t, n) {
+                    var r;
+                    if (t == e.display.lineDiv) {
+                        if (!(r = e.display.lineDiv.childNodes[n])) return qa(e.clipPos(et(e.display.viewTo - 1)), !0);
+                        (t = null), (n = 0);
+                    } else
+                        for (r = t; ; r = r.parentNode) {
+                            if (!r || r == e.display.lineDiv) return null;
+                            if (r.parentNode && r.parentNode == e.display.lineDiv) break;
+                        }
+                    for (var i = 0; i < e.display.view.length; i++) {
+                        var o = e.display.view[i];
+                        if (o.node == r) return Wa(o, t, n);
+                    }
+                }
+                function Wa(e, t, n) {
+                    var r = e.text.firstChild,
+                        i = !1;
+                    if (!t || !R(r, t)) return qa(et(Qe(e.line), 0), !0);
+                    if (t == r && ((i = !0), (t = r.childNodes[n]), (n = 0), !t)) {
+                        var o = e.rest ? K(e.rest) : e.line;
+                        return qa(et(Qe(o), o.text.length), i);
+                    }
+                    var a = 3 == t.nodeType ? t : null,
+                        s = t;
+                    for (
+                        a || 1 != t.childNodes.length || 3 != t.firstChild.nodeType || ((a = t.firstChild), n && (n = a.nodeValue.length));
+                        s.parentNode != r;
+
+                    )
+                        s = s.parentNode;
+                    var l = e.measure,
+                        u = l.maps;
+                    function c(t, n, r) {
+                        for (var i = -1; i < (u ? u.length : 0); i++)
+                            for (var o = i < 0 ? l.map : u[i], a = 0; a < o.length; a += 3) {
+                                var s = o[a + 2];
+                                if (s == t || s == n) {
+                                    var c = Qe(i < 0 ? e.line : e.rest[i]),
+                                        d = o[a] + r;
+                                    return (r < 0 || s != t) && (d = o[a + (r ? 1 : 0)]), et(c, d);
+                                }
+                            }
+                    }
+                    var d = c(a, s, n);
+                    if (d) return qa(d, i);
+                    for (var f = s.nextSibling, p = a ? a.nodeValue.length - n : 0; f; f = f.nextSibling) {
+                        if ((d = c(f, f.firstChild, 0))) return qa(et(d.line, d.ch - p), i);
+                        p += f.textContent.length;
+                    }
+                    for (var h = s.previousSibling, m = n; h; h = h.previousSibling) {
+                        if ((d = c(h, h.firstChild, -1))) return qa(et(d.line, d.ch + m), i);
+                        m += h.textContent.length;
+                    }
+                }
+                (za.prototype.init = function (e) {
+                    var t = this,
+                        n = this,
+                        r = n.cm,
+                        i = (n.div = e.lineDiv);
+                    function o(e) {
+                        for (var t = e.target; t; t = t.parentNode) {
+                            if (t == i) return !0;
+                            if (/\bCodeMirror-(?:line)?widget\b/.test(t.className)) break;
+                        }
+                        return !1;
+                    }
+                    function a(e) {
+                        if (o(e) && !me(r, e)) {
+                            if (r.somethingSelected()) Ra({ lineWise: !1, text: r.getSelections() }), 'cut' == e.type && r.replaceSelection('', null, 'cut');
+                            else {
+                                if (!r.options.lineWiseCopyCut) return;
+                                var t = La(r);
+                                Ra({ lineWise: !0, text: t.text }),
+                                    'cut' == e.type &&
+                                        r.operation(function () {
+                                            r.setSelections(t.ranges, 0, q), r.replaceSelection('', null, 'cut');
+                                        });
+                            }
+                            if (e.clipboardData) {
+                                e.clipboardData.clearData();
+                                var a = Pa.text.join('\n');
+                                if ((e.clipboardData.setData('Text', a), e.clipboardData.getData('Text') == a)) return void e.preventDefault();
+                            }
+                            var s = Na(),
+                                l = s.firstChild;
+                            r.display.lineSpace.insertBefore(s, r.display.lineSpace.firstChild), (l.value = Pa.text.join('\n'));
+                            var u = document.activeElement;
+                            L(l),
+                                setTimeout(function () {
+                                    r.display.lineSpace.removeChild(s), u.focus(), u == i && n.showPrimarySelection();
+                                }, 50);
+                        }
+                    }
+                    Da(i, r.options.spellcheck, r.options.autocorrect, r.options.autocapitalize),
+                        de(i, 'paste', function (e) {
+                            !o(e) ||
+                                me(r, e) ||
+                                Ia(e, r) ||
+                                (s <= 11 &&
+                                    setTimeout(
+                                        ei(r, function () {
+                                            return t.updateFromDOM();
+                                        }),
+                                        20
+                                    ));
+                        }),
+                        de(i, 'compositionstart', function (e) {
+                            t.composing = { data: e.data, done: !1 };
+                        }),
+                        de(i, 'compositionupdate', function (e) {
+                            t.composing || (t.composing = { data: e.data, done: !1 });
+                        }),
+                        de(i, 'compositionend', function (e) {
+                            t.composing && (e.data != t.composing.data && t.readFromDOMSoon(), (t.composing.done = !0));
+                        }),
+                        de(i, 'touchstart', function () {
+                            return n.forceCompositionEnd();
+                        }),
+                        de(i, 'input', function () {
+                            t.composing || t.readFromDOMSoon();
+                        }),
+                        de(i, 'copy', a),
+                        de(i, 'cut', a);
+                }),
+                    (za.prototype.screenReaderLabelChanged = function (e) {
+                        e ? this.div.setAttribute('aria-label', e) : this.div.removeAttribute('aria-label');
+                    }),
+                    (za.prototype.prepareSelection = function () {
+                        var e = vr(this.cm, !1);
+                        return (e.focus = document.activeElement == this.div), e;
+                    }),
+                    (za.prototype.showSelection = function (e, t) {
+                        e && this.cm.display.view.length && ((e.focus || t) && this.showPrimarySelection(), this.showMultipleSelections(e));
+                    }),
+                    (za.prototype.getSelection = function () {
+                        return this.cm.display.wrapper.ownerDocument.getSelection();
+                    }),
+                    (za.prototype.showPrimarySelection = function () {
+                        var e = this.getSelection(),
+                            t = this.cm,
+                            r = t.doc.sel.primary(),
+                            i = r.from(),
+                            o = r.to();
+                        if (t.display.viewTo == t.display.viewFrom || i.line >= t.display.viewTo || o.line < t.display.viewFrom) e.removeAllRanges();
+                        else {
+                            var a = Ha(t, e.anchorNode, e.anchorOffset),
+                                s = Ha(t, e.focusNode, e.focusOffset);
+                            if (!a || a.bad || !s || s.bad || 0 != tt(ot(a, s), i) || 0 != tt(it(a, s), o)) {
+                                var l = t.display.view,
+                                    u = (i.line >= t.display.viewFrom && Ua(t, i)) || {
+                                        node: l[0].measure.map[2],
+                                        offset: 0
+                                    },
+                                    c = o.line < t.display.viewTo && Ua(t, o);
+                                if (!c) {
+                                    var d = l[l.length - 1].measure,
+                                        f = d.maps ? d.maps[d.maps.length - 1] : d.map;
+                                    c = {
+                                        node: f[f.length - 1],
+                                        offset: f[f.length - 2] - f[f.length - 3]
+                                    };
+                                }
+                                if (u && c) {
+                                    var p,
+                                        h = e.rangeCount && e.getRangeAt(0);
+                                    try {
+                                        p = S(u.node, u.offset, c.offset, c.node);
+                                    } catch (e) {}
+                                    p &&
+                                        (!n && t.state.focused
+                                            ? (e.collapse(u.node, u.offset), p.collapsed || (e.removeAllRanges(), e.addRange(p)))
+                                            : (e.removeAllRanges(), e.addRange(p)),
+                                        h && null == e.anchorNode ? e.addRange(h) : n && this.startGracePeriod()),
+                                        this.rememberSelection();
+                                } else e.removeAllRanges();
+                            }
+                        }
+                    }),
+                    (za.prototype.startGracePeriod = function () {
+                        var e = this;
+                        clearTimeout(this.gracePeriod),
+                            (this.gracePeriod = setTimeout(function () {
+                                (e.gracePeriod = !1),
+                                    e.selectionChanged() &&
+                                        e.cm.operation(function () {
+                                            return (e.cm.curOp.selectionChanged = !0);
+                                        });
+                            }, 20));
+                    }),
+                    (za.prototype.showMultipleSelections = function (e) {
+                        T(this.cm.display.cursorDiv, e.cursors), T(this.cm.display.selectionDiv, e.selection);
+                    }),
+                    (za.prototype.rememberSelection = function () {
+                        var e = this.getSelection();
+                        (this.lastAnchorNode = e.anchorNode),
+                            (this.lastAnchorOffset = e.anchorOffset),
+                            (this.lastFocusNode = e.focusNode),
+                            (this.lastFocusOffset = e.focusOffset);
+                    }),
+                    (za.prototype.selectionInEditor = function () {
+                        var e = this.getSelection();
+                        if (!e.rangeCount) return !1;
+                        var t = e.getRangeAt(0).commonAncestorContainer;
+                        return R(this.div, t);
+                    }),
+                    (za.prototype.focus = function () {
+                        'nocursor' != this.cm.options.readOnly &&
+                            ((this.selectionInEditor() && document.activeElement == this.div) || this.showSelection(this.prepareSelection(), !0),
+                            this.div.focus());
+                    }),
+                    (za.prototype.blur = function () {
+                        this.div.blur();
+                    }),
+                    (za.prototype.getField = function () {
+                        return this.div;
+                    }),
+                    (za.prototype.supportsTouch = function () {
+                        return !0;
+                    }),
+                    (za.prototype.receivedFocus = function () {
+                        var e = this;
+                        this.selectionInEditor()
+                            ? this.pollSelection()
+                            : Zr(this.cm, function () {
+                                  return (e.cm.curOp.selectionChanged = !0);
+                              }),
+                            this.polling.set(this.cm.options.pollInterval, function t() {
+                                e.cm.state.focused && (e.pollSelection(), e.polling.set(e.cm.options.pollInterval, t));
+                            });
+                    }),
+                    (za.prototype.selectionChanged = function () {
+                        var e = this.getSelection();
+                        return (
+                            e.anchorNode != this.lastAnchorNode ||
+                            e.anchorOffset != this.lastAnchorOffset ||
+                            e.focusNode != this.lastFocusNode ||
+                            e.focusOffset != this.lastFocusOffset
+                        );
+                    }),
+                    (za.prototype.pollSelection = function () {
+                        if (null == this.readDOMTimeout && !this.gracePeriod && this.selectionChanged()) {
+                            var e = this.getSelection(),
+                                t = this.cm;
+                            if (
+                                g &&
+                                c &&
+                                this.cm.display.gutterSpecs.length &&
+                                (function (e) {
+                                    for (var t = e; t; t = t.parentNode) if (/CodeMirror-gutter-wrapper/.test(t.className)) return !0;
+                                    return !1;
+                                })(e.anchorNode)
+                            )
+                                return (
+                                    this.cm.triggerOnKeyDown({
+                                        type: 'keydown',
+                                        keyCode: 8,
+                                        preventDefault: Math.abs
+                                    }),
+                                    this.blur(),
+                                    void this.focus()
+                                );
+                            if (!this.composing) {
+                                this.rememberSelection();
+                                var n = Ha(t, e.anchorNode, e.anchorOffset),
+                                    r = Ha(t, e.focusNode, e.focusOffset);
+                                n &&
+                                    r &&
+                                    Zr(t, function () {
+                                        Zi(t.doc, Si(n, r), q), (n.bad || r.bad) && (t.curOp.selectionChanged = !0);
+                                    });
+                            }
+                        }
+                    }),
+                    (za.prototype.pollContent = function () {
+                        null != this.readDOMTimeout && (clearTimeout(this.readDOMTimeout), (this.readDOMTimeout = null));
+                        var e,
+                            t,
+                            n,
+                            r = this.cm,
+                            i = r.display,
+                            o = r.doc.sel.primary(),
+                            a = o.from(),
+                            s = o.to();
+                        if (
+                            (0 == a.ch && a.line > r.firstLine() && (a = et(a.line - 1, $e(r.doc, a.line - 1).length)),
+                            s.ch == $e(r.doc, s.line).text.length && s.line < r.lastLine() && (s = et(s.line + 1, 0)),
+                            a.line < i.viewFrom || s.line > i.viewTo - 1)
+                        )
+                            return !1;
+                        a.line == i.viewFrom || 0 == (e = cr(r, a.line))
+                            ? ((t = Qe(i.view[0].line)), (n = i.view[0].node))
+                            : ((t = Qe(i.view[e].line)), (n = i.view[e - 1].node.nextSibling));
+                        var l,
+                            u,
+                            c = cr(r, s.line);
+                        if (
+                            (c == i.view.length - 1
+                                ? ((l = i.viewTo - 1), (u = i.lineDiv.lastChild))
+                                : ((l = Qe(i.view[c + 1].line) - 1), (u = i.view[c + 1].node.previousSibling)),
+                            !n)
+                        )
+                            return !1;
+                        for (
+                            var d = r.doc.splitLines(
+                                    (function (e, t, n, r, i) {
+                                        var o = '',
+                                            a = !1,
+                                            s = e.doc.lineSeparator(),
+                                            l = !1;
+                                        function u() {
+                                            a && ((o += s), l && (o += s), (a = l = !1));
+                                        }
+                                        function c(e) {
+                                            e && (u(), (o += e));
+                                        }
+                                        function d(t) {
+                                            if (1 == t.nodeType) {
+                                                var n = t.getAttribute('cm-text');
+                                                if (n) return void c(n);
+                                                var o,
+                                                    f = t.getAttribute('cm-marker');
+                                                if (f) {
+                                                    var p = e.findMarks(
+                                                        et(r, 0),
+                                                        et(i + 1, 0),
+                                                        ((g = +f),
+                                                        function (e) {
+                                                            return e.id == g;
+                                                        })
+                                                    );
+                                                    return void (p.length && (o = p[0].find(0)) && c(Ve(e.doc, o.from, o.to).join(s)));
+                                                }
+                                                if ('false' == t.getAttribute('contenteditable')) return;
+                                                var h = /^(pre|div|p|li|table|br)$/i.test(t.nodeName);
+                                                if (!/^br$/i.test(t.nodeName) && 0 == t.textContent.length) return;
+                                                h && u();
+                                                for (var m = 0; m < t.childNodes.length; m++) d(t.childNodes[m]);
+                                                /^(pre|p)$/i.test(t.nodeName) && (l = !0), h && (a = !0);
+                                            } else 3 == t.nodeType && c(t.nodeValue.replace(/\u200b/g, '').replace(/\u00a0/g, ' '));
+                                            var g;
+                                        }
+                                        for (; d(t), t != n; ) (t = t.nextSibling), (l = !1);
+                                        return o;
+                                    })(r, n, u, t, l)
+                                ),
+                                f = Ve(r.doc, et(t, 0), et(l, $e(r.doc, l).text.length));
+                            d.length > 1 && f.length > 1;
+
+                        )
+                            if (K(d) == K(f)) d.pop(), f.pop(), l--;
+                            else {
+                                if (d[0] != f[0]) break;
+                                d.shift(), f.shift(), t++;
+                            }
+                        for (var p = 0, h = 0, m = d[0], g = f[0], v = Math.min(m.length, g.length); p < v && m.charCodeAt(p) == g.charCodeAt(p); ) ++p;
+                        for (
+                            var y = K(d), b = K(f), _ = Math.min(y.length - (1 == d.length ? p : 0), b.length - (1 == f.length ? p : 0));
+                            h < _ && y.charCodeAt(y.length - h - 1) == b.charCodeAt(b.length - h - 1);
+
+                        )
+                            ++h;
+                        if (1 == d.length && 1 == f.length && t == a.line)
+                            for (; p && p > a.ch && y.charCodeAt(y.length - h - 1) == b.charCodeAt(b.length - h - 1); ) p--, h++;
+                        (d[d.length - 1] = y.slice(0, y.length - h).replace(/^\u200b+/, '')), (d[0] = d[0].slice(p).replace(/\u200b+$/, ''));
+                        var w = et(t, p),
+                            x = et(l, f.length ? K(f).length - h : 0);
+                        return d.length > 1 || d[0] || tt(w, x) ? (mo(r.doc, d, w, x, '+input'), !0) : void 0;
+                    }),
+                    (za.prototype.ensurePolled = function () {
+                        this.forceCompositionEnd();
+                    }),
+                    (za.prototype.reset = function () {
+                        this.forceCompositionEnd();
+                    }),
+                    (za.prototype.forceCompositionEnd = function () {
+                        this.composing && (clearTimeout(this.readDOMTimeout), (this.composing = null), this.updateFromDOM(), this.div.blur(), this.div.focus());
+                    }),
+                    (za.prototype.readFromDOMSoon = function () {
+                        var e = this;
+                        null == this.readDOMTimeout &&
+                            (this.readDOMTimeout = setTimeout(function () {
+                                if (((e.readDOMTimeout = null), e.composing)) {
+                                    if (!e.composing.done) return;
+                                    e.composing = null;
+                                }
+                                e.updateFromDOM();
+                            }, 80));
+                    }),
+                    (za.prototype.updateFromDOM = function () {
+                        var e = this;
+                        (!this.cm.isReadOnly() && this.pollContent()) ||
+                            Zr(this.cm, function () {
+                                return dr(e.cm);
+                            });
+                    }),
+                    (za.prototype.setUneditable = function (e) {
+                        e.contentEditable = 'false';
+                    }),
+                    (za.prototype.onKeyPress = function (e) {
+                        0 == e.charCode ||
+                            this.composing ||
+                            (e.preventDefault(),
+                            this.cm.isReadOnly() || ei(this.cm, Ma)(this.cm, String.fromCharCode(null == e.charCode ? e.keyCode : e.charCode), 0));
+                    }),
+                    (za.prototype.readOnlyChanged = function (e) {
+                        this.div.contentEditable = String('nocursor' != e);
+                    }),
+                    (za.prototype.onContextMenu = function () {}),
+                    (za.prototype.resetPosition = function () {}),
+                    (za.prototype.needsContentAttribute = !0);
+                var Ga = function (e) {
+                    (this.cm = e), (this.prevInput = ''), (this.pollingFast = !1), (this.polling = new B()), (this.hasSelection = !1), (this.composing = null);
+                };
+                (Ga.prototype.init = function (e) {
+                    var t = this,
+                        n = this,
+                        r = this.cm;
+                    this.createField(e);
+                    var i = this.textarea;
+                    function o(e) {
+                        if (!me(r, e)) {
+                            if (r.somethingSelected()) Ra({ lineWise: !1, text: r.getSelections() });
+                            else {
+                                if (!r.options.lineWiseCopyCut) return;
+                                var t = La(r);
+                                Ra({ lineWise: !0, text: t.text }),
+                                    'cut' == e.type ? r.setSelections(t.ranges, null, q) : ((n.prevInput = ''), (i.value = t.text.join('\n')), L(i));
+                            }
+                            'cut' == e.type && (r.state.cutIncoming = +new Date());
+                        }
+                    }
+                    e.wrapper.insertBefore(this.wrapper, e.wrapper.firstChild),
+                        m && (i.style.width = '0px'),
+                        de(i, 'input', function () {
+                            a && s >= 9 && t.hasSelection && (t.hasSelection = null), n.poll();
+                        }),
+                        de(i, 'paste', function (e) {
+                            me(r, e) || Ia(e, r) || ((r.state.pasteIncoming = +new Date()), n.fastPoll());
+                        }),
+                        de(i, 'cut', o),
+                        de(i, 'copy', o),
+                        de(e.scroller, 'paste', function (t) {
+                            if (!xn(e, t) && !me(r, t)) {
+                                if (!i.dispatchEvent) return (r.state.pasteIncoming = +new Date()), void n.focus();
+                                var o = new Event('paste');
+                                (o.clipboardData = t.clipboardData), i.dispatchEvent(o);
+                            }
+                        }),
+                        de(e.lineSpace, 'selectstart', function (t) {
+                            xn(e, t) || be(t);
+                        }),
+                        de(i, 'compositionstart', function () {
+                            var e = r.getCursor('from');
+                            n.composing && n.composing.range.clear(),
+                                (n.composing = {
+                                    start: e,
+                                    range: r.markText(e, r.getCursor('to'), {
+                                        className: 'CodeMirror-composing'
+                                    })
+                                });
+                        }),
+                        de(i, 'compositionend', function () {
+                            n.composing && (n.poll(), n.composing.range.clear(), (n.composing = null));
+                        });
+                }),
+                    (Ga.prototype.createField = function (e) {
+                        (this.wrapper = Na()), (this.textarea = this.wrapper.firstChild);
+                    }),
+                    (Ga.prototype.screenReaderLabelChanged = function (e) {
+                        e ? this.textarea.setAttribute('aria-label', e) : this.textarea.removeAttribute('aria-label');
+                    }),
+                    (Ga.prototype.prepareSelection = function () {
+                        var e = this.cm,
+                            t = e.display,
+                            n = e.doc,
+                            r = vr(e);
+                        if (e.options.moveInputWithCursor) {
+                            var i = Vn(e, n.sel.primary().head, 'div'),
+                                o = t.wrapper.getBoundingClientRect(),
+                                a = t.lineDiv.getBoundingClientRect();
+                            (r.teTop = Math.max(0, Math.min(t.wrapper.clientHeight - 10, i.top + a.top - o.top))),
+                                (r.teLeft = Math.max(0, Math.min(t.wrapper.clientWidth - 10, i.left + a.left - o.left)));
+                        }
+                        return r;
+                    }),
+                    (Ga.prototype.showSelection = function (e) {
+                        var t = this.cm.display;
+                        T(t.cursorDiv, e.cursors),
+                            T(t.selectionDiv, e.selection),
+                            null != e.teTop && ((this.wrapper.style.top = e.teTop + 'px'), (this.wrapper.style.left = e.teLeft + 'px'));
+                    }),
+                    (Ga.prototype.reset = function (e) {
+                        if (!this.contextMenuPending && !this.composing) {
+                            var t = this.cm;
+                            if (t.somethingSelected()) {
+                                this.prevInput = '';
+                                var n = t.getSelection();
+                                (this.textarea.value = n), t.state.focused && L(this.textarea), a && s >= 9 && (this.hasSelection = n);
+                            } else e || ((this.prevInput = this.textarea.value = ''), a && s >= 9 && (this.hasSelection = null));
+                        }
+                    }),
+                    (Ga.prototype.getField = function () {
+                        return this.textarea;
+                    }),
+                    (Ga.prototype.supportsTouch = function () {
+                        return !1;
+                    }),
+                    (Ga.prototype.focus = function () {
+                        if ('nocursor' != this.cm.options.readOnly && (!v || M() != this.textarea))
+                            try {
+                                this.textarea.focus();
+                            } catch (e) {}
+                    }),
+                    (Ga.prototype.blur = function () {
+                        this.textarea.blur();
+                    }),
+                    (Ga.prototype.resetPosition = function () {
+                        this.wrapper.style.top = this.wrapper.style.left = 0;
+                    }),
+                    (Ga.prototype.receivedFocus = function () {
+                        this.slowPoll();
+                    }),
+                    (Ga.prototype.slowPoll = function () {
+                        var e = this;
+                        this.pollingFast ||
+                            this.polling.set(this.cm.options.pollInterval, function () {
+                                e.poll(), e.cm.state.focused && e.slowPoll();
+                            });
+                    }),
+                    (Ga.prototype.fastPoll = function () {
+                        var e = !1,
+                            t = this;
+                        (t.pollingFast = !0),
+                            t.polling.set(20, function n() {
+                                t.poll() || e ? ((t.pollingFast = !1), t.slowPoll()) : ((e = !0), t.polling.set(60, n));
+                            });
+                    }),
+                    (Ga.prototype.poll = function () {
+                        var e = this,
+                            t = this.cm,
+                            n = this.textarea,
+                            r = this.prevInput;
+                        if (
+                            this.contextMenuPending ||
+                            !t.state.focused ||
+                            (Me(n) && !r && !this.composing) ||
+                            t.isReadOnly() ||
+                            t.options.disableInput ||
+                            t.state.keySeq
+                        )
+                            return !1;
+                        var i = n.value;
+                        if (i == r && !t.somethingSelected()) return !1;
+                        if ((a && s >= 9 && this.hasSelection === i) || (y && /[\uf700-\uf7ff]/.test(i))) return t.display.input.reset(), !1;
+                        if (t.doc.sel == t.display.selForContextMenu) {
+                            var o = i.charCodeAt(0);
+                            if ((8203 != o || r || (r = '​'), 8666 == o)) return this.reset(), this.cm.execCommand('undo');
+                        }
+                        for (var l = 0, u = Math.min(r.length, i.length); l < u && r.charCodeAt(l) == i.charCodeAt(l); ) ++l;
+                        return (
+                            Zr(t, function () {
+                                Ma(t, i.slice(l), r.length - l, null, e.composing ? '*compose' : null),
+                                    i.length > 1e3 || i.indexOf('\n') > -1 ? (n.value = e.prevInput = '') : (e.prevInput = i),
+                                    e.composing &&
+                                        (e.composing.range.clear(),
+                                        (e.composing.range = t.markText(e.composing.start, t.getCursor('to'), { className: 'CodeMirror-composing' })));
+                            }),
+                            !0
+                        );
+                    }),
+                    (Ga.prototype.ensurePolled = function () {
+                        this.pollingFast && this.poll() && (this.pollingFast = !1);
+                    }),
+                    (Ga.prototype.onKeyPress = function () {
+                        a && s >= 9 && (this.hasSelection = null), this.fastPoll();
+                    }),
+                    (Ga.prototype.onContextMenu = function (e) {
+                        var t = this,
+                            n = t.cm,
+                            r = n.display,
+                            i = t.textarea;
+                        t.contextMenuPending && t.contextMenuPending();
+                        var o = ur(n, e),
+                            u = r.scroller.scrollTop;
+                        if (o && !d) {
+                            n.options.resetSelectionOnContextMenu && -1 == n.doc.sel.contains(o) && ei(n, Zi)(n.doc, Si(o), q);
+                            var c,
+                                f = i.style.cssText,
+                                p = t.wrapper.style.cssText,
+                                h = t.wrapper.offsetParent.getBoundingClientRect();
+                            if (
+                                ((t.wrapper.style.cssText = 'position: static'),
+                                (i.style.cssText =
+                                    'position: absolute; width: 30px; height: 30px;\n      top: ' +
+                                    (e.clientY - h.top - 5) +
+                                    'px; left: ' +
+                                    (e.clientX - h.left - 5) +
+                                    'px;\n      z-index: 1000; background: ' +
+                                    (a ? 'rgba(255, 255, 255, .05)' : 'transparent') +
+                                    ';\n      outline: none; border-width: 0; outline: none; overflow: hidden; opacity: .05; filter: alpha(opacity=5);'),
+                                l && (c = window.scrollY),
+                                r.input.focus(),
+                                l && window.scrollTo(null, c),
+                                r.input.reset(),
+                                n.somethingSelected() || (i.value = t.prevInput = ' '),
+                                (t.contextMenuPending = v),
+                                (r.selForContextMenu = n.doc.sel),
+                                clearTimeout(r.detectingSelectAll),
+                                a && s >= 9 && g(),
+                                k)
+                            ) {
+                                xe(e);
+                                var m = function () {
+                                    pe(window, 'mouseup', m), setTimeout(v, 20);
+                                };
+                                de(window, 'mouseup', m);
+                            } else setTimeout(v, 50);
+                        }
+                        function g() {
+                            if (null != i.selectionStart) {
+                                var e = n.somethingSelected(),
+                                    o = '​' + (e ? i.value : '');
+                                (i.value = '⇚'),
+                                    (i.value = o),
+                                    (t.prevInput = e ? '' : '​'),
+                                    (i.selectionStart = 1),
+                                    (i.selectionEnd = o.length),
+                                    (r.selForContextMenu = n.doc.sel);
+                            }
+                        }
+                        function v() {
+                            if (
+                                t.contextMenuPending == v &&
+                                ((t.contextMenuPending = !1),
+                                (t.wrapper.style.cssText = p),
+                                (i.style.cssText = f),
+                                a && s < 9 && r.scrollbars.setScrollTop((r.scroller.scrollTop = u)),
+                                null != i.selectionStart)
+                            ) {
+                                (!a || (a && s < 9)) && g();
+                                var e = 0,
+                                    o = function () {
+                                        r.selForContextMenu == n.doc.sel && 0 == i.selectionStart && i.selectionEnd > 0 && '​' == t.prevInput
+                                            ? ei(n, so)(n)
+                                            : e++ < 10
+                                            ? (r.detectingSelectAll = setTimeout(o, 500))
+                                            : ((r.selForContextMenu = null), r.input.reset());
+                                    };
+                                r.detectingSelectAll = setTimeout(o, 200);
+                            }
+                        }
+                    }),
+                    (Ga.prototype.readOnlyChanged = function (e) {
+                        e || this.reset(), (this.textarea.disabled = 'nocursor' == e), (this.textarea.readOnly = !!e);
+                    }),
+                    (Ga.prototype.setUneditable = function () {}),
+                    (Ga.prototype.needsContentAttribute = !1),
+                    (function (e) {
+                        var t = e.optionHandlers;
+                        function n(n, r, i, o) {
+                            (e.defaults[n] = r),
+                                i &&
+                                    (t[n] = o
+                                        ? function (e, t, n) {
+                                              n != xa && i(e, t, n);
+                                          }
+                                        : i);
+                        }
+                        (e.defineOption = n),
+                            (e.Init = xa),
+                            n(
+                                'value',
+                                '',
+                                function (e, t) {
+                                    return e.setValue(t);
+                                },
+                                !0
+                            ),
+                            n(
+                                'mode',
+                                null,
+                                function (e, t) {
+                                    (e.doc.modeOption = t), Pi(e);
+                                },
+                                !0
+                            ),
+                            n('indentUnit', 2, Pi, !0),
+                            n('indentWithTabs', !1),
+                            n('smartIndent', !0),
+                            n(
+                                'tabSize',
+                                4,
+                                function (e) {
+                                    Ri(e), zn(e), dr(e);
+                                },
+                                !0
+                            ),
+                            n('lineSeparator', null, function (e, t) {
+                                if (((e.doc.lineSep = t), t)) {
+                                    var n = [],
+                                        r = e.doc.first;
+                                    e.doc.iter(function (e) {
+                                        for (var i = 0; ; ) {
+                                            var o = e.text.indexOf(t, i);
+                                            if (-1 == o) break;
+                                            (i = o + t.length), n.push(et(r, o));
+                                        }
+                                        r++;
+                                    });
+                                    for (var i = n.length - 1; i >= 0; i--) mo(e.doc, t, n[i], et(n[i].line, n[i].ch + t.length));
+                                }
+                            }),
+                            n(
+                                'specialChars',
+                                /[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u200b-\u200c\u200e\u200f\u2028\u2029\ufeff\ufff9-\ufffc]/g,
+                                function (e, t, n) {
+                                    (e.state.specialChars = new RegExp(t.source + (t.test('\t') ? '' : '|\t'), 'g')), n != xa && e.refresh();
+                                }
+                            ),
+                            n(
+                                'specialCharPlaceholder',
+                                Jt,
+                                function (e) {
+                                    return e.refresh();
+                                },
+                                !0
+                            ),
+                            n('electricChars', !0),
+                            n(
+                                'inputStyle',
+                                v ? 'contenteditable' : 'textarea',
+                                function () {
+                                    throw new Error('inputStyle can not (yet) be changed in a running editor');
+                                },
+                                !0
+                            ),
+                            n(
+                                'spellcheck',
+                                !1,
+                                function (e, t) {
+                                    return (e.getInputField().spellcheck = t);
+                                },
+                                !0
+                            ),
+                            n(
+                                'autocorrect',
+                                !1,
+                                function (e, t) {
+                                    return (e.getInputField().autocorrect = t);
+                                },
+                                !0
+                            ),
+                            n(
+                                'autocapitalize',
+                                !1,
+                                function (e, t) {
+                                    return (e.getInputField().autocapitalize = t);
+                                },
+                                !0
+                            ),
+                            n('rtlMoveVisually', !_),
+                            n('wholeLineUpdateBefore', !0),
+                            n(
+                                'theme',
+                                'default',
+                                function (e) {
+                                    wa(e), mi(e);
+                                },
+                                !0
+                            ),
+                            n('keyMap', 'default', function (e, t, n) {
+                                var r = Qo(t),
+                                    i = n != xa && Qo(n);
+                                i && i.detach && i.detach(e, r), r.attach && r.attach(e, i || null);
+                            }),
+                            n('extraKeys', null),
+                            n('configureMouse', null),
+                            n('lineWrapping', !1, Oa, !0),
+                            n(
+                                'gutters',
+                                [],
+                                function (e, t) {
+                                    (e.display.gutterSpecs = pi(t, e.options.lineNumbers)), mi(e);
+                                },
+                                !0
+                            ),
+                            n(
+                                'fixedGutter',
+                                !0,
+                                function (e, t) {
+                                    (e.display.gutters.style.left = t ? ar(e.display) + 'px' : '0'), e.refresh();
+                                },
+                                !0
+                            ),
+                            n(
+                                'coverGutterNextToScrollbar',
+                                !1,
+                                function (e) {
+                                    return Ur(e);
+                                },
+                                !0
+                            ),
+                            n(
+                                'scrollbarStyle',
+                                'native',
+                                function (e) {
+                                    Wr(e), Ur(e), e.display.scrollbars.setScrollTop(e.doc.scrollTop), e.display.scrollbars.setScrollLeft(e.doc.scrollLeft);
+                                },
+                                !0
+                            ),
+                            n(
+                                'lineNumbers',
+                                !1,
+                                function (e, t) {
+                                    (e.display.gutterSpecs = pi(e.options.gutters, t)), mi(e);
+                                },
+                                !0
+                            ),
+                            n('firstLineNumber', 1, mi, !0),
+                            n(
+                                'lineNumberFormatter',
+                                function (e) {
+                                    return e;
+                                },
+                                mi,
+                                !0
+                            ),
+                            n('showCursorWhenSelecting', !1, gr, !0),
+                            n('resetSelectionOnContextMenu', !0),
+                            n('lineWiseCopyCut', !0),
+                            n('pasteLinesPerSelection', !0),
+                            n('selectionsMayTouch', !1),
+                            n('readOnly', !1, function (e, t) {
+                                'nocursor' == t && (Sr(e), e.display.input.blur()), e.display.input.readOnlyChanged(t);
+                            }),
+                            n('screenReaderLabel', null, function (e, t) {
+                                (t = '' === t ? null : t), e.display.input.screenReaderLabelChanged(t);
+                            }),
+                            n(
+                                'disableInput',
+                                !1,
+                                function (e, t) {
+                                    t || e.display.input.reset();
+                                },
+                                !0
+                            ),
+                            n('dragDrop', !0, Sa),
+                            n('allowDropFileTypes', null),
+                            n('cursorBlinkRate', 530),
+                            n('cursorScrollMargin', 0),
+                            n('cursorHeight', 1, gr, !0),
+                            n('singleCursorHeightPerLine', !0, gr, !0),
+                            n('workTime', 100),
+                            n('workDelay', 100),
+                            n('flattenSpans', !0, Ri, !0),
+                            n('addModeClass', !1, Ri, !0),
+                            n('pollInterval', 100),
+                            n('undoDepth', 200, function (e, t) {
+                                return (e.doc.history.undoDepth = t);
+                            }),
+                            n('historyEventDelay', 1250),
+                            n(
+                                'viewportMargin',
+                                10,
+                                function (e) {
+                                    return e.refresh();
+                                },
+                                !0
+                            ),
+                            n('maxHighlightLength', 1e4, Ri, !0),
+                            n('moveInputWithCursor', !0, function (e, t) {
+                                t || e.display.input.resetPosition();
+                            }),
+                            n('tabindex', null, function (e, t) {
+                                return (e.display.input.getField().tabIndex = t || '');
+                            }),
+                            n('autofocus', null),
+                            n(
+                                'direction',
+                                'ltr',
+                                function (e, t) {
+                                    return e.doc.setDirection(t);
+                                },
+                                !0
+                            ),
+                            n('phrases', null);
+                    })(Ca),
+                    (function (e) {
+                        var t = e.optionHandlers,
+                            n = (e.helpers = {});
+                        (e.prototype = {
+                            constructor: e,
+                            focus: function () {
+                                window.focus(), this.display.input.focus();
+                            },
+                            setOption: function (e, n) {
+                                var r = this.options,
+                                    i = r[e];
+                                (r[e] == n && 'mode' != e) ||
+                                    ((r[e] = n), t.hasOwnProperty(e) && ei(this, t[e])(this, n, i), he(this, 'optionChange', this, e));
+                            },
+                            getOption: function (e) {
+                                return this.options[e];
+                            },
+                            getDoc: function () {
+                                return this.doc;
+                            },
+                            addKeyMap: function (e, t) {
+                                this.state.keyMaps[t ? 'push' : 'unshift'](Qo(e));
+                            },
+                            removeKeyMap: function (e) {
+                                for (var t = this.state.keyMaps, n = 0; n < t.length; ++n) if (t[n] == e || t[n].name == e) return t.splice(n, 1), !0;
+                            },
+                            addOverlay: ti(function (t, n) {
+                                var r = t.token ? t : e.getMode(this.options, t);
+                                if (r.startState) throw new Error('Overlays may not be stateful.');
+                                !(function (e, t, n) {
+                                    for (var r = 0, i = n(t); r < e.length && n(e[r]) <= i; ) r++;
+                                    e.splice(r, 0, t);
+                                })(
+                                    this.state.overlays,
+                                    {
+                                        mode: r,
+                                        modeSpec: t,
+                                        opaque: n && n.opaque,
+                                        priority: (n && n.priority) || 0
+                                    },
+                                    function (e) {
+                                        return e.priority;
+                                    }
+                                ),
+                                    this.state.modeGen++,
+                                    dr(this);
+                            }),
+                            removeOverlay: ti(function (e) {
+                                for (var t = this.state.overlays, n = 0; n < t.length; ++n) {
+                                    var r = t[n].modeSpec;
+                                    if (r == e || ('string' == typeof e && r.name == e)) return t.splice(n, 1), this.state.modeGen++, void dr(this);
+                                }
+                            }),
+                            indentLine: ti(function (e, t, n) {
+                                'string' != typeof t &&
+                                    'number' != typeof t &&
+                                    (t = null == t ? (this.options.smartIndent ? 'smart' : 'prev') : t ? 'add' : 'subtract'),
+                                    Je(this.doc, e) && Aa(this, e, t, n);
+                            }),
+                            indentSelection: ti(function (e) {
+                                for (var t = this.doc.sel.ranges, n = -1, r = 0; r < t.length; r++) {
+                                    var i = t[r];
+                                    if (i.empty())
+                                        i.head.line > n && (Aa(this, i.head.line, e, !0), (n = i.head.line), r == this.doc.sel.primIndex && Rr(this));
+                                    else {
+                                        var o = i.from(),
+                                            a = i.to(),
+                                            s = Math.max(n, o.line);
+                                        n = Math.min(this.lastLine(), a.line - (a.ch ? 0 : 1)) + 1;
+                                        for (var l = s; l < n; ++l) Aa(this, l, e);
+                                        var u = this.doc.sel.ranges;
+                                        0 == o.ch && t.length == u.length && u[r].from().ch > 0 && Qi(this.doc, r, new ki(o, u[r].to()), q);
+                                    }
+                                }
+                            }),
+                            getTokenAt: function (e, t) {
+                                return yt(this, e, t);
+                            },
+                            getLineTokens: function (e, t) {
+                                return yt(this, et(e), t, !0);
+                            },
+                            getTokenTypeAt: function (e) {
+                                e = st(this.doc, e);
+                                var t,
+                                    n = ft(this, $e(this.doc, e.line)),
+                                    r = 0,
+                                    i = (n.length - 1) / 2,
+                                    o = e.ch;
+                                if (0 == o) t = n[2];
+                                else
+                                    for (;;) {
+                                        var a = (r + i) >> 1;
+                                        if ((a ? n[2 * a - 1] : 0) >= o) i = a;
+                                        else {
+                                            if (!(n[2 * a + 1] < o)) {
+                                                t = n[2 * a + 2];
+                                                break;
+                                            }
+                                            r = a + 1;
+                                        }
+                                    }
+                                var s = t ? t.indexOf('overlay ') : -1;
+                                return s < 0 ? t : 0 == s ? null : t.slice(0, s - 1);
+                            },
+                            getModeAt: function (t) {
+                                var n = this.doc.mode;
+                                return n.innerMode ? e.innerMode(n, this.getTokenAt(t).state).mode : n;
+                            },
+                            getHelper: function (e, t) {
+                                return this.getHelpers(e, t)[0];
+                            },
+                            getHelpers: function (e, t) {
+                                var r = [];
+                                if (!n.hasOwnProperty(t)) return r;
+                                var i = n[t],
+                                    o = this.getModeAt(e);
+                                if ('string' == typeof o[t]) i[o[t]] && r.push(i[o[t]]);
+                                else if (o[t])
+                                    for (var a = 0; a < o[t].length; a++) {
+                                        var s = i[o[t][a]];
+                                        s && r.push(s);
+                                    }
+                                else o.helperType && i[o.helperType] ? r.push(i[o.helperType]) : i[o.name] && r.push(i[o.name]);
+                                for (var l = 0; l < i._global.length; l++) {
+                                    var u = i._global[l];
+                                    u.pred(o, this) && -1 == z(r, u.val) && r.push(u.val);
+                                }
+                                return r;
+                            },
+                            getStateAfter: function (e, t) {
+                                var n = this.doc;
+                                return pt(this, (e = at(n, null == e ? n.first + n.size - 1 : e)) + 1, t).state;
+                            },
+                            cursorCoords: function (e, t) {
+                                var n = this.doc.sel.primary();
+                                return Vn(this, null == e ? n.head : 'object' == typeof e ? st(this.doc, e) : e ? n.from() : n.to(), t || 'page');
+                            },
+                            charCoords: function (e, t) {
+                                return $n(this, st(this.doc, e), t || 'page');
+                            },
+                            coordsChar: function (e, t) {
+                                return Qn(this, (e = Gn(this, e, t || 'page')).left, e.top);
+                            },
+                            lineAtHeight: function (e, t) {
+                                return (e = Gn(this, { top: e, left: 0 }, t || 'page').top), Xe(this.doc, e + this.display.viewOffset);
+                            },
+                            heightAtLine: function (e, t, n) {
+                                var r,
+                                    i = !1;
+                                if ('number' == typeof e) {
+                                    var o = this.doc.first + this.doc.size - 1;
+                                    e < this.doc.first ? (e = this.doc.first) : e > o && ((e = o), (i = !0)), (r = $e(this.doc, e));
+                                } else r = e;
+                                return Wn(this, r, { top: 0, left: 0 }, t || 'page', n || i).top + (i ? this.doc.height - Ht(r) : 0);
+                            },
+                            defaultTextHeight: function () {
+                                return rr(this.display);
+                            },
+                            defaultCharWidth: function () {
+                                return ir(this.display);
+                            },
+                            getViewport: function () {
+                                return { from: this.display.viewFrom, to: this.display.viewTo };
+                            },
+                            addWidget: function (e, t, n, r, i) {
+                                var o,
+                                    a,
+                                    s,
+                                    l = this.display,
+                                    u = (e = Vn(this, st(this.doc, e))).bottom,
+                                    c = e.left;
+                                if (
+                                    ((t.style.position = 'absolute'),
+                                    t.setAttribute('cm-ignore-events', 'true'),
+                                    this.display.input.setUneditable(t),
+                                    l.sizer.appendChild(t),
+                                    'over' == r)
+                                )
+                                    u = e.top;
+                                else if ('above' == r || 'near' == r) {
+                                    var d = Math.max(l.wrapper.clientHeight, this.doc.height),
+                                        f = Math.max(l.sizer.clientWidth, l.lineSpace.clientWidth);
+                                    ('above' == r || e.bottom + t.offsetHeight > d) && e.top > t.offsetHeight
+                                        ? (u = e.top - t.offsetHeight)
+                                        : e.bottom + t.offsetHeight <= d && (u = e.bottom),
+                                        c + t.offsetWidth > f && (c = f - t.offsetWidth);
+                                }
+                                (t.style.top = u + 'px'),
+                                    (t.style.left = t.style.right = ''),
+                                    'right' == i
+                                        ? ((c = l.sizer.clientWidth - t.offsetWidth), (t.style.right = '0px'))
+                                        : ('left' == i ? (c = 0) : 'middle' == i && (c = (l.sizer.clientWidth - t.offsetWidth) / 2), (t.style.left = c + 'px')),
+                                    n &&
+                                        ((o = this),
+                                        (a = {
+                                            left: c,
+                                            top: u,
+                                            right: c + t.offsetWidth,
+                                            bottom: u + t.offsetHeight
+                                        }),
+                                        null != (s = Ar(o, a)).scrollTop && Lr(o, s.scrollTop),
+                                        null != s.scrollLeft && Nr(o, s.scrollLeft));
+                            },
+                            triggerOnKeyDown: ti(ca),
+                            triggerOnKeyPress: ti(fa),
+                            triggerOnKeyUp: da,
+                            triggerOnMouseDown: ti(ga),
+                            execCommand: function (e) {
+                                if (ta.hasOwnProperty(e)) return ta[e].call(null, this);
+                            },
+                            triggerElectric: ti(function (e) {
+                                ja(this, e);
+                            }),
+                            findPosH: function (e, t, n, r) {
+                                var i = 1;
+                                t < 0 && ((i = -1), (t = -t));
+                                for (var o = st(this.doc, e), a = 0; a < t && !(o = Fa(this.doc, o, i, n, r)).hitSide; ++a);
+                                return o;
+                            },
+                            moveH: ti(function (e, t) {
+                                var n = this;
+                                this.extendSelectionsBy(function (r) {
+                                    return n.display.shift || n.doc.extend || r.empty()
+                                        ? Fa(n.doc, r.head, e, t, n.options.rtlMoveVisually)
+                                        : e < 0
+                                        ? r.from()
+                                        : r.to();
+                                }, W);
+                            }),
+                            deleteH: ti(function (e, t) {
+                                var n = this.doc.sel,
+                                    r = this.doc;
+                                n.somethingSelected()
+                                    ? r.replaceSelection('', null, '+delete')
+                                    : Xo(this, function (n) {
+                                          var i = Fa(r, n.head, e, t, !1);
+                                          return e < 0 ? { from: i, to: n.head } : { from: n.head, to: i };
+                                      });
+                            }),
+                            findPosV: function (e, t, n, r) {
+                                var i = 1,
+                                    o = r;
+                                t < 0 && ((i = -1), (t = -t));
+                                for (var a = st(this.doc, e), s = 0; s < t; ++s) {
+                                    var l = Vn(this, a, 'div');
+                                    if ((null == o ? (o = l.left) : (l.left = o), (a = Ba(this, l, i, n)).hitSide)) break;
+                                }
+                                return a;
+                            },
+                            moveV: ti(function (e, t) {
+                                var n = this,
+                                    r = this.doc,
+                                    i = [],
+                                    o = !this.display.shift && !r.extend && r.sel.somethingSelected();
+                                if (
+                                    (r.extendSelectionsBy(function (a) {
+                                        if (o) return e < 0 ? a.from() : a.to();
+                                        var s = Vn(n, a.head, 'div');
+                                        null != a.goalColumn && (s.left = a.goalColumn), i.push(s.left);
+                                        var l = Ba(n, s, e, t);
+                                        return 'page' == t && a == r.sel.primary() && Pr(n, $n(n, l, 'div').top - s.top), l;
+                                    }, W),
+                                    i.length)
+                                )
+                                    for (var a = 0; a < r.sel.ranges.length; a++) r.sel.ranges[a].goalColumn = i[a];
+                            }),
+                            findWordAt: function (e) {
+                                var t = $e(this.doc, e.line).text,
+                                    n = e.ch,
+                                    r = e.ch;
+                                if (t) {
+                                    var i = this.getHelper(e, 'wordChars');
+                                    ('before' != e.sticky && r != t.length) || !n ? ++r : --n;
+                                    for (
+                                        var o = t.charAt(n),
+                                            a = ee(o, i)
+                                                ? function (e) {
+                                                      return ee(e, i);
+                                                  }
+                                                : /\s/.test(o)
+                                                ? function (e) {
+                                                      return /\s/.test(e);
+                                                  }
+                                                : function (e) {
+                                                      return !/\s/.test(e) && !ee(e);
+                                                  };
+                                        n > 0 && a(t.charAt(n - 1));
+
+                                    )
+                                        --n;
+                                    for (; r < t.length && a(t.charAt(r)); ) ++r;
+                                }
+                                return new ki(et(e.line, n), et(e.line, r));
+                            },
+                            toggleOverwrite: function (e) {
+                                (null != e && e == this.state.overwrite) ||
+                                    ((this.state.overwrite = !this.state.overwrite)
+                                        ? I(this.display.cursorDiv, 'CodeMirror-overwrite')
+                                        : O(this.display.cursorDiv, 'CodeMirror-overwrite'),
+                                    he(this, 'overwriteToggle', this, this.state.overwrite));
+                            },
+                            hasFocus: function () {
+                                return this.display.input.getField() == M();
+                            },
+                            isReadOnly: function () {
+                                return !(!this.options.readOnly && !this.doc.cantEdit);
+                            },
+                            scrollTo: ti(function (e, t) {
+                                Mr(this, e, t);
+                            }),
+                            getScrollInfo: function () {
+                                var e = this.display.scroller;
+                                return {
+                                    left: e.scrollLeft,
+                                    top: e.scrollTop,
+                                    height: e.scrollHeight - On(this) - this.display.barHeight,
+                                    width: e.scrollWidth - On(this) - this.display.barWidth,
+                                    clientHeight: Tn(this),
+                                    clientWidth: Cn(this)
+                                };
+                            },
+                            scrollIntoView: ti(function (e, t) {
+                                null == e
+                                    ? ((e = { from: this.doc.sel.primary().head, to: null }), null == t && (t = this.options.cursorScrollMargin))
+                                    : 'number' == typeof e
+                                    ? (e = { from: et(e, 0), to: null })
+                                    : null == e.from && (e = { from: e, to: null }),
+                                    e.to || (e.to = e.from),
+                                    (e.margin = t || 0),
+                                    null != e.from.line
+                                        ? (function (e, t) {
+                                              Ir(e), (e.curOp.scrollToPos = t);
+                                          })(this, e)
+                                        : jr(this, e.from, e.to, e.margin);
+                            }),
+                            setSize: ti(function (e, t) {
+                                var n = this,
+                                    r = function (e) {
+                                        return 'number' == typeof e || /^\d+$/.test(String(e)) ? e + 'px' : e;
+                                    };
+                                null != e && (this.display.wrapper.style.width = r(e)),
+                                    null != t && (this.display.wrapper.style.height = r(t)),
+                                    this.options.lineWrapping && Bn(this);
+                                var i = this.display.viewFrom;
+                                this.doc.iter(i, this.display.viewTo, function (e) {
+                                    if (e.widgets)
+                                        for (var t = 0; t < e.widgets.length; t++)
+                                            if (e.widgets[t].noHScroll) {
+                                                fr(n, i, 'widget');
+                                                break;
+                                            }
+                                    ++i;
+                                }),
+                                    (this.curOp.forceUpdate = !0),
+                                    he(this, 'refresh', this);
+                            }),
+                            operation: function (e) {
+                                return Zr(this, e);
+                            },
+                            startOperation: function () {
+                                return $r(this);
+                            },
+                            endOperation: function () {
+                                return Vr(this);
+                            },
+                            refresh: ti(function () {
+                                var e = this.display.cachedTextHeight;
+                                dr(this),
+                                    (this.curOp.forceUpdate = !0),
+                                    zn(this),
+                                    Mr(this, this.doc.scrollLeft, this.doc.scrollTop),
+                                    ui(this.display),
+                                    (null == e || Math.abs(e - rr(this.display)) > 0.5 || this.options.lineWrapping) && lr(this),
+                                    he(this, 'refresh', this);
+                            }),
+                            swapDoc: ti(function (e) {
+                                var t = this.doc;
+                                return (
+                                    (t.cm = null),
+                                    this.state.selectingText && this.state.selectingText(),
+                                    Li(this, e),
+                                    zn(this),
+                                    this.display.input.reset(),
+                                    Mr(this, e.scrollLeft, e.scrollTop),
+                                    (this.curOp.forceScroll = !0),
+                                    ln(this, 'swapDoc', this, t),
+                                    t
+                                );
+                            }),
+                            phrase: function (e) {
+                                var t = this.options.phrases;
+                                return t && Object.prototype.hasOwnProperty.call(t, e) ? t[e] : e;
+                            },
+                            getInputField: function () {
+                                return this.display.input.getField();
+                            },
+                            getWrapperElement: function () {
+                                return this.display.wrapper;
+                            },
+                            getScrollerElement: function () {
+                                return this.display.scroller;
+                            },
+                            getGutterElement: function () {
+                                return this.display.gutters;
+                            }
+                        }),
+                            ye(e),
+                            (e.registerHelper = function (t, r, i) {
+                                n.hasOwnProperty(t) || (n[t] = e[t] = { _global: [] }), (n[t][r] = i);
+                            }),
+                            (e.registerGlobalHelper = function (t, r, i, o) {
+                                e.registerHelper(t, r, o), n[t]._global.push({ pred: i, val: o });
+                            });
+                    })(Ca);
+                var $a = 'iter insert remove copy getEditor constructor'.split(' ');
+                for (var Va in Ro.prototype)
+                    Ro.prototype.hasOwnProperty(Va) &&
+                        z($a, Va) < 0 &&
+                        (Ca.prototype[Va] = (function (e) {
+                            return function () {
+                                return e.apply(this.doc, arguments);
+                            };
+                        })(Ro.prototype[Va]));
+                return (
+                    ye(Ro),
+                    (Ca.inputStyles = { textarea: Ga, contenteditable: za }),
+                    (Ca.defineMode = function (e) {
+                        Ca.defaults.mode || 'null' == e || (Ca.defaults.mode = e), Ne.apply(this, arguments);
+                    }),
+                    (Ca.defineMIME = function (e, t) {
+                        De[e] = t;
+                    }),
+                    Ca.defineMode('null', function () {
+                        return {
+                            token: function (e) {
+                                return e.skipToEnd();
+                            }
+                        };
+                    }),
+                    Ca.defineMIME('text/plain', 'null'),
+                    (Ca.defineExtension = function (e, t) {
+                        Ca.prototype[e] = t;
+                    }),
+                    (Ca.defineDocExtension = function (e, t) {
+                        Ro.prototype[e] = t;
+                    }),
+                    (Ca.fromTextArea = function (e, t) {
+                        if (
+                            (((t = t ? N(t) : {}).value = e.value),
+                            !t.tabindex && e.tabIndex && (t.tabindex = e.tabIndex),
+                            !t.placeholder && e.placeholder && (t.placeholder = e.placeholder),
+                            null == t.autofocus)
+                        ) {
+                            var n = M();
+                            t.autofocus = n == e || (null != e.getAttribute('autofocus') && n == document.body);
+                        }
+                        function r() {
+                            e.value = s.getValue();
+                        }
+                        var i;
+                        if (e.form && (de(e.form, 'submit', r), !t.leaveSubmitMethodAlone)) {
+                            var o = e.form;
+                            i = o.submit;
+                            try {
+                                var a = (o.submit = function () {
+                                    r(), (o.submit = i), o.submit(), (o.submit = a);
+                                });
+                            } catch (e) {}
+                        }
+                        (t.finishInit = function (n) {
+                            (n.save = r),
+                                (n.getTextArea = function () {
+                                    return e;
+                                }),
+                                (n.toTextArea = function () {
+                                    (n.toTextArea = isNaN),
+                                        r(),
+                                        e.parentNode.removeChild(n.getWrapperElement()),
+                                        (e.style.display = ''),
+                                        e.form &&
+                                            (pe(e.form, 'submit', r), t.leaveSubmitMethodAlone || 'function' != typeof e.form.submit || (e.form.submit = i));
+                                });
+                        }),
+                            (e.style.display = 'none');
+                        var s = Ca(function (t) {
+                            return e.parentNode.insertBefore(t, e.nextSibling);
+                        }, t);
+                        return s;
+                    }),
+                    (function (e) {
+                        (e.off = pe),
+                            (e.on = de),
+                            (e.wheelEventPixels = _i),
+                            (e.Doc = Ro),
+                            (e.splitLines = Re),
+                            (e.countColumn = F),
+                            (e.findColumn = G),
+                            (e.isWordChar = Z),
+                            (e.Pass = U),
+                            (e.signal = he),
+                            (e.Line = $t),
+                            (e.changeEnd = Oi),
+                            (e.scrollbarModel = Hr),
+                            (e.Pos = et),
+                            (e.cmpPos = tt),
+                            (e.modes = Le),
+                            (e.mimeModes = De),
+                            (e.resolveMode = Fe),
+                            (e.getMode = Be),
+                            (e.modeExtensions = ze),
+                            (e.extendMode = Ue),
+                            (e.copyState = qe),
+                            (e.startState = We),
+                            (e.innerMode = He),
+                            (e.commands = ta),
+                            (e.keyMap = Ho),
+                            (e.keyName = Yo),
+                            (e.isModifierKey = Vo),
+                            (e.lookupKey = $o),
+                            (e.normalizeKeyMap = Go),
+                            (e.StringStream = Ge),
+                            (e.SharedTextMarker = Co),
+                            (e.TextMarker = So),
+                            (e.LineWidget = xo),
+                            (e.e_preventDefault = be),
+                            (e.e_stopPropagation = _e),
+                            (e.e_stop = xe),
+                            (e.addClass = I),
+                            (e.contains = R),
+                            (e.rmClass = O),
+                            (e.keyNames = Bo);
+                    })(Ca),
+                    (Ca.version = '5.58.3'),
+                    Ca
+                );
+            })();
+        },
+        function (e, t, n) {
+            'use strict';
+            function r() {
+                return (function () {
+                    throw new Error('Unimplemented abstract method.');
+                })();
+            }
+            n.d(t, 'b', function () {
+                return r;
+            }),
+                n.d(t, 'c', function () {
+                    return o;
+                }),
+                n.d(t, 'a', function () {
+                    return a;
+                });
+            var i = 0;
+            function o(e) {
+                return e.ol_uid || (e.ol_uid = String(++i));
+            }
+            var a = '5.3.3';
+        },
+        function (e, t, n) {
+            'use strict';
+            n.d(t, 'c', function () {
+                return i;
+            }),
+                n.d(t, 'a', function () {
+                    return o;
+                }),
+                n.d(t, 'e', function () {
+                    return a;
+                }),
+                n.d(t, 'b', function () {
+                    return s;
+                }),
+                n.d(t, 'd', function () {
+                    return l;
+                }),
+                n.d(t, 'f', function () {
+                    return u;
+                });
+            /*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+            var r = function (e, t) {
+                return (r =
+                    Object.setPrototypeOf ||
+                    ({ __proto__: [] } instanceof Array &&
+                        function (e, t) {
+                            e.__proto__ = t;
+                        }) ||
+                    function (e, t) {
+                        for (var n in t) t.hasOwnProperty(n) && (e[n] = t[n]);
+                    })(e, t);
+            };
+            function i(e, t) {
+                function n() {
+                    this.constructor = e;
+                }
+                r(e, t), (e.prototype = null === t ? Object.create(t) : ((n.prototype = t.prototype), new n()));
+            }
+            var o = function () {
+                return (o =
+                    Object.assign ||
+                    function (e) {
+                        for (var t, n = 1, r = arguments.length; n < r; n++)
+                            for (var i in (t = arguments[n])) Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
+                        return e;
+                    }).apply(this, arguments);
+            };
+            function a(e, t) {
+                var n = {};
+                for (var r in e) Object.prototype.hasOwnProperty.call(e, r) && t.indexOf(r) < 0 && (n[r] = e[r]);
+                if (null != e && 'function' == typeof Object.getOwnPropertySymbols) {
+                    var i = 0;
+                    for (r = Object.getOwnPropertySymbols(e); i < r.length; i++)
+                        t.indexOf(r[i]) < 0 && Object.prototype.propertyIsEnumerable.call(e, r[i]) && (n[r[i]] = e[r[i]]);
+                }
+                return n;
+            }
+            function s(e, t, n, r) {
+                return new (n || (n = Promise))(function (i, o) {
+                    function a(e) {
+                        try {
+                            l(r.next(e));
+                        } catch (e) {
+                            o(e);
+                        }
+                    }
+                    function s(e) {
+                        try {
+                            l(r.throw(e));
+                        } catch (e) {
+                            o(e);
+                        }
+                    }
+                    function l(e) {
+                        e.done
+                            ? i(e.value)
+                            : (function (e) {
+                                  return e instanceof n
+                                      ? e
+                                      : new n(function (t) {
+                                            t(e);
+                                        });
+                              })(e.value).then(a, s);
+                    }
+                    l((r = r.apply(e, t || [])).next());
+                });
+            }
+            function l(e, t) {
+                var n,
+                    r,
+                    i,
+                    o,
+                    a = {
+                        label: 0,
+                        sent: function () {
+                            if (1 & i[0]) throw i[1];
+                            return i[1];
+                        },
+                        trys: [],
+                        ops: []
+                    };
+                return (
+                    (o = { next: s(0), throw: s(1), return: s(2) }),
+                    'function' == typeof Symbol &&
+                        (o[Symbol.iterator] = function () {
+                            return this;
+                        }),
+                    o
+                );
+                function s(o) {
+                    return function (s) {
+                        return (function (o) {
+                            if (n) throw new TypeError('Generator is already executing.');
+                            for (; a; )
+                                try {
+                                    if (
+                                        ((n = 1),
+                                        r &&
+                                            (i = 2 & o[0] ? r.return : o[0] ? r.throw || ((i = r.return) && i.call(r), 0) : r.next) &&
+                                            !(i = i.call(r, o[1])).done)
+                                    )
+                                        return i;
+                                    switch (((r = 0), i && (o = [2 & o[0], i.value]), o[0])) {
+                                        case 0:
+                                        case 1:
+                                            i = o;
+                                            break;
+                                        case 4:
+                                            return a.label++, { value: o[1], done: !1 };
+                                        case 5:
+                                            a.label++, (r = o[1]), (o = [0]);
+                                            continue;
+                                        case 7:
+                                            (o = a.ops.pop()), a.trys.pop();
+                                            continue;
+                                        default:
+                                            if (!((i = a.trys), (i = i.length > 0 && i[i.length - 1]) || (6 !== o[0] && 2 !== o[0]))) {
+                                                a = 0;
+                                                continue;
+                                            }
+                                            if (3 === o[0] && (!i || (o[1] > i[0] && o[1] < i[3]))) {
+                                                a.label = o[1];
+                                                break;
+                                            }
+                                            if (6 === o[0] && a.label < i[1]) {
+                                                (a.label = i[1]), (i = o);
+                                                break;
+                                            }
+                                            if (i && a.label < i[2]) {
+                                                (a.label = i[2]), a.ops.push(o);
+                                                break;
+                                            }
+                                            i[2] && a.ops.pop(), a.trys.pop();
+                                            continue;
+                                    }
+                                    o = t.call(e, a);
+                                } catch (e) {
+                                    (o = [6, e]), (r = 0);
+                                } finally {
+                                    n = i = 0;
+                                }
+                            if (5 & o[0]) throw o[1];
+                            return { value: o[0] ? o[1] : void 0, done: !0 };
+                        })([o, s]);
+                    };
+                }
+            }
+            function u() {
+                for (var e = 0, t = 0, n = arguments.length; t < n; t++) e += arguments[t].length;
+                var r = Array(e),
+                    i = 0;
+                for (t = 0; t < n; t++) for (var o = arguments[t], a = 0, s = o.length; a < s; a++, i++) r[i] = o[a];
+                return r;
+            }
+        },
+        function (e, t, n) {
+            'use strict';
+            n.d(t, 'a', function () {
+                return m;
+            }),
+                n.d(t, 'b', function () {
+                    return c;
+                }),
+                n.d(t, 'c', function () {
+                    return y;
+                }),
+                n.d(t, 'd', function () {
+                    return o;
+                }),
+                n.d(t, 'e', function () {
+                    return p;
+                }),
+                n.d(t, 'f', function () {
+                    return s;
+                }),
+                n.d(t, 'g', function () {
+                    return f;
+                }),
+                n.d(t, 'h', function () {
+                    return _;
+                }),
+                n.d(t, 'i', function () {
+                    return b;
+                }),
+                n.d(t, 'j', function () {
+                    return M;
+                }),
+                n.d(t, 'k', function () {
+                    return v;
+                }),
+                n.d(t, 'l', function () {
+                    return u;
+                }),
+                n.d(t, 'm', function () {
+                    return i;
+                }),
+                n.d(t, 'n', function () {
+                    return W;
+                }),
+                n.d(t, 'o', function () {
+                    return $;
+                }),
+                n.d(t, 'p', function () {
+                    return w;
+                }),
+                n.d(t, 'q', function () {
+                    return F;
+                }),
+                n.d(t, 'r', function () {
+                    return I;
+                }),
+                n.d(t, 's', function () {
+                    return g;
+                }),
+                n.d(t, 't', function () {
+                    return x;
+                }),
+                n.d(t, 'u', function () {
+                    return H;
+                }),
+                n.d(t, 'v', function () {
+                    return k;
+                }),
+                n.d(t, 'w', function () {
+                    return a;
+                });
+            var r = n(1);
+            function i(e, t, n) {
+                return n ? (-1 === n.indexOf('\n') ? ''.concat(e, ' #').concat(n) : ''.concat(e, '\n') + n.replace(/^/gm, ''.concat(t || '', '#'))) : e;
+            }
+            var o = function e() {
+                Object(r.j)(this, e);
+            };
+            function a(e, t, n) {
+                if (Array.isArray(e))
+                    return e.map(function (e, t) {
+                        return a(e, String(t), n);
+                    });
+                if (e && 'function' == typeof e.toJSON) {
+                    var r = n && n.anchors && n.anchors.get(e);
+                    r &&
+                        (n.onCreate = function (e) {
+                            (r.res = e), delete n.onCreate;
+                        });
+                    var i = e.toJSON(t, n);
+                    return r && n.onCreate && n.onCreate(i), i;
+                }
+                return (n && n.keep) || 'bigint' != typeof e ? e : Number(e);
+            }
+            var s = (function (e) {
+                Object(r.q)(n, e);
+                var t = Object(r.r)(n);
+                function n(e) {
+                    var i;
+                    return Object(r.j)(this, n), ((i = t.call(this)).value = e), i;
+                }
+                return (
+                    Object(r.i)(n, [
+                        {
+                            key: 'toJSON',
+                            value: function (e, t) {
+                                return t && t.keep ? this.value : a(this.value, e, t);
+                            }
+                        },
+                        {
+                            key: 'toString',
+                            value: function () {
+                                return String(this.value);
+                            }
+                        }
+                    ]),
+                    n
+                );
+            })(o);
+            function l(e, t, n) {
+                for (var r = n, i = t.length - 1; i >= 0; --i) {
+                    var o = t[i],
+                        a = Number.isInteger(o) && o >= 0 ? [] : {};
+                    (a[o] = r), (r = a);
+                }
+                return e.createNode(r, !1);
+            }
+            var u = function (e) {
+                    return null == e || ('object' === Object(r.h)(e) && e[Symbol.iterator]().next().done);
+                },
+                c = (function (e) {
+                    Object(r.q)(n, e);
+                    var t = Object(r.r)(n);
+                    function n(e) {
+                        var i;
+                        return Object(r.j)(this, n), (i = t.call(this)), Object(r.l)(Object(r.w)(i), 'items', []), (i.schema = e), i;
+                    }
+                    return (
+                        Object(r.i)(n, [
+                            {
+                                key: 'addIn',
+                                value: function (e, t) {
+                                    if (u(e)) this.add(t);
+                                    else {
+                                        var i = Object(r.x)(e),
+                                            o = i[0],
+                                            a = i.slice(1),
+                                            s = this.get(o, !0);
+                                        if (s instanceof n) s.addIn(a, t);
+                                        else {
+                                            if (void 0 !== s || !this.schema)
+                                                throw new Error('Expected YAML collection at '.concat(o, '. Remaining path: ').concat(a));
+                                            this.set(o, l(this.schema, a, t));
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                key: 'deleteIn',
+                                value: function (e) {
+                                    var t = Object(r.x)(e),
+                                        i = t[0],
+                                        o = t.slice(1);
+                                    if (0 === o.length) return this.delete(i);
+                                    var a = this.get(i, !0);
+                                    if (a instanceof n) return a.deleteIn(o);
+                                    throw new Error('Expected YAML collection at '.concat(i, '. Remaining path: ').concat(o));
+                                }
+                            },
+                            {
+                                key: 'getIn',
+                                value: function (e, t) {
+                                    var i = Object(r.x)(e),
+                                        o = i[0],
+                                        a = i.slice(1),
+                                        l = this.get(o, !0);
+                                    return 0 === a.length ? (!t && l instanceof s ? l.value : l) : l instanceof n ? l.getIn(a, t) : void 0;
+                                }
+                            },
+                            {
+                                key: 'hasAllNullValues',
+                                value: function () {
+                                    return this.items.every(function (e) {
+                                        if (!e || 'PAIR' !== e.type) return !1;
+                                        var t = e.value;
+                                        return null == t || (t instanceof s && null == t.value && !t.commentBefore && !t.comment && !t.tag);
+                                    });
+                                }
+                            },
+                            {
+                                key: 'hasIn',
+                                value: function (e) {
+                                    var t = Object(r.x)(e),
+                                        i = t[0],
+                                        o = t.slice(1);
+                                    if (0 === o.length) return this.has(i);
+                                    var a = this.get(i, !0);
+                                    return a instanceof n && a.hasIn(o);
+                                }
+                            },
+                            {
+                                key: 'setIn',
+                                value: function (e, t) {
+                                    var i = Object(r.x)(e),
+                                        o = i[0],
+                                        a = i.slice(1);
+                                    if (0 === a.length) this.set(o, t);
+                                    else {
+                                        var s = this.get(o, !0);
+                                        if (s instanceof n) s.setIn(a, t);
+                                        else {
+                                            if (void 0 !== s || !this.schema)
+                                                throw new Error('Expected YAML collection at '.concat(o, '. Remaining path: ').concat(a));
+                                            this.set(o, l(this.schema, a, t));
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                key: 'toJSON',
+                                value: function () {
+                                    return null;
+                                }
+                            },
+                            {
+                                key: 'toString',
+                                value: function (e, t, o, a) {
+                                    var s = this,
+                                        l = t.blockItem,
+                                        u = t.flowChars,
+                                        c = t.isMap,
+                                        d = t.itemIndent,
+                                        f = e,
+                                        p = f.indent,
+                                        h = f.indentStep,
+                                        m = f.stringify,
+                                        g = this.type === r.e.FLOW_MAP || this.type === r.e.FLOW_SEQ || e.inFlow;
+                                    g && (d += h);
+                                    var v = c && this.hasAllNullValues();
+                                    e = Object.assign({}, e, {
+                                        allNullValues: v,
+                                        indent: d,
+                                        inFlow: g,
+                                        type: null
+                                    });
+                                    var y,
+                                        b = !1,
+                                        _ = !1,
+                                        w = this.items.reduce(function (t, n, r) {
+                                            var o;
+                                            n &&
+                                                (!b && n.spaceBefore && t.push({ type: 'comment', str: '' }),
+                                                n.commentBefore &&
+                                                    n.commentBefore.match(/^.*$/gm).forEach(function (e) {
+                                                        t.push({ type: 'comment', str: '#'.concat(e) });
+                                                    }),
+                                                n.comment && (o = n.comment),
+                                                g &&
+                                                    ((!b && n.spaceBefore) ||
+                                                        n.commentBefore ||
+                                                        n.comment ||
+                                                        (n.key && (n.key.commentBefore || n.key.comment)) ||
+                                                        (n.value && (n.value.commentBefore || n.value.comment))) &&
+                                                    (_ = !0)),
+                                                (b = !1);
+                                            var a = m(
+                                                n,
+                                                e,
+                                                function () {
+                                                    return (o = null);
+                                                },
+                                                function () {
+                                                    return (b = !0);
+                                                }
+                                            );
+                                            return (
+                                                g && !_ && a.includes('\n') && (_ = !0),
+                                                g && r < s.items.length - 1 && (a += ','),
+                                                (a = i(a, d, o)),
+                                                b && (o || g) && (b = !1),
+                                                t.push({ type: 'item', str: a }),
+                                                t
+                                            );
+                                        }, []);
+                                    if (0 === w.length) y = u.start + u.end;
+                                    else if (g) {
+                                        var x = u.start,
+                                            k = u.end,
+                                            E = w.map(function (e) {
+                                                return e.str;
+                                            });
+                                        if (
+                                            _ ||
+                                            E.reduce(function (e, t) {
+                                                return e + t.length + 2;
+                                            }, 2) > n.maxFlowStringSingleLineLength
+                                        ) {
+                                            y = x;
+                                            var S,
+                                                O = Object(r.g)(E);
+                                            try {
+                                                for (O.s(); !(S = O.n()).done; ) {
+                                                    var C = S.value;
+                                                    y += C ? '\n'.concat(h).concat(p).concat(C) : '\n';
+                                                }
+                                            } catch (e) {
+                                                O.e(e);
+                                            } finally {
+                                                O.f();
+                                            }
+                                            y += '\n'.concat(p).concat(k);
+                                        } else y = ''.concat(x, ' ').concat(E.join(' '), ' ').concat(k);
+                                    } else {
+                                        var T = w.map(l);
+                                        y = T.shift();
+                                        var A,
+                                            P = Object(r.g)(T);
+                                        try {
+                                            for (P.s(); !(A = P.n()).done; ) {
+                                                var R = A.value;
+                                                y += R ? '\n'.concat(p).concat(R) : '\n';
+                                            }
+                                        } catch (e) {
+                                            P.e(e);
+                                        } finally {
+                                            P.f();
+                                        }
+                                    }
+                                    return this.comment ? ((y += '\n' + this.comment.replace(/^/gm, ''.concat(p, '#'))), o && o()) : b && a && a(), y;
+                                }
+                            }
+                        ]),
+                        n
+                    );
+                })(o);
+            function d(e) {
+                var t = e instanceof s ? e.value : e;
+                return t && 'string' == typeof t && (t = Number(t)), Number.isInteger(t) && t >= 0 ? t : null;
+            }
+            Object(r.l)(c, 'maxFlowStringSingleLineLength', 60);
+            var f = (function (e) {
+                    Object(r.q)(n, e);
+                    var t = Object(r.r)(n);
+                    function n() {
+                        return Object(r.j)(this, n), t.apply(this, arguments);
+                    }
+                    return (
+                        Object(r.i)(n, [
+                            {
+                                key: 'add',
+                                value: function (e) {
+                                    this.items.push(e);
+                                }
+                            },
+                            {
+                                key: 'delete',
+                                value: function (e) {
+                                    var t = d(e);
+                                    return 'number' == typeof t && this.items.splice(t, 1).length > 0;
+                                }
+                            },
+                            {
+                                key: 'get',
+                                value: function (e, t) {
+                                    var n = d(e);
+                                    if ('number' == typeof n) {
+                                        var r = this.items[n];
+                                        return !t && r instanceof s ? r.value : r;
+                                    }
+                                }
+                            },
+                            {
+                                key: 'has',
+                                value: function (e) {
+                                    var t = d(e);
+                                    return 'number' == typeof t && t < this.items.length;
+                                }
+                            },
+                            {
+                                key: 'set',
+                                value: function (e, t) {
+                                    var n = d(e);
+                                    if ('number' != typeof n) throw new Error('Expected a valid index, not '.concat(e, '.'));
+                                    this.items[n] = t;
+                                }
+                            },
+                            {
+                                key: 'toJSON',
+                                value: function (e, t) {
+                                    var n = [];
+                                    t && t.onCreate && t.onCreate(n);
+                                    var i,
+                                        o = 0,
+                                        s = Object(r.g)(this.items);
+                                    try {
+                                        for (s.s(); !(i = s.n()).done; ) {
+                                            var l = i.value;
+                                            n.push(a(l, String(o++), t));
+                                        }
+                                    } catch (e) {
+                                        s.e(e);
+                                    } finally {
+                                        s.f();
+                                    }
+                                    return n;
+                                }
+                            },
+                            {
+                                key: 'toString',
+                                value: function (e, t, i) {
+                                    return e
+                                        ? Object(r.s)(Object(r.t)(n.prototype), 'toString', this).call(
+                                              this,
+                                              e,
+                                              {
+                                                  blockItem: function (e) {
+                                                      return 'comment' === e.type ? e.str : '- '.concat(e.str);
+                                                  },
+                                                  flowChars: { start: '[', end: ']' },
+                                                  isMap: !1,
+                                                  itemIndent: (e.indent || '') + '  '
+                                              },
+                                              t,
+                                              i
+                                          )
+                                        : JSON.stringify(this);
+                                }
+                            }
+                        ]),
+                        n
+                    );
+                })(c),
+                p = (function (e) {
+                    Object(r.q)(n, e);
+                    var t = Object(r.r)(n);
+                    function n(e) {
+                        var i,
+                            o = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : null;
+                        return Object(r.j)(this, n), ((i = t.call(this)).key = e), (i.value = o), (i.type = n.Type.PAIR), i;
+                    }
+                    return (
+                        Object(r.i)(n, [
+                            {
+                                key: 'addToJSMap',
+                                value: function (e, t) {
+                                    var n = a(this.key, '', e);
+                                    if (t instanceof Map) {
+                                        var i = a(this.value, n, e);
+                                        t.set(n, i);
+                                    } else if (t instanceof Set) t.add(n);
+                                    else {
+                                        var s = (function (e, t, n) {
+                                            return null === t
+                                                ? ''
+                                                : 'object' !== Object(r.h)(t)
+                                                ? String(t)
+                                                : e instanceof o && n && n.doc
+                                                ? e.toString({
+                                                      anchors: {},
+                                                      doc: n.doc,
+                                                      indent: '',
+                                                      indentStep: n.indentStep,
+                                                      inFlow: !0,
+                                                      inStringifyKey: !0,
+                                                      stringify: n.stringify
+                                                  })
+                                                : JSON.stringify(t);
+                                        })(this.key, n, e);
+                                        t[s] = a(this.value, s, e);
+                                    }
+                                    return t;
+                                }
+                            },
+                            {
+                                key: 'toJSON',
+                                value: function (e, t) {
+                                    var n = t && t.mapAsMap ? new Map() : {};
+                                    return this.addToJSMap(t, n);
+                                }
+                            },
+                            {
+                                key: 'toString',
+                                value: function (e, t, n) {
+                                    if (!e || !e.doc) return JSON.stringify(this);
+                                    var a = e.doc.options,
+                                        l = a.indent,
+                                        u = a.indentSeq,
+                                        d = a.simpleKeys,
+                                        p = this.key,
+                                        h = this.value,
+                                        m = p instanceof o && p.comment;
+                                    if (d) {
+                                        if (m) throw new Error('With simple keys, key nodes cannot have comments');
+                                        if (p instanceof c) {
+                                            throw new Error('With simple keys, collection cannot be used as a key value');
+                                        }
+                                    }
+                                    var g = !d && (!p || m || p instanceof c || p.type === r.e.BLOCK_FOLDED || p.type === r.e.BLOCK_LITERAL),
+                                        v = e,
+                                        y = v.doc,
+                                        b = v.indent,
+                                        _ = v.indentStep,
+                                        w = v.stringify;
+                                    e = Object.assign({}, e, { implicitKey: !g, indent: b + _ });
+                                    var x = !1,
+                                        k = w(
+                                            p,
+                                            e,
+                                            function () {
+                                                return (m = null);
+                                            },
+                                            function () {
+                                                return (x = !0);
+                                            }
+                                        );
+                                    if (((k = i(k, e.indent, m)), e.allNullValues && !d))
+                                        return (
+                                            this.comment ? ((k = i(k, e.indent, this.comment)), t && t()) : x && !m && n && n(), e.inFlow ? k : '? '.concat(k)
+                                        );
+                                    (k = g ? '? '.concat(k, '\n').concat(b, ':') : ''.concat(k, ':')),
+                                        this.comment && ((k = i(k, e.indent, this.comment)), t && t());
+                                    var E = '',
+                                        S = null;
+                                    if (h instanceof o) {
+                                        if ((h.spaceBefore && (E = '\n'), h.commentBefore)) {
+                                            var O = h.commentBefore.replace(/^/gm, ''.concat(e.indent, '#'));
+                                            E += '\n'.concat(O);
+                                        }
+                                        S = h.comment;
+                                    } else h && 'object' === Object(r.h)(h) && (h = y.schema.createNode(h, !0));
+                                    (e.implicitKey = !1),
+                                        !g && !this.comment && h instanceof s && (e.indentAtStart = k.length + 1),
+                                        (x = !1),
+                                        !u &&
+                                            l >= 2 &&
+                                            !e.inFlow &&
+                                            !g &&
+                                            h instanceof f &&
+                                            h.type !== r.e.FLOW_SEQ &&
+                                            !h.tag &&
+                                            !y.anchors.getName(h) &&
+                                            (e.indent = e.indent.substr(2));
+                                    var C = w(
+                                            h,
+                                            e,
+                                            function () {
+                                                return (S = null);
+                                            },
+                                            function () {
+                                                return (x = !0);
+                                            }
+                                        ),
+                                        T = ' ';
+                                    if (E || this.comment) T = ''.concat(E, '\n').concat(e.indent);
+                                    else if (!g && h instanceof c) {
+                                        (('[' === C[0] || '{' === C[0]) && !C.includes('\n')) || (T = '\n'.concat(e.indent));
+                                    }
+                                    return x && !S && n && n(), i(k + T + C, e.indent, S);
+                                }
+                            },
+                            {
+                                key: 'commentBefore',
+                                get: function () {
+                                    return this.key instanceof o ? this.key.commentBefore : void 0;
+                                },
+                                set: function (e) {
+                                    if ((null == this.key && (this.key = new s(null)), !(this.key instanceof o))) {
+                                        throw new Error('Pair.commentBefore is an alias for Pair.key.commentBefore. To set it, the key must be a Node.');
+                                    }
+                                    this.key.commentBefore = e;
+                                }
+                            }
+                        ]),
+                        n
+                    );
+                })(o);
+            Object(r.l)(p, 'Type', { PAIR: 'PAIR', MERGE_PAIR: 'MERGE_PAIR' });
+            var h = function e(t, n) {
+                    if (t instanceof m) {
+                        var i = n.get(t.source);
+                        return i.count * i.aliasCount;
+                    }
+                    if (t instanceof c) {
+                        var o,
+                            a = 0,
+                            s = Object(r.g)(t.items);
+                        try {
+                            for (s.s(); !(o = s.n()).done; ) {
+                                var l = e(o.value, n);
+                                l > a && (a = l);
+                            }
+                        } catch (e) {
+                            s.e(e);
+                        } finally {
+                            s.f();
+                        }
+                        return a;
+                    }
+                    if (t instanceof p) {
+                        var u = e(t.key, n),
+                            d = e(t.value, n);
+                        return Math.max(u, d);
+                    }
+                    return 1;
+                },
+                m = (function (e) {
+                    Object(r.q)(n, e);
+                    var t = Object(r.r)(n);
+                    function n(e) {
+                        var i;
+                        return Object(r.j)(this, n), ((i = t.call(this)).source = e), (i.type = r.e.ALIAS), i;
+                    }
+                    return (
+                        Object(r.i)(n, null, [
+                            {
+                                key: 'stringify',
+                                value: function (e, t) {
+                                    var n = e.range,
+                                        r = e.source,
+                                        i = t.anchors,
+                                        o = t.doc,
+                                        a = t.implicitKey,
+                                        s = t.inStringifyKey,
+                                        l = Object.keys(i).find(function (e) {
+                                            return i[e] === r;
+                                        });
+                                    if ((!l && s && (l = o.anchors.getName(r) || o.anchors.newName()), l)) return '*'.concat(l).concat(a ? ' ' : '');
+                                    var u = o.anchors.getName(r) ? 'Alias node must be after source node' : 'Source node not found for alias node';
+                                    throw new Error(''.concat(u, ' [').concat(n, ']'));
+                                }
+                            }
+                        ]),
+                        Object(r.i)(n, [
+                            {
+                                key: 'toJSON',
+                                value: function (e, t) {
+                                    if (!t) return a(this.source, e, t);
+                                    var n = t.anchors,
+                                        i = t.maxAliasCount,
+                                        o = n.get(this.source);
+                                    if (!o || void 0 === o.res) {
+                                        var s = 'This should not happen: Alias anchor was not resolved?';
+                                        throw this.cstNode ? new r.v(this.cstNode, s) : new ReferenceError(s);
+                                    }
+                                    if (i >= 0 && ((o.count += 1), 0 === o.aliasCount && (o.aliasCount = h(this.source, n)), o.count * o.aliasCount > i)) {
+                                        var l = 'Excessive alias count indicates a resource exhaustion attack';
+                                        throw this.cstNode ? new r.v(this.cstNode, l) : new ReferenceError(l);
+                                    }
+                                    return o.res;
+                                }
+                            },
+                            {
+                                key: 'toString',
+                                value: function (e) {
+                                    return n.stringify(this, e);
+                                }
+                            },
+                            {
+                                key: 'tag',
+                                set: function (e) {
+                                    throw new Error('Alias nodes cannot have tags');
+                                }
+                            }
+                        ]),
+                        n
+                    );
+                })(o);
+            function g(e, t) {
+                var n,
+                    i = t instanceof s ? t.value : t,
+                    o = Object(r.g)(e);
+                try {
+                    for (o.s(); !(n = o.n()).done; ) {
+                        var a = n.value;
+                        if (a instanceof p) {
+                            if (a.key === t || a.key === i) return a;
+                            if (a.key && a.key.value === i) return a;
+                        }
+                    }
+                } catch (e) {
+                    o.e(e);
+                } finally {
+                    o.f();
+                }
+            }
+            Object(r.l)(m, 'default', !0);
+            var v = (function (e) {
+                    Object(r.q)(n, e);
+                    var t = Object(r.r)(n);
+                    function n() {
+                        return Object(r.j)(this, n), t.apply(this, arguments);
+                    }
+                    return (
+                        Object(r.i)(n, [
+                            {
+                                key: 'add',
+                                value: function (e, t) {
+                                    e ? e instanceof p || (e = new p(e.key || e, e.value)) : (e = new p(e));
+                                    var n = g(this.items, e.key),
+                                        r = this.schema && this.schema.sortMapEntries;
+                                    if (n) {
+                                        if (!t) throw new Error('Key '.concat(e.key, ' already set'));
+                                        n.value = e.value;
+                                    } else if (r) {
+                                        var i = this.items.findIndex(function (t) {
+                                            return r(e, t) < 0;
+                                        });
+                                        -1 === i ? this.items.push(e) : this.items.splice(i, 0, e);
+                                    } else this.items.push(e);
+                                }
+                            },
+                            {
+                                key: 'delete',
+                                value: function (e) {
+                                    var t = g(this.items, e);
+                                    return !!t && this.items.splice(this.items.indexOf(t), 1).length > 0;
+                                }
+                            },
+                            {
+                                key: 'get',
+                                value: function (e, t) {
+                                    var n = g(this.items, e),
+                                        r = n && n.value;
+                                    return !t && r instanceof s ? r.value : r;
+                                }
+                            },
+                            {
+                                key: 'has',
+                                value: function (e) {
+                                    return !!g(this.items, e);
+                                }
+                            },
+                            {
+                                key: 'set',
+                                value: function (e, t) {
+                                    this.add(new p(e, t), !0);
+                                }
+                            },
+                            {
+                                key: 'toJSON',
+                                value: function (e, t, n) {
+                                    var i = n ? new n() : t && t.mapAsMap ? new Map() : {};
+                                    t && t.onCreate && t.onCreate(i);
+                                    var o,
+                                        a = Object(r.g)(this.items);
+                                    try {
+                                        for (a.s(); !(o = a.n()).done; ) {
+                                            o.value.addToJSMap(t, i);
+                                        }
+                                    } catch (e) {
+                                        a.e(e);
+                                    } finally {
+                                        a.f();
+                                    }
+                                    return i;
+                                }
+                            },
+                            {
+                                key: 'toString',
+                                value: function (e, t, i) {
+                                    if (!e) return JSON.stringify(this);
+                                    var o,
+                                        a = Object(r.g)(this.items);
+                                    try {
+                                        for (a.s(); !(o = a.n()).done; ) {
+                                            var s = o.value;
+                                            if (!(s instanceof p)) throw new Error('Map items must all be pairs; found '.concat(JSON.stringify(s), ' instead'));
+                                        }
+                                    } catch (e) {
+                                        a.e(e);
+                                    } finally {
+                                        a.f();
+                                    }
+                                    return Object(r.s)(Object(r.t)(n.prototype), 'toString', this).call(
+                                        this,
+                                        e,
+                                        {
+                                            blockItem: function (e) {
+                                                return e.str;
+                                            },
+                                            flowChars: { start: '{', end: '}' },
+                                            isMap: !0,
+                                            itemIndent: e.indent || ''
+                                        },
+                                        t,
+                                        i
+                                    );
+                                }
+                            }
+                        ]),
+                        n
+                    );
+                })(c),
+                y = (function (e) {
+                    Object(r.q)(n, e);
+                    var t = Object(r.r)(n);
+                    function n(e) {
+                        var i;
+                        if ((Object(r.j)(this, n), e instanceof p)) {
+                            var o = e.value;
+                            o instanceof f || ((o = new f()).items.push(e.value), (o.range = e.value.range)), ((i = t.call(this, e.key, o)).range = e.range);
+                        } else i = t.call(this, new s('<<'), new f());
+                        return (i.type = p.Type.MERGE_PAIR), Object(r.y)(i);
+                    }
+                    return (
+                        Object(r.i)(n, [
+                            {
+                                key: 'addToJSMap',
+                                value: function (e, t) {
+                                    var n,
+                                        i = Object(r.g)(this.value.items);
+                                    try {
+                                        for (i.s(); !(n = i.n()).done; ) {
+                                            var o = n.value.source;
+                                            if (!(o instanceof v)) throw new Error('Merge sources must be maps');
+                                            var a,
+                                                s = o.toJSON(null, e, Map),
+                                                l = Object(r.g)(s);
+                                            try {
+                                                for (l.s(); !(a = l.n()).done; ) {
+                                                    var u = Object(r.o)(a.value, 2),
+                                                        c = u[0],
+                                                        d = u[1];
+                                                    t instanceof Map
+                                                        ? t.has(c) || t.set(c, d)
+                                                        : t instanceof Set
+                                                        ? t.add(c)
+                                                        : Object.prototype.hasOwnProperty.call(t, c) || (t[c] = d);
+                                                }
+                                            } catch (e) {
+                                                l.e(e);
+                                            } finally {
+                                                l.f();
+                                            }
+                                        }
+                                    } catch (e) {
+                                        i.e(e);
+                                    } finally {
+                                        i.f();
+                                    }
+                                    return t;
+                                }
+                            },
+                            {
+                                key: 'toString',
+                                value: function (e, t) {
+                                    var i = this.value;
+                                    if (i.items.length > 1) return Object(r.s)(Object(r.t)(n.prototype), 'toString', this).call(this, e, t);
+                                    this.value = i.items[0];
+                                    var o = Object(r.s)(Object(r.t)(n.prototype), 'toString', this).call(this, e, t);
+                                    return (this.value = i), o;
+                                }
+                            }
+                        ]),
+                        n
+                    );
+                })(p),
+                b = { defaultType: r.e.BLOCK_LITERAL, lineWidth: 76 },
+                _ = { trueStr: 'true', falseStr: 'false' },
+                w = { asBigInt: !1 },
+                x = { nullStr: 'null' },
+                k = {
+                    defaultType: r.e.PLAIN,
+                    doubleQuoted: { jsonEncoding: !1, minMultiLineLength: 40 },
+                    fold: { lineWidth: 80, minContentWidth: 20 }
+                };
+            function E(e, t, n) {
+                var i,
+                    o = Object(r.g)(t);
+                try {
+                    for (o.s(); !(i = o.n()).done; ) {
+                        var a = i.value,
+                            l = a.format,
+                            u = a.test,
+                            c = a.resolve;
+                        if (u) {
+                            var d = e.match(u);
+                            if (d) {
+                                var f = c.apply(null, d);
+                                return f instanceof s || (f = new s(f)), l && (f.format = l), f;
+                            }
+                        }
+                    }
+                } catch (e) {
+                    o.e(e);
+                } finally {
+                    o.f();
+                }
+                return n && (e = n(e)), new s(e);
+            }
+            var S = function (e, t) {
+                for (var n = e[t + 1]; ' ' === n || '\t' === n; ) {
+                    do {
+                        n = e[(t += 1)];
+                    } while (n && '\n' !== n);
+                    n = e[t + 1];
+                }
+                return t;
+            };
+            function O(e, t, n, r) {
+                var i = r.indentAtStart,
+                    o = r.lineWidth,
+                    a = void 0 === o ? 80 : o,
+                    s = r.minContentWidth,
+                    l = void 0 === s ? 20 : s,
+                    u = r.onFold,
+                    c = r.onOverflow;
+                if (!a || a < 0) return e;
+                var d = Math.max(1 + l, 1 + a - t.length);
+                if (e.length <= d) return e;
+                var f,
+                    p = [],
+                    h = {},
+                    m = a - ('number' == typeof i ? i : t.length),
+                    g = void 0,
+                    v = void 0,
+                    y = !1,
+                    b = -1;
+                for ('block' === n && -1 !== (b = S(e, b)) && (m = b + d); (f = e[(b += 1)]); ) {
+                    if ('quoted' === n && '\\' === f)
+                        switch (e[b + 1]) {
+                            case 'x':
+                                b += 3;
+                                break;
+                            case 'u':
+                                b += 5;
+                                break;
+                            case 'U':
+                                b += 9;
+                                break;
+                            default:
+                                b += 1;
+                        }
+                    if ('\n' === f) 'block' === n && (b = S(e, b)), (m = b + d), (g = void 0);
+                    else {
+                        if (' ' === f && v && ' ' !== v && '\n' !== v && '\t' !== v) {
+                            var _ = e[b + 1];
+                            _ && ' ' !== _ && '\n' !== _ && '\t' !== _ && (g = b);
+                        }
+                        if (b >= m)
+                            if (g) p.push(g), (m = g + d), (g = void 0);
+                            else if ('quoted' === n) {
+                                for (; ' ' === v || '\t' === v; ) (v = f), (f = e[(b += 1)]), (y = !0);
+                                p.push(b - 2), (h[b - 2] = !0), (m = b - 2 + d), (g = void 0);
+                            } else y = !0;
+                    }
+                    v = f;
+                }
+                if ((y && c && c(), 0 === p.length)) return e;
+                u && u();
+                for (var w = e.slice(0, p[0]), x = 0; x < p.length; ++x) {
+                    var k = p[x],
+                        E = p[x + 1] || e.length;
+                    'quoted' === n && h[k] && (w += ''.concat(e[k], '\\')), (w += '\n'.concat(t).concat(e.slice(k + 1, E)));
+                }
+                return w;
+            }
+            var C = function (e) {
+                    var t = e.indentAtStart;
+                    return t ? Object.assign({ indentAtStart: t }, k.fold) : k.fold;
+                },
+                T = function (e) {
+                    return /^(%|---|\.\.\.)/m.test(e);
+                };
+            function A(e, t) {
+                var n = t.implicitKey,
+                    r = k.doubleQuoted,
+                    i = r.jsonEncoding,
+                    o = r.minMultiLineLength,
+                    a = JSON.stringify(e);
+                if (i) return a;
+                for (var s = t.indent || (T(e) ? '  ' : ''), l = '', u = 0, c = 0, d = a[c]; d; d = a[++c])
+                    if ((' ' === d && '\\' === a[c + 1] && 'n' === a[c + 2] && ((l += a.slice(u, c) + '\\ '), (u = c += 1), (d = '\\')), '\\' === d))
+                        switch (a[c + 1]) {
+                            case 'u':
+                                l += a.slice(u, c);
+                                var f = a.substr(c + 2, 4);
+                                switch (f) {
+                                    case '0000':
+                                        l += '\\0';
+                                        break;
+                                    case '0007':
+                                        l += '\\a';
+                                        break;
+                                    case '000b':
+                                        l += '\\v';
+                                        break;
+                                    case '001b':
+                                        l += '\\e';
+                                        break;
+                                    case '0085':
+                                        l += '\\N';
+                                        break;
+                                    case '00a0':
+                                        l += '\\_';
+                                        break;
+                                    case '2028':
+                                        l += '\\L';
+                                        break;
+                                    case '2029':
+                                        l += '\\P';
+                                        break;
+                                    default:
+                                        '00' === f.substr(0, 2) ? (l += '\\x' + f.substr(2)) : (l += a.substr(c, 6));
+                                }
+                                u = (c += 5) + 1;
+                                break;
+                            case 'n':
+                                if (n || '"' === a[c + 2] || a.length < o) c += 1;
+                                else {
+                                    for (l += a.slice(u, c) + '\n\n'; '\\' === a[c + 2] && 'n' === a[c + 3] && '"' !== a[c + 4]; ) (l += '\n'), (c += 2);
+                                    (l += s), ' ' === a[c + 2] && (l += '\\'), (u = (c += 1) + 1);
+                                }
+                                break;
+                            default:
+                                c += 1;
+                        }
+                return (l = u ? l + a.slice(u) : a), n ? l : O(l, s, 'quoted', C(t));
+            }
+            function P(e, t) {
+                if (t.implicitKey) {
+                    if (/\n/.test(e)) return A(e, t);
+                } else if (/[ \t]\n|\n[ \t]/.test(e)) return A(e, t);
+                var n = t.indent || (T(e) ? '  ' : ''),
+                    r = "'" + e.replace(/'/g, "''").replace(/\n+/g, '$&\n'.concat(n)) + "'";
+                return t.implicitKey ? r : O(r, n, 'flow', C(t));
+            }
+            function R(e, t, n, i) {
+                var o = e.comment,
+                    a = e.type,
+                    s = e.value;
+                if (/\n[\t ]+$/.test(s) || /^\s*$/.test(s)) return A(s, t);
+                var l = t.indent || (t.forceBlockIndent || T(s) ? '  ' : ''),
+                    u = l ? '2' : '1',
+                    c =
+                        a !== r.e.BLOCK_FOLDED &&
+                        (a === r.e.BLOCK_LITERAL ||
+                            !(function (e, t) {
+                                var n = e.length;
+                                if (n <= t) return !1;
+                                for (var r = 0, i = 0; r < n; ++r)
+                                    if ('\n' === e[r]) {
+                                        if (r - i > t) return !0;
+                                        if (n - (i = r + 1) <= t) return !1;
+                                    }
+                                return !0;
+                            })(s, k.fold.lineWidth - l.length)),
+                    d = c ? '|' : '>';
+                if (!s) return d + '\n';
+                var f = '',
+                    p = '';
+                if (
+                    ((s = s
+                        .replace(/[\n\t ]*$/, function (e) {
+                            var t = e.indexOf('\n');
+                            return -1 === t ? (d += '-') : (s !== e && t === e.length - 1) || ((d += '+'), i && i()), (p = e.replace(/\n$/, '')), '';
+                        })
+                        .replace(/^[\n ]*/, function (e) {
+                            -1 !== e.indexOf(' ') && (d += u);
+                            var t = e.match(/ +$/);
+                            return t ? ((f = e.slice(0, -t[0].length)), t[0]) : ((f = e), '');
+                        })),
+                    p && (p = p.replace(/\n+(?!\n|$)/g, '$&'.concat(l))),
+                    f && (f = f.replace(/\n+/g, '$&'.concat(l))),
+                    o && ((d += ' #' + o.replace(/ ?[\r\n]+/g, ' ')), n && n()),
+                    !s)
+                )
+                    return ''.concat(d).concat(u, '\n').concat(l).concat(p);
+                if (c) return (s = s.replace(/\n+/g, '$&'.concat(l))), ''.concat(d, '\n').concat(l).concat(f).concat(s).concat(p);
+                s = s
+                    .replace(/\n+/g, '\n$&')
+                    .replace(/(?:^|\n)([\t ].*)(?:([\n\t ]*)\n(?![\n\t ]))?/g, '$1$2')
+                    .replace(/\n+/g, '$&'.concat(l));
+                var h = O(''.concat(f).concat(s).concat(p), l, 'block', k.fold);
+                return ''.concat(d, '\n').concat(l).concat(h);
+            }
+            function M(e, t, n, i) {
+                var o = k.defaultType,
+                    a = t.implicitKey,
+                    s = t.inFlow,
+                    l = e,
+                    u = l.type,
+                    c = l.value;
+                'string' != typeof c && ((c = String(c)), (e = Object.assign({}, e, { value: c })));
+                var d = function (o) {
+                    switch (o) {
+                        case r.e.BLOCK_FOLDED:
+                        case r.e.BLOCK_LITERAL:
+                            return R(e, t, n, i);
+                        case r.e.QUOTE_DOUBLE:
+                            return A(c, t);
+                        case r.e.QUOTE_SINGLE:
+                            return P(c, t);
+                        case r.e.PLAIN:
+                            return (function (e, t, n, i) {
+                                var o = e.comment,
+                                    a = e.type,
+                                    s = e.value,
+                                    l = t.actualString,
+                                    u = t.implicitKey,
+                                    c = t.indent,
+                                    d = t.inFlow;
+                                if ((u && /[\n[\]{},]/.test(s)) || (d && /[[\]{},]/.test(s))) return A(s, t);
+                                if (!s || /^[\n\t ,[\]{}#&*!|>'"%@`]|^[?-]$|^[?-][ \t]|[\n:][ \t]|[ \t]\n|[\n\t ]#|[\n\t :]$/.test(s))
+                                    return u || d || -1 === s.indexOf('\n')
+                                        ? -1 !== s.indexOf('"') && -1 === s.indexOf("'")
+                                            ? P(s, t)
+                                            : A(s, t)
+                                        : R(e, t, n, i);
+                                if (!u && !d && a !== r.e.PLAIN && -1 !== s.indexOf('\n')) return R(e, t, n, i);
+                                if ('' === c && T(s)) return (t.forceBlockIndent = !0), R(e, t, n, i);
+                                var f = s.replace(/\n+/g, '$&\n'.concat(c));
+                                if (l) {
+                                    var p = t.doc.schema.tags;
+                                    if ('string' != typeof E(f, p, p.scalarFallback).value) return A(s, t);
+                                }
+                                var h = u ? f : O(f, c, 'flow', C(t));
+                                return !o || d || (-1 === h.indexOf('\n') && -1 === o.indexOf('\n'))
+                                    ? h
+                                    : (n && n(),
+                                      (function (e, t, n) {
+                                          if (!n) return e;
+                                          var r = n.replace(/[\s\S]^/gm, '$&'.concat(t, '#'));
+                                          return '#'.concat(r, '\n').concat(t).concat(e);
+                                      })(h, c, o));
+                            })(e, t, n, i);
+                        default:
+                            return null;
+                    }
+                };
+                u !== r.e.QUOTE_DOUBLE && /[\x00-\x08\x0b-\x1f\x7f-\x9f]/.test(c)
+                    ? (u = r.e.QUOTE_DOUBLE)
+                    : (!a && !s) || (u !== r.e.BLOCK_FOLDED && u !== r.e.BLOCK_LITERAL) || (u = r.e.QUOTE_DOUBLE);
+                var f = d(u);
+                if (null === f && null === (f = d(o))) throw new Error('Unsupported default string type '.concat(o));
+                return f;
+            }
+            function I(e) {
+                var t = e.format,
+                    n = e.minFractionDigits,
+                    r = e.tag,
+                    i = e.value;
+                if ('bigint' == typeof i) return String(i);
+                if (!isFinite(i)) return isNaN(i) ? '.nan' : i < 0 ? '-.inf' : '.inf';
+                var o = JSON.stringify(i);
+                if (!t && n && (!r || 'tag:yaml.org,2002:float' === r) && /^\d/.test(o)) {
+                    var a = o.indexOf('.');
+                    a < 0 && ((a = o.length), (o += '.'));
+                    for (var s = n - (o.length - a - 1); s-- > 0; ) o += '0';
+                }
+                return o;
+            }
+            function j(e, t) {
+                var n, i, o;
+                switch (t.type) {
+                    case r.e.FLOW_MAP:
+                        (n = '}'), (i = 'flow map');
+                        break;
+                    case r.e.FLOW_SEQ:
+                        (n = ']'), (i = 'flow sequence');
+                        break;
+                    default:
+                        return void e.push(new r.n(t, 'Not a flow collection!?'));
+                }
+                for (var a = t.items.length - 1; a >= 0; --a) {
+                    var s = t.items[a];
+                    if (!s || s.type !== r.e.COMMENT) {
+                        o = s;
+                        break;
+                    }
+                }
+                if (o && o.char !== n) {
+                    var l,
+                        u = 'Expected '.concat(i, ' to end with ').concat(n);
+                    'number' == typeof o.offset
+                        ? ((l = new r.n(t, u)).offset = o.offset + 1)
+                        : ((l = new r.n(o, u)), o.range && o.range.end && (l.offset = o.range.end - o.range.start)),
+                        e.push(l);
+                }
+            }
+            function L(e, t) {
+                var n = t.context.src[t.range.start - 1];
+                if ('\n' !== n && '\t' !== n && ' ' !== n) {
+                    e.push(new r.n(t, 'Comments must be separated from other tokens by white space characters'));
+                }
+            }
+            function D(e, t) {
+                var n = String(t),
+                    i = n.substr(0, 8) + '...' + n.substr(-8);
+                return new r.n(e, 'The "'.concat(i, '" key is too long'));
+            }
+            function N(e, t) {
+                var n,
+                    i = Object(r.g)(t);
+                try {
+                    for (i.s(); !(n = i.n()).done; ) {
+                        var o = n.value,
+                            a = o.afterKey,
+                            s = o.before,
+                            l = o.comment,
+                            u = e.items[s];
+                        u
+                            ? (a && u.value && (u = u.value),
+                              void 0 === l
+                                  ? (!a && u.commentBefore) || (u.spaceBefore = !0)
+                                  : u.commentBefore
+                                  ? (u.commentBefore += '\n' + l)
+                                  : (u.commentBefore = l))
+                            : void 0 !== l && (e.comment ? (e.comment += '\n' + l) : (e.comment = l));
+                    }
+                } catch (e) {
+                    i.e(e);
+                } finally {
+                    i.f();
+                }
+            }
+            function F(e, t) {
+                var n = t.strValue;
+                return n
+                    ? 'string' == typeof n
+                        ? n
+                        : (n.errors.forEach(function (n) {
+                              n.source || (n.source = t), e.errors.push(n);
+                          }),
+                          n.str)
+                    : '';
+            }
+            function B(e, t) {
+                var n = t.tag,
+                    i = t.type,
+                    o = !1;
+                if (n) {
+                    var a = n.handle,
+                        s = n.suffix,
+                        l = n.verbatim;
+                    if (l) {
+                        if ('!' !== l && '!!' !== l) return l;
+                        var u = "Verbatim tags aren't resolved, so ".concat(l, ' is invalid.');
+                        e.errors.push(new r.n(t, u));
+                    } else if ('!' !== a || s)
+                        try {
+                            return (function (e, t) {
+                                var n = t.tag,
+                                    i = n.handle,
+                                    o = n.suffix,
+                                    a = e.tagPrefixes.find(function (e) {
+                                        return e.handle === i;
+                                    });
+                                if (!a) {
+                                    var s = e.getDefaults().tagPrefixes;
+                                    if (
+                                        (s &&
+                                            (a = s.find(function (e) {
+                                                return e.handle === i;
+                                            })),
+                                        !a)
+                                    )
+                                        throw new r.n(t, 'The '.concat(i, ' tag handle is non-default and was not declared.'));
+                                }
+                                if (!o) throw new r.n(t, 'The '.concat(i, ' tag has no suffix.'));
+                                if ('!' === i && '1.0' === (e.version || e.options.version)) {
+                                    if ('^' === o[0]) return e.warnings.push(new r.m(t, 'YAML 1.0 ^ tag expansion is not supported')), o;
+                                    if (/[:/]/.test(o)) {
+                                        var l = o.match(/^([a-z0-9-]+)\/(.*)/i);
+                                        return l ? 'tag:'.concat(l[1], '.yaml.org,2002:').concat(l[2]) : 'tag:'.concat(o);
+                                    }
+                                }
+                                return a.prefix + decodeURIComponent(o);
+                            })(e, t);
+                        } catch (t) {
+                            e.errors.push(t);
+                        }
+                    else o = !0;
+                }
+                switch (i) {
+                    case r.e.BLOCK_FOLDED:
+                    case r.e.BLOCK_LITERAL:
+                    case r.e.QUOTE_DOUBLE:
+                    case r.e.QUOTE_SINGLE:
+                        return r.u.STR;
+                    case r.e.FLOW_MAP:
+                    case r.e.MAP:
+                        return r.u.MAP;
+                    case r.e.FLOW_SEQ:
+                    case r.e.SEQ:
+                        return r.u.SEQ;
+                    case r.e.PLAIN:
+                        return o ? r.u.STR : null;
+                    default:
+                        return null;
+                }
+            }
+            function z(e, t, n) {
+                var i,
+                    o = e.schema.tags,
+                    a = [],
+                    l = Object(r.g)(o);
+                try {
+                    for (l.s(); !(i = l.n()).done; ) {
+                        var u = i.value;
+                        if (u.tag === n) {
+                            if (!u.test) {
+                                var d = u.resolve(e, t);
+                                return d instanceof c ? d : new s(d);
+                            }
+                            a.push(u);
+                        }
+                    }
+                } catch (e) {
+                    l.e(e);
+                } finally {
+                    l.f();
+                }
+                var f = F(e, t);
+                return 'string' == typeof f && a.length > 0 ? E(f, a, o.scalarFallback) : null;
+            }
+            function U(e, t, n) {
+                try {
+                    var i = z(e, t, n);
+                    if (i) return n && t.tag && (i.tag = n), i;
+                } catch (n) {
+                    return n.source || (n.source = t), e.errors.push(n), null;
+                }
+                try {
+                    var o = (function (e) {
+                        switch (e.type) {
+                            case r.e.FLOW_MAP:
+                            case r.e.MAP:
+                                return r.u.MAP;
+                            case r.e.FLOW_SEQ:
+                            case r.e.SEQ:
+                                return r.u.SEQ;
+                            default:
+                                return r.u.STR;
+                        }
+                    })(t);
+                    if (!o) throw new Error('The tag '.concat(n, ' is unavailable'));
+                    var a = 'The tag '.concat(n, ' is unavailable, falling back to ').concat(o);
+                    e.warnings.push(new r.m(t, a));
+                    var s = z(e, t, o);
+                    return (s.tag = n), s;
+                } catch (n) {
+                    var l = new r.v(t, n.message);
+                    return (l.stack = n.stack), e.errors.push(l), null;
+                }
+            }
+            function q(e, t) {
+                var n,
+                    i = { before: [], after: [] },
+                    o = !1,
+                    a = !1,
+                    s = (function (e) {
+                        if (!e) return !1;
+                        var t = e.type;
+                        return t === r.e.MAP_KEY || t === r.e.MAP_VALUE || t === r.e.SEQ_ITEM;
+                    })(t.context.parent)
+                        ? t.context.parent.props.concat(t.props)
+                        : t.props,
+                    l = Object(r.g)(s);
+                try {
+                    for (l.s(); !(n = l.n()).done; ) {
+                        var u = n.value,
+                            c = u.start,
+                            d = u.end;
+                        switch (t.context.src[c]) {
+                            case r.a.COMMENT:
+                                if (!t.commentHasRequiredWhitespace(c)) {
+                                    e.push(new r.n(t, 'Comments must be separated from other tokens by white space characters'));
+                                }
+                                var f = t.header,
+                                    p = t.valueRange;
+                                (p && (c > p.start || (f && c > f.start)) ? i.after : i.before).push(t.context.src.slice(c + 1, d));
+                                break;
+                            case r.a.ANCHOR:
+                                if (o) {
+                                    e.push(new r.n(t, 'A node can have at most one anchor'));
+                                }
+                                o = !0;
+                                break;
+                            case r.a.TAG:
+                                if (a) {
+                                    e.push(new r.n(t, 'A node can have at most one tag'));
+                                }
+                                a = !0;
+                        }
+                    }
+                } catch (e) {
+                    l.e(e);
+                } finally {
+                    l.f();
+                }
+                return { comments: i, hasAnchor: o, hasTag: a };
+            }
+            function H(e, t) {
+                if (!t) return null;
+                t.error && e.errors.push(t.error);
+                var n = q(e.errors, t),
+                    i = n.comments,
+                    o = n.hasAnchor,
+                    a = n.hasTag;
+                if (o) {
+                    var s = e.anchors,
+                        l = t.anchor,
+                        u = s.getNode(l);
+                    u && (s.map[s.newName(l)] = u), (s.map[l] = t);
+                }
+                if (t.type === r.e.ALIAS && (o || a)) {
+                    e.errors.push(new r.n(t, 'An alias node must not specify any properties'));
+                }
+                var c = (function (e, t) {
+                    var n = e.anchors,
+                        i = e.errors,
+                        o = e.schema;
+                    if (t.type === r.e.ALIAS) {
+                        var a = t.rawValue,
+                            s = n.getNode(a);
+                        if (!s) {
+                            var l = 'Aliased anchor not found: '.concat(a);
+                            return i.push(new r.v(t, l)), null;
+                        }
+                        var u = new m(s);
+                        return n._cstAliases.push(u), u;
+                    }
+                    var c = B(e, t);
+                    if (c) return U(e, t, c);
+                    if (t.type !== r.e.PLAIN) {
+                        var d = 'Failed to resolve '.concat(t.type, ' node here');
+                        return i.push(new r.f(t, d)), null;
+                    }
+                    try {
+                        return E(F(e, t), o.tags, o.tags.scalarFallback);
+                    } catch (e) {
+                        return e.source || (e.source = t), i.push(e), null;
+                    }
+                })(e, t);
+                if (c) {
+                    (c.range = [t.range.start, t.range.end]), e.options.keepCstNodes && (c.cstNode = t), e.options.keepNodeTypes && (c.type = t.type);
+                    var d = i.before.join('\n');
+                    d && (c.commentBefore = c.commentBefore ? ''.concat(c.commentBefore, '\n').concat(d) : d);
+                    var f = i.after.join('\n');
+                    f && (c.comment = c.comment ? ''.concat(c.comment, '\n').concat(f) : f);
+                }
+                return (t.resolved = c);
+            }
+            function W(e, t) {
+                if (t.type !== r.e.MAP && t.type !== r.e.FLOW_MAP) {
+                    var n = 'A '.concat(t.type, ' node cannot be resolved as a mapping');
+                    return e.errors.push(new r.f(t, n)), null;
+                }
+                var i =
+                        t.type === r.e.FLOW_MAP
+                            ? (function (e, t) {
+                                  for (var n = [], i = [], o = void 0, a = !1, s = '{', l = 0; l < t.items.length; ++l) {
+                                      var u = t.items[l];
+                                      if ('string' == typeof u.char) {
+                                          var c = u.char,
+                                              d = u.offset;
+                                          if ('?' === c && void 0 === o && !a) {
+                                              (a = !0), (s = ':');
+                                              continue;
+                                          }
+                                          if (':' === c) {
+                                              if ((void 0 === o && (o = null), ':' === s)) {
+                                                  s = ',';
+                                                  continue;
+                                              }
+                                          } else if (
+                                              (a && (void 0 === o && ',' !== c && (o = null), (a = !1)),
+                                              void 0 !== o && (i.push(new p(o)), (o = void 0), ',' === c))
+                                          ) {
+                                              s = ':';
+                                              continue;
+                                          }
+                                          if ('}' === c) {
+                                              if (l === t.items.length - 1) continue;
+                                          } else if (c === s) {
+                                              s = ':';
+                                              continue;
+                                          }
+                                          var f = 'Flow map contains an unexpected '.concat(c),
+                                              h = new r.f(t, f);
+                                          (h.offset = d), e.errors.push(h);
+                                      } else
+                                          u.type === r.e.BLANK_LINE
+                                              ? n.push({ afterKey: !!o, before: i.length })
+                                              : u.type === r.e.COMMENT
+                                              ? (L(e.errors, u),
+                                                n.push({
+                                                    afterKey: !!o,
+                                                    before: i.length,
+                                                    comment: u.comment
+                                                }))
+                                              : void 0 === o
+                                              ? (',' === s && e.errors.push(new r.n(u, 'Separator , missing in flow map')), (o = H(e, u)))
+                                              : (',' !== s && e.errors.push(new r.n(u, 'Indicator : missing in flow map entry')),
+                                                i.push(new p(o, H(e, u))),
+                                                (o = void 0),
+                                                (a = !1));
+                                  }
+                                  j(e.errors, t), void 0 !== o && i.push(new p(o));
+                                  return { comments: n, items: i };
+                              })(e, t)
+                            : (function (e, t) {
+                                  for (var n = [], i = [], o = void 0, a = null, s = 0; s < t.items.length; ++s) {
+                                      var l = t.items[s];
+                                      switch (l.type) {
+                                          case r.e.BLANK_LINE:
+                                              n.push({ afterKey: !!o, before: i.length });
+                                              break;
+                                          case r.e.COMMENT:
+                                              n.push({
+                                                  afterKey: !!o,
+                                                  before: i.length,
+                                                  comment: l.comment
+                                              });
+                                              break;
+                                          case r.e.MAP_KEY:
+                                              void 0 !== o && i.push(new p(o)), l.error && e.errors.push(l.error), (o = H(e, l.node)), (a = null);
+                                              break;
+                                          case r.e.MAP_VALUE:
+                                              if (
+                                                  (void 0 === o && (o = null),
+                                                  l.error && e.errors.push(l.error),
+                                                  !l.context.atLineStart && l.node && l.node.type === r.e.MAP && !l.node.context.atLineStart)
+                                              ) {
+                                                  e.errors.push(new r.n(l.node, 'Nested mappings are not allowed in compact mappings'));
+                                              }
+                                              var u = l.node;
+                                              if (!u && l.props.length > 0) {
+                                                  (u = new r.c(r.e.PLAIN, [])).context = {
+                                                      parent: l,
+                                                      src: l.context.src
+                                                  };
+                                                  var c = l.range.start + 1;
+                                                  if (
+                                                      ((u.range = { start: c, end: c }),
+                                                      (u.valueRange = { start: c, end: c }),
+                                                      'number' == typeof l.range.origStart)
+                                                  ) {
+                                                      var d = l.range.origStart + 1;
+                                                      (u.range.origStart = u.range.origEnd = d), (u.valueRange.origStart = u.valueRange.origEnd = d);
+                                                  }
+                                              }
+                                              var f = new p(o, H(e, u));
+                                              G(l, f),
+                                                  i.push(f),
+                                                  o && 'number' == typeof a && l.range.start > a + 1024 && e.errors.push(D(t, o)),
+                                                  (o = void 0),
+                                                  (a = null);
+                                              break;
+                                          default:
+                                              void 0 !== o && i.push(new p(o)), (o = H(e, l)), (a = l.range.start), l.error && e.errors.push(l.error);
+                                              e: for (var h = s + 1; ; ++h) {
+                                                  var m = t.items[h];
+                                                  switch (m && m.type) {
+                                                      case r.e.BLANK_LINE:
+                                                      case r.e.COMMENT:
+                                                          continue e;
+                                                      case r.e.MAP_VALUE:
+                                                          break e;
+                                                      default:
+                                                          e.errors.push(new r.n(l, 'Implicit map keys need to be followed by map values'));
+                                                          break e;
+                                                  }
+                                              }
+                                              if (l.valueRangeContainsNewline) {
+                                                  e.errors.push(new r.n(l, 'Implicit map keys need to be on a single line'));
+                                              }
+                                      }
+                                  }
+                                  void 0 !== o && i.push(new p(o));
+                                  return { comments: n, items: i };
+                              })(e, t),
+                    o = i.comments,
+                    a = i.items,
+                    s = new v();
+                (s.items = a), N(s, o);
+                for (var l = !1, u = 0; u < a.length; ++u) {
+                    var d = a[u].key;
+                    if ((d instanceof c && (l = !0), e.schema.merge && d && '<<' === d.value)) {
+                        a[u] = new y(a[u]);
+                        var f = a[u].value.items,
+                            h = null;
+                        f.some(function (e) {
+                            if (e instanceof m) {
+                                var t = e.source.type;
+                                return t !== r.e.MAP && t !== r.e.FLOW_MAP && (h = 'Merge nodes aliases can only point to maps');
+                            }
+                            return (h = 'Merge nodes can only have Alias nodes as values');
+                        }),
+                            h && e.errors.push(new r.n(t, h));
+                    } else
+                        for (var g = u + 1; g < a.length; ++g) {
+                            var b = a[g].key;
+                            if (d === b || (d && b && Object.prototype.hasOwnProperty.call(d, 'value') && d.value === b.value)) {
+                                var _ = 'Map keys must be unique; "'.concat(d, '" is repeated');
+                                e.errors.push(new r.n(t, _));
+                                break;
+                            }
+                        }
+                }
+                if (l && !e.options.mapAsMap) {
+                    e.warnings.push(
+                        new r.m(t, 'Keys with collection values will be stringified as YAML due to JS Object restrictions. Use mapAsMap: true to avoid this.')
+                    );
+                }
+                return (t.resolved = s), s;
+            }
+            function G(e, t) {
+                if (
+                    (function (e) {
+                        var t = e.context,
+                            n = t.lineStart,
+                            i = t.node,
+                            o = t.src,
+                            a = e.props;
+                        if (0 === a.length) return !1;
+                        var s = a[0].start;
+                        if (i && s > i.valueRange.start) return !1;
+                        if (o[s] !== r.a.COMMENT) return !1;
+                        for (var l = n; l < s; ++l) if ('\n' === o[l]) return !1;
+                        return !0;
+                    })(e)
+                ) {
+                    var n = e.getPropValue(0, r.a.COMMENT, !0),
+                        i = !1,
+                        o = t.value.commentBefore;
+                    if (o && o.startsWith(n)) (t.value.commentBefore = o.substr(n.length + 1)), (i = !0);
+                    else {
+                        var a = t.value.comment;
+                        !e.node && a && a.startsWith(n) && ((t.value.comment = a.substr(n.length + 1)), (i = !0));
+                    }
+                    i && (t.comment = n);
+                }
+            }
+            function $(e, t) {
+                if (t.type !== r.e.SEQ && t.type !== r.e.FLOW_SEQ) {
+                    var n = 'A '.concat(t.type, ' node cannot be resolved as a sequence');
+                    return e.errors.push(new r.f(t, n)), null;
+                }
+                var i =
+                        t.type === r.e.FLOW_SEQ
+                            ? (function (e, t) {
+                                  for (var n = [], i = [], o = !1, a = void 0, s = null, l = '[', u = null, c = 0; c < t.items.length; ++c) {
+                                      var d = t.items[c];
+                                      if ('string' == typeof d.char) {
+                                          var f = d.char,
+                                              h = d.offset;
+                                          if (
+                                              (':' === f ||
+                                                  (!o && void 0 === a) ||
+                                                  (o && void 0 === a && (a = l ? i.pop() : null), i.push(new p(a)), (o = !1), (a = void 0), (s = null)),
+                                              f === l)
+                                          )
+                                              l = null;
+                                          else if (l || '?' !== f) {
+                                              if ('[' !== l && ':' === f && void 0 === a) {
+                                                  if (',' === l) {
+                                                      if ((a = i.pop()) instanceof p) {
+                                                          var m = new r.n(t, 'Chaining flow sequence pairs is invalid');
+                                                          (m.offset = h), e.errors.push(m);
+                                                      }
+                                                      if (!o && 'number' == typeof s) {
+                                                          var g = d.range ? d.range.start : d.offset;
+                                                          g > s + 1024 && e.errors.push(D(t, a));
+                                                          for (var v = u.context.src, y = s; y < g; ++y)
+                                                              if ('\n' === v[y]) {
+                                                                  e.errors.push(new r.n(u, 'Implicit keys of flow sequence pairs need to be on a single line'));
+                                                                  break;
+                                                              }
+                                                      }
+                                                  } else a = null;
+                                                  (s = null), (o = !1), (l = null);
+                                              } else if ('[' === l || ']' !== f || c < t.items.length - 1) {
+                                                  var b = 'Flow sequence contains an unexpected '.concat(f),
+                                                      _ = new r.f(t, b);
+                                                  (_.offset = h), e.errors.push(_);
+                                              }
+                                          } else o = !0;
+                                      } else if (d.type === r.e.BLANK_LINE) n.push({ before: i.length });
+                                      else if (d.type === r.e.COMMENT) L(e.errors, d), n.push({ comment: d.comment, before: i.length });
+                                      else {
+                                          if (l) {
+                                              var w = 'Expected a '.concat(l, ' in flow sequence');
+                                              e.errors.push(new r.n(d, w));
+                                          }
+                                          var x = H(e, d);
+                                          void 0 === a ? (i.push(x), (u = d)) : (i.push(new p(a, x)), (a = void 0)), (s = d.range.start), (l = ',');
+                                      }
+                                  }
+                                  j(e.errors, t), void 0 !== a && i.push(new p(a));
+                                  return { comments: n, items: i };
+                              })(e, t)
+                            : (function (e, t) {
+                                  for (var n = [], i = [], o = 0; o < t.items.length; ++o) {
+                                      var a = t.items[o];
+                                      switch (a.type) {
+                                          case r.e.BLANK_LINE:
+                                              n.push({ before: i.length });
+                                              break;
+                                          case r.e.COMMENT:
+                                              n.push({ comment: a.comment, before: i.length });
+                                              break;
+                                          case r.e.SEQ_ITEM:
+                                              if ((a.error && e.errors.push(a.error), i.push(H(e, a.node)), a.hasProps)) {
+                                                  e.errors.push(new r.n(a, 'Sequence items cannot have tags or anchors before the - indicator'));
+                                              }
+                                              break;
+                                          default:
+                                              a.error && e.errors.push(a.error), e.errors.push(new r.f(a, 'Unexpected '.concat(a.type, ' node in sequence')));
+                                      }
+                                  }
+                                  return { comments: n, items: i };
+                              })(e, t),
+                    o = i.comments,
+                    a = i.items,
+                    s = new f();
+                if (
+                    ((s.items = a),
+                    N(s, o),
+                    !e.options.mapAsMap &&
+                        a.some(function (e) {
+                            return e instanceof p && e.key instanceof c;
+                        }))
+                ) {
+                    e.warnings.push(
+                        new r.m(t, 'Keys with collection values will be stringified as YAML due to JS Object restrictions. Use mapAsMap: true to avoid this.')
+                    );
+                }
+                return (t.resolved = s), s;
+            }
+        },
+        function (e, t, n) {
+            'use strict';
+            n.d(t, 'a', function () {
+                return l;
+            }),
+                n.d(t, 'b', function () {
+                    return u;
+                }),
+                n.d(t, 'c', function () {
+                    return c;
+                }),
+                n.d(t, 'e', function () {
+                    return d;
+                }),
+                n.d(t, 'd', function () {
+                    return f;
+                });
+            var r = n(23);
+            function i(e, t, n, r) {
+                for (var i, o = 0, a = e.length; o < a; ++o) if ((i = e[o]).listener === t && i.bindTo === n) return r && (i.deleteIndex = o), i;
+            }
+            function o(e, t) {
+                var n = a(e);
+                return n ? n[t] : void 0;
+            }
+            function a(e, t) {
+                var n = e.ol_lm;
+                return !n && t && (n = e.ol_lm = {}), n;
+            }
+            function s(e, t) {
+                var n = o(e, t);
+                if (n) {
+                    for (var i = 0, s = n.length; i < s; ++i) e.removeEventListener(t, n[i].boundListener), Object(r.b)(n[i]);
+                    n.length = 0;
+                    var l = a(e);
+                    l &&
+                        (delete l[t],
+                        0 === Object.keys(l).length &&
+                            (function (e) {
+                                delete e.ol_lm;
+                            })(e));
+                }
+            }
+            function l(e, t, n, r, o) {
+                var s = a(e, !0),
+                    l = s[t];
+                l || (l = s[t] = []);
+                var u = i(l, n, r, !1);
+                return (
+                    u
+                        ? o || (u.callOnce = !1)
+                        : ((u = {
+                              bindTo: r,
+                              callOnce: !!o,
+                              listener: n,
+                              target: e,
+                              type: t
+                          }),
+                          e.addEventListener(
+                              t,
+                              (function (e) {
+                                  var t = function (t) {
+                                      var n = e.listener,
+                                          r = e.bindTo || e.target;
+                                      return e.callOnce && d(e), n.call(r, t);
+                                  };
+                                  return (e.boundListener = t), t;
+                              })(u)
+                          ),
+                          l.push(u)),
+                    u
+                );
+            }
+            function u(e, t, n, r) {
+                return l(e, t, n, r, !0);
+            }
+            function c(e, t, n, r) {
+                var a = o(e, t);
+                if (a) {
+                    var s = i(a, n, r, !0);
+                    s && d(s);
+                }
+            }
+            function d(e) {
+                if (e && e.target) {
+                    e.target.removeEventListener(e.type, e.boundListener);
+                    var t = o(e.target, e.type);
+                    if (t) {
+                        var n = 'deleteIndex' in e ? e.deleteIndex : t.indexOf(e);
+                        -1 !== n && t.splice(n, 1), 0 === t.length && s(e.target, e.type);
+                    }
+                    Object(r.b)(e);
+                }
+            }
+            function f(e) {
+                var t = a(e);
+                if (t) for (var n in t) s(e, n);
+            }
+        },
+        function (e, t, n) {
+            'use strict';
+            t.a = {
+                POINT: 'Point',
+                LINE_STRING: 'LineString',
+                LINEAR_RING: 'LinearRing',
+                POLYGON: 'Polygon',
+                MULTI_POINT: 'MultiPoint',
+                MULTI_LINE_STRING: 'MultiLineString',
+                MULTI_POLYGON: 'MultiPolygon',
+                GEOMETRY_COLLECTION: 'GeometryCollection',
+                CIRCLE: 'Circle'
+            };
+        },
+        function (e, t, n) {
+            'use strict';
+            n.r(t),
+                n.d(t, 'CacheProvider', function () {
+                    return g;
+                }),
+                n.d(t, 'ThemeContext', function () {
+                    return m;
+                }),
+                n.d(t, 'withEmotionCache', function () {
+                    return v;
+                }),
+                n.d(t, 'css', function () {
+                    return x.default;
+                }),
+                n.d(t, 'ClassNames', function () {
+                    return A;
+                }),
+                n.d(t, 'Global', function () {
+                    return E;
+                }),
+                n.d(t, 'createElement', function () {
+                    return k;
+                }),
+                n.d(t, 'jsx', function () {
+                    return k;
+                }),
+                n.d(t, 'keyframes', function () {
+                    return O;
+                });
+            var r = n(66),
+                i = n(0);
+            var o = (function () {
+                function e(e) {
+                    (this.isSpeedy = void 0 === e.speedy || e.speedy),
+                        (this.tags = []),
+                        (this.ctr = 0),
+                        (this.nonce = e.nonce),
+                        (this.key = e.key),
+                        (this.container = e.container),
+                        (this.before = null);
+                }
+                var t = e.prototype;
+                return (
+                    (t.insert = function (e) {
+                        if (this.ctr % (this.isSpeedy ? 65e3 : 1) == 0) {
+                            var t,
+                                n = (function (e) {
+                                    var t = document.createElement('style');
+                                    return (
+                                        t.setAttribute('data-emotion', e.key),
+                                        void 0 !== e.nonce && t.setAttribute('nonce', e.nonce),
+                                        t.appendChild(document.createTextNode('')),
+                                        t
+                                    );
+                                })(this);
+                            (t = 0 === this.tags.length ? this.before : this.tags[this.tags.length - 1].nextSibling),
+                                this.container.insertBefore(n, t),
+                                this.tags.push(n);
+                        }
+                        var r = this.tags[this.tags.length - 1];
+                        if (this.isSpeedy) {
+                            var i = (function (e) {
+                                if (e.sheet) return e.sheet;
+                                for (var t = 0; t < document.styleSheets.length; t++)
+                                    if (document.styleSheets[t].ownerNode === e) return document.styleSheets[t];
+                            })(r);
+                            try {
+                                var o = 105 === e.charCodeAt(1) && 64 === e.charCodeAt(0);
+                                i.insertRule(e, o ? 0 : i.cssRules.length);
+                            } catch (e) {
+                                0;
+                            }
+                        } else r.appendChild(document.createTextNode(e));
+                        this.ctr++;
+                    }),
+                    (t.flush = function () {
+                        this.tags.forEach(function (e) {
+                            return e.parentNode.removeChild(e);
+                        }),
+                            (this.tags = []),
+                            (this.ctr = 0);
+                    }),
+                    e
+                );
+            })();
+            var a = function (e) {
+                function t(e, t, r) {
+                    var i = t.trim().split(h);
+                    t = i;
+                    var o = i.length,
+                        a = e.length;
+                    switch (a) {
+                        case 0:
+                        case 1:
+                            var s = 0;
+                            for (e = 0 === a ? '' : e[0] + ' '; s < o; ++s) t[s] = n(e, t[s], r).trim();
+                            break;
+                        default:
+                            var l = (s = 0);
+                            for (t = []; s < o; ++s) for (var u = 0; u < a; ++u) t[l++] = n(e[u] + ' ', i[s], r).trim();
+                    }
+                    return t;
+                }
+                function n(e, t, n) {
+                    var r = t.charCodeAt(0);
+                    switch ((33 > r && (r = (t = t.trim()).charCodeAt(0)), r)) {
+                        case 38:
+                            return t.replace(m, '$1' + e.trim());
+                        case 58:
+                            return e.trim() + t.replace(m, '$1' + e.trim());
+                        default:
+                            if (0 < 1 * n && 0 < t.indexOf('\f')) return t.replace(m, (58 === e.charCodeAt(0) ? '' : '$1') + e.trim());
+                    }
+                    return e + t;
+                }
+                function r(e, t, n, o) {
+                    var a = e + ';',
+                        s = 2 * t + 3 * n + 4 * o;
+                    if (944 === s) {
+                        e = a.indexOf(':', 9) + 1;
+                        var l = a.substring(e, a.length - 1).trim();
+                        return (l = a.substring(0, e).trim() + l + ';'), 1 === A || (2 === A && i(l, 1)) ? '-webkit-' + l + l : l;
+                    }
+                    if (0 === A || (2 === A && !i(a, 1))) return a;
+                    switch (s) {
+                        case 1015:
+                            return 97 === a.charCodeAt(10) ? '-webkit-' + a + a : a;
+                        case 951:
+                            return 116 === a.charCodeAt(3) ? '-webkit-' + a + a : a;
+                        case 963:
+                            return 110 === a.charCodeAt(5) ? '-webkit-' + a + a : a;
+                        case 1009:
+                            if (100 !== a.charCodeAt(4)) break;
+                        case 969:
+                        case 942:
+                            return '-webkit-' + a + a;
+                        case 978:
+                            return '-webkit-' + a + '-moz-' + a + a;
+                        case 1019:
+                        case 983:
+                            return '-webkit-' + a + '-moz-' + a + '-ms-' + a + a;
+                        case 883:
+                            if (45 === a.charCodeAt(8)) return '-webkit-' + a + a;
+                            if (0 < a.indexOf('image-set(', 11)) return a.replace(S, '$1-webkit-$2') + a;
+                            break;
+                        case 932:
+                            if (45 === a.charCodeAt(4))
+                                switch (a.charCodeAt(5)) {
+                                    case 103:
+                                        return '-webkit-box-' + a.replace('-grow', '') + '-webkit-' + a + '-ms-' + a.replace('grow', 'positive') + a;
+                                    case 115:
+                                        return '-webkit-' + a + '-ms-' + a.replace('shrink', 'negative') + a;
+                                    case 98:
+                                        return '-webkit-' + a + '-ms-' + a.replace('basis', 'preferred-size') + a;
+                                }
+                            return '-webkit-' + a + '-ms-' + a + a;
+                        case 964:
+                            return '-webkit-' + a + '-ms-flex-' + a + a;
+                        case 1023:
+                            if (99 !== a.charCodeAt(8)) break;
+                            return (
+                                '-webkit-box-pack' +
+                                (l = a.substring(a.indexOf(':', 15)).replace('flex-', '').replace('space-between', 'justify')) +
+                                '-webkit-' +
+                                a +
+                                '-ms-flex-pack' +
+                                l +
+                                a
+                            );
+                        case 1005:
+                            return f.test(a) ? a.replace(d, ':-webkit-') + a.replace(d, ':-moz-') + a : a;
+                        case 1e3:
+                            switch (((t = (l = a.substring(13).trim()).indexOf('-') + 1), l.charCodeAt(0) + l.charCodeAt(t))) {
+                                case 226:
+                                    l = a.replace(b, 'tb');
+                                    break;
+                                case 232:
+                                    l = a.replace(b, 'tb-rl');
+                                    break;
+                                case 220:
+                                    l = a.replace(b, 'lr');
+                                    break;
+                                default:
+                                    return a;
+                            }
+                            return '-webkit-' + a + '-ms-' + l + a;
+                        case 1017:
+                            if (-1 === a.indexOf('sticky', 9)) break;
+                        case 975:
+                            switch (
+                                ((t = (a = e).length - 10),
+                                (s =
+                                    (l = (33 === a.charCodeAt(t) ? a.substring(0, t) : a).substring(e.indexOf(':', 7) + 1).trim()).charCodeAt(0) +
+                                    (0 | l.charCodeAt(7))))
+                            ) {
+                                case 203:
+                                    if (111 > l.charCodeAt(8)) break;
+                                case 115:
+                                    a = a.replace(l, '-webkit-' + l) + ';' + a;
+                                    break;
+                                case 207:
+                                case 102:
+                                    a =
+                                        a.replace(l, '-webkit-' + (102 < s ? 'inline-' : '') + 'box') +
+                                        ';' +
+                                        a.replace(l, '-webkit-' + l) +
+                                        ';' +
+                                        a.replace(l, '-ms-' + l + 'box') +
+                                        ';' +
+                                        a;
+                            }
+                            return a + ';';
+                        case 938:
+                            if (45 === a.charCodeAt(5))
+                                switch (a.charCodeAt(6)) {
+                                    case 105:
+                                        return (l = a.replace('-items', '')), '-webkit-' + a + '-webkit-box-' + l + '-ms-flex-' + l + a;
+                                    case 115:
+                                        return '-webkit-' + a + '-ms-flex-item-' + a.replace(x, '') + a;
+                                    default:
+                                        return '-webkit-' + a + '-ms-flex-line-pack' + a.replace('align-content', '').replace(x, '') + a;
+                                }
+                            break;
+                        case 973:
+                        case 989:
+                            if (45 !== a.charCodeAt(3) || 122 === a.charCodeAt(4)) break;
+                        case 931:
+                        case 953:
+                            if (!0 === E.test(e))
+                                return 115 === (l = e.substring(e.indexOf(':') + 1)).charCodeAt(0)
+                                    ? r(e.replace('stretch', 'fill-available'), t, n, o).replace(':fill-available', ':stretch')
+                                    : a.replace(l, '-webkit-' + l) + a.replace(l, '-moz-' + l.replace('fill-', '')) + a;
+                            break;
+                        case 962:
+                            if (
+                                ((a = '-webkit-' + a + (102 === a.charCodeAt(5) ? '-ms-' + a : '') + a),
+                                211 === n + o && 105 === a.charCodeAt(13) && 0 < a.indexOf('transform', 10))
+                            )
+                                return a.substring(0, a.indexOf(';', 27) + 1).replace(p, '$1-webkit-$2') + a;
+                    }
+                    return a;
+                }
+                function i(e, t) {
+                    var n = e.indexOf(1 === t ? ':' : '{'),
+                        r = e.substring(0, 3 !== t ? n : 10);
+                    return (n = e.substring(n + 1, e.length - 1)), I(2 !== t ? r : r.replace(k, '$1'), n, t);
+                }
+                function o(e, t) {
+                    var n = r(t, t.charCodeAt(0), t.charCodeAt(1), t.charCodeAt(2));
+                    return n !== t + ';' ? n.replace(w, ' or ($1)').substring(4) : '(' + t + ')';
+                }
+                function a(e, t, n, r, i, o, a, s, u, c) {
+                    for (var d, f = 0, p = t; f < M; ++f)
+                        switch ((d = R[f].call(l, e, p, n, r, i, o, a, s, u, c))) {
+                            case void 0:
+                            case !1:
+                            case !0:
+                            case null:
+                                break;
+                            default:
+                                p = d;
+                        }
+                    if (p !== t) return p;
+                }
+                function s(e) {
+                    return void 0 !== (e = e.prefix) && ((I = null), e ? ('function' != typeof e ? (A = 1) : ((A = 2), (I = e))) : (A = 0)), s;
+                }
+                function l(e, n) {
+                    var s = e;
+                    if ((33 > s.charCodeAt(0) && (s = s.trim()), (s = [s]), 0 < M)) {
+                        var l = a(-1, n, s, s, C, O, 0, 0, 0, 0);
+                        void 0 !== l && 'string' == typeof l && (n = l);
+                    }
+                    var d = (function e(n, s, l, d, f) {
+                        for (
+                            var p,
+                                h,
+                                m,
+                                b,
+                                w,
+                                x = 0,
+                                k = 0,
+                                E = 0,
+                                S = 0,
+                                R = 0,
+                                I = 0,
+                                L = (m = p = 0),
+                                D = 0,
+                                N = 0,
+                                F = 0,
+                                B = 0,
+                                z = l.length,
+                                U = z - 1,
+                                q = '',
+                                H = '',
+                                W = '',
+                                G = '';
+                            D < z;
+
+                        ) {
+                            if (
+                                ((h = l.charCodeAt(D)),
+                                D === U && 0 !== k + S + E + x && (0 !== k && (h = 47 === k ? 10 : 47), (S = E = x = 0), z++, U++),
+                                0 === k + S + E + x)
+                            ) {
+                                if (D === U && (0 < N && (q = q.replace(c, '')), 0 < q.trim().length)) {
+                                    switch (h) {
+                                        case 32:
+                                        case 9:
+                                        case 59:
+                                        case 13:
+                                        case 10:
+                                            break;
+                                        default:
+                                            q += l.charAt(D);
+                                    }
+                                    h = 59;
+                                }
+                                switch (h) {
+                                    case 123:
+                                        for (p = (q = q.trim()).charCodeAt(0), m = 1, B = ++D; D < z; ) {
+                                            switch ((h = l.charCodeAt(D))) {
+                                                case 123:
+                                                    m++;
+                                                    break;
+                                                case 125:
+                                                    m--;
+                                                    break;
+                                                case 47:
+                                                    switch ((h = l.charCodeAt(D + 1))) {
+                                                        case 42:
+                                                        case 47:
+                                                            e: {
+                                                                for (L = D + 1; L < U; ++L)
+                                                                    switch (l.charCodeAt(L)) {
+                                                                        case 47:
+                                                                            if (42 === h && 42 === l.charCodeAt(L - 1) && D + 2 !== L) {
+                                                                                D = L + 1;
+                                                                                break e;
+                                                                            }
+                                                                            break;
+                                                                        case 10:
+                                                                            if (47 === h) {
+                                                                                D = L + 1;
+                                                                                break e;
+                                                                            }
+                                                                    }
+                                                                D = L;
+                                                            }
+                                                    }
+                                                    break;
+                                                case 91:
+                                                    h++;
+                                                case 40:
+                                                    h++;
+                                                case 34:
+                                                case 39:
+                                                    for (; D++ < U && l.charCodeAt(D) !== h; );
+                                            }
+                                            if (0 === m) break;
+                                            D++;
+                                        }
+                                        switch (((m = l.substring(B, D)), 0 === p && (p = (q = q.replace(u, '').trim()).charCodeAt(0)), p)) {
+                                            case 64:
+                                                switch ((0 < N && (q = q.replace(c, '')), (h = q.charCodeAt(1)))) {
+                                                    case 100:
+                                                    case 109:
+                                                    case 115:
+                                                    case 45:
+                                                        N = s;
+                                                        break;
+                                                    default:
+                                                        N = P;
+                                                }
+                                                if (
+                                                    ((B = (m = e(s, N, m, h, f + 1)).length),
+                                                    0 < M &&
+                                                        ((w = a(3, m, (N = t(P, q, F)), s, C, O, B, h, f, d)),
+                                                        (q = N.join('')),
+                                                        void 0 !== w && 0 === (B = (m = w.trim()).length) && ((h = 0), (m = ''))),
+                                                    0 < B)
+                                                )
+                                                    switch (h) {
+                                                        case 115:
+                                                            q = q.replace(_, o);
+                                                        case 100:
+                                                        case 109:
+                                                        case 45:
+                                                            m = q + '{' + m + '}';
+                                                            break;
+                                                        case 107:
+                                                            (m = (q = q.replace(g, '$1 $2')) + '{' + m + '}'),
+                                                                (m = 1 === A || (2 === A && i('@' + m, 3)) ? '@-webkit-' + m + '@' + m : '@' + m);
+                                                            break;
+                                                        default:
+                                                            (m = q + m), 112 === d && ((H += m), (m = ''));
+                                                    }
+                                                else m = '';
+                                                break;
+                                            default:
+                                                m = e(s, t(s, q, F), m, d, f + 1);
+                                        }
+                                        (W += m), (m = F = N = L = p = 0), (q = ''), (h = l.charCodeAt(++D));
+                                        break;
+                                    case 125:
+                                    case 59:
+                                        if (1 < (B = (q = (0 < N ? q.replace(c, '') : q).trim()).length))
+                                            switch (
+                                                (0 === L && ((p = q.charCodeAt(0)), 45 === p || (96 < p && 123 > p)) && (B = (q = q.replace(' ', ':')).length),
+                                                0 < M &&
+                                                    void 0 !== (w = a(1, q, s, n, C, O, H.length, d, f, d)) &&
+                                                    0 === (B = (q = w.trim()).length) &&
+                                                    (q = '\0\0'),
+                                                (p = q.charCodeAt(0)),
+                                                (h = q.charCodeAt(1)),
+                                                p)
+                                            ) {
+                                                case 0:
+                                                    break;
+                                                case 64:
+                                                    if (105 === h || 99 === h) {
+                                                        G += q + l.charAt(D);
+                                                        break;
+                                                    }
+                                                default:
+                                                    58 !== q.charCodeAt(B - 1) && (H += r(q, p, h, q.charCodeAt(2)));
+                                            }
+                                        (F = N = L = p = 0), (q = ''), (h = l.charCodeAt(++D));
+                                }
+                            }
+                            switch (h) {
+                                case 13:
+                                case 10:
+                                    47 === k ? (k = 0) : 0 === 1 + p && 107 !== d && 0 < q.length && ((N = 1), (q += '\0')),
+                                        0 < M * j && a(0, q, s, n, C, O, H.length, d, f, d),
+                                        (O = 1),
+                                        C++;
+                                    break;
+                                case 59:
+                                case 125:
+                                    if (0 === k + S + E + x) {
+                                        O++;
+                                        break;
+                                    }
+                                default:
+                                    switch ((O++, (b = l.charAt(D)), h)) {
+                                        case 9:
+                                        case 32:
+                                            if (0 === S + x + k)
+                                                switch (R) {
+                                                    case 44:
+                                                    case 58:
+                                                    case 9:
+                                                    case 32:
+                                                        b = '';
+                                                        break;
+                                                    default:
+                                                        32 !== h && (b = ' ');
+                                                }
+                                            break;
+                                        case 0:
+                                            b = '\\0';
+                                            break;
+                                        case 12:
+                                            b = '\\f';
+                                            break;
+                                        case 11:
+                                            b = '\\v';
+                                            break;
+                                        case 38:
+                                            0 === S + k + x && ((N = F = 1), (b = '\f' + b));
+                                            break;
+                                        case 108:
+                                            if (0 === S + k + x + T && 0 < L)
+                                                switch (D - L) {
+                                                    case 2:
+                                                        112 === R && 58 === l.charCodeAt(D - 3) && (T = R);
+                                                    case 8:
+                                                        111 === I && (T = I);
+                                                }
+                                            break;
+                                        case 58:
+                                            0 === S + k + x && (L = D);
+                                            break;
+                                        case 44:
+                                            0 === k + E + S + x && ((N = 1), (b += '\r'));
+                                            break;
+                                        case 34:
+                                        case 39:
+                                            0 === k && (S = S === h ? 0 : 0 === S ? h : S);
+                                            break;
+                                        case 91:
+                                            0 === S + k + E && x++;
+                                            break;
+                                        case 93:
+                                            0 === S + k + E && x--;
+                                            break;
+                                        case 41:
+                                            0 === S + k + x && E--;
+                                            break;
+                                        case 40:
+                                            if (0 === S + k + x) {
+                                                if (0 === p)
+                                                    switch (2 * R + 3 * I) {
+                                                        case 533:
+                                                            break;
+                                                        default:
+                                                            p = 1;
+                                                    }
+                                                E++;
+                                            }
+                                            break;
+                                        case 64:
+                                            0 === k + E + S + x + L + m && (m = 1);
+                                            break;
+                                        case 42:
+                                        case 47:
+                                            if (!(0 < S + x + E))
+                                                switch (k) {
+                                                    case 0:
+                                                        switch (2 * h + 3 * l.charCodeAt(D + 1)) {
+                                                            case 235:
+                                                                k = 47;
+                                                                break;
+                                                            case 220:
+                                                                (B = D), (k = 42);
+                                                        }
+                                                        break;
+                                                    case 42:
+                                                        47 === h &&
+                                                            42 === R &&
+                                                            B + 2 !== D &&
+                                                            (33 === l.charCodeAt(B + 2) && (H += l.substring(B, D + 1)), (b = ''), (k = 0));
+                                                }
+                                    }
+                                    0 === k && (q += b);
+                            }
+                            (I = R), (R = h), D++;
+                        }
+                        if (0 < (B = H.length)) {
+                            if (((N = s), 0 < M && void 0 !== (w = a(2, H, N, n, C, O, B, d, f, d)) && 0 === (H = w).length)) return G + H + W;
+                            if (((H = N.join(',') + '{' + H + '}'), 0 != A * T)) {
+                                switch ((2 !== A || i(H, 2) || (T = 0), T)) {
+                                    case 111:
+                                        H = H.replace(y, ':-moz-$1') + H;
+                                        break;
+                                    case 112:
+                                        H = H.replace(v, '::-webkit-input-$1') + H.replace(v, '::-moz-$1') + H.replace(v, ':-ms-input-$1') + H;
+                                }
+                                T = 0;
+                            }
+                        }
+                        return G + H + W;
+                    })(P, s, n, 0, 0);
+                    return 0 < M && void 0 !== (l = a(-2, d, s, s, C, O, d.length, 0, 0, 0)) && (d = l), '', (T = 0), (O = C = 1), d;
+                }
+                var u = /^\0+/g,
+                    c = /[\0\r\f]/g,
+                    d = /: */g,
+                    f = /zoo|gra/,
+                    p = /([,: ])(transform)/g,
+                    h = /,\r+?/g,
+                    m = /([\t\r\n ])*\f?&/g,
+                    g = /@(k\w+)\s*(\S*)\s*/,
+                    v = /::(place)/g,
+                    y = /:(read-only)/g,
+                    b = /[svh]\w+-[tblr]{2}/,
+                    _ = /\(\s*(.*)\s*\)/g,
+                    w = /([\s\S]*?);/g,
+                    x = /-self|flex-/g,
+                    k = /[^]*?(:[rp][el]a[\w-]+)[^]*/,
+                    E = /stretch|:\s*\w+\-(?:conte|avail)/,
+                    S = /([^-])(image-set\()/,
+                    O = 1,
+                    C = 1,
+                    T = 0,
+                    A = 1,
+                    P = [],
+                    R = [],
+                    M = 0,
+                    I = null,
+                    j = 0;
+                return (
+                    (l.use = function e(t) {
+                        switch (t) {
+                            case void 0:
+                            case null:
+                                M = R.length = 0;
+                                break;
+                            default:
+                                if ('function' == typeof t) R[M++] = t;
+                                else if ('object' == typeof t) for (var n = 0, r = t.length; n < r; ++n) e(t[n]);
+                                else j = 0 | !!t;
+                        }
+                        return e;
+                    }),
+                    (l.set = s),
+                    void 0 !== e && s(e),
+                    l
+                );
+            };
+            function s(e) {
+                e && l.current.insert(e + '}');
+            }
+            var l = { current: null },
+                u = function (e, t, n, r, i, o, a, u, c, d) {
+                    switch (e) {
+                        case 1:
+                            switch (t.charCodeAt(0)) {
+                                case 64:
+                                    return l.current.insert(t + ';'), '';
+                                case 108:
+                                    if (98 === t.charCodeAt(2)) return '';
+                            }
+                            break;
+                        case 2:
+                            if (0 === u) return t + '/*|*/';
+                            break;
+                        case 3:
+                            switch (u) {
+                                case 102:
+                                case 112:
+                                    return l.current.insert(n[0] + t), '';
+                                default:
+                                    return t + (0 === d ? '/*|*/' : '');
+                            }
+                        case -2:
+                            t.split('/*|*/}').forEach(s);
+                    }
+                },
+                c = function (e) {
+                    void 0 === e && (e = {});
+                    var t,
+                        n = e.key || 'css';
+                    void 0 !== e.prefix && (t = { prefix: e.prefix });
+                    var r = new a(t);
+                    var i,
+                        s = {};
+                    i = e.container || document.head;
+                    var c,
+                        d = document.querySelectorAll('style[data-emotion-' + n + ']');
+                    Array.prototype.forEach.call(d, function (e) {
+                        e
+                            .getAttribute('data-emotion-' + n)
+                            .split(' ')
+                            .forEach(function (e) {
+                                s[e] = !0;
+                            }),
+                            e.parentNode !== i && i.appendChild(e);
+                    }),
+                        r.use(e.stylisPlugins)(u),
+                        (c = function (e, t, n, i) {
+                            var o = t.name;
+                            (l.current = n), r(e, t.styles), i && (f.inserted[o] = !0);
+                        });
+                    var f = {
+                        key: n,
+                        sheet: new o({
+                            key: n,
+                            container: i,
+                            nonce: e.nonce,
+                            speedy: e.speedy
+                        }),
+                        nonce: e.nonce,
+                        inserted: s,
+                        registered: {},
+                        insert: c
+                    };
+                    return f;
+                },
+                d = (n(919), n(120)),
+                f = n(119),
+                p = Object.prototype.hasOwnProperty,
+                h = Object(i.createContext)('undefined' != typeof HTMLElement ? c() : null),
+                m = Object(i.createContext)({}),
+                g = h.Provider,
+                v = function (e) {
+                    var t = function (t, n) {
+                        return Object(i.createElement)(h.Consumer, null, function (r) {
+                            return e(t, r, n);
+                        });
+                    };
+                    return Object(i.forwardRef)(t);
+                },
+                y = '__EMOTION_TYPE_PLEASE_DO_NOT_USE__',
+                b = function (e, t) {
+                    var n = {};
+                    for (var r in t) p.call(t, r) && (n[r] = t[r]);
+                    return (n[y] = e), n;
+                },
+                _ = function (e, t, n, r) {
+                    var o = null === n ? t.css : t.css(n);
+                    'string' == typeof o && void 0 !== e.registered[o] && (o = e.registered[o]);
+                    var a = t[y],
+                        s = [o],
+                        l = '';
+                    'string' == typeof t.className ? (l = Object(d.a)(e.registered, s, t.className)) : null != t.className && (l = t.className + ' ');
+                    var u = Object(f.a)(s);
+                    Object(d.b)(e, u, 'string' == typeof a);
+                    l += e.key + '-' + u.name;
+                    var c = {};
+                    for (var h in t) p.call(t, h) && 'css' !== h && h !== y && (c[h] = t[h]);
+                    return (c.ref = r), (c.className = l), Object(i.createElement)(a, c);
+                },
+                w = v(function (e, t, n) {
+                    return 'function' == typeof e.css
+                        ? Object(i.createElement)(m.Consumer, null, function (r) {
+                              return _(t, e, r, n);
+                          })
+                        : _(t, e, null, n);
+                });
+            var x = n(177),
+                k = function (e, t) {
+                    var n = arguments;
+                    if (null == t || !p.call(t, 'css')) return i.createElement.apply(void 0, n);
+                    var r = n.length,
+                        o = new Array(r);
+                    (o[0] = w), (o[1] = b(e, t));
+                    for (var a = 2; a < r; a++) o[a] = n[a];
+                    return i.createElement.apply(null, o);
+                },
+                E = v(function (e, t) {
+                    var n = e.styles;
+                    if ('function' == typeof n)
+                        return Object(i.createElement)(m.Consumer, null, function (e) {
+                            var r = Object(f.a)([n(e)]);
+                            return Object(i.createElement)(S, { serialized: r, cache: t });
+                        });
+                    var r = Object(f.a)([n]);
+                    return Object(i.createElement)(S, { serialized: r, cache: t });
+                }),
+                S = (function (e) {
+                    function t(t, n, r) {
+                        return e.call(this, t, n, r) || this;
+                    }
+                    Object(r.a)(t, e);
+                    var n = t.prototype;
+                    return (
+                        (n.componentDidMount = function () {
+                            this.sheet = new o({
+                                key: this.props.cache.key + '-global',
+                                nonce: this.props.cache.sheet.nonce,
+                                container: this.props.cache.sheet.container
+                            });
+                            var e = document.querySelector('style[data-emotion-' + this.props.cache.key + '="' + this.props.serialized.name + '"]');
+                            null !== e && this.sheet.tags.push(e),
+                                this.props.cache.sheet.tags.length && (this.sheet.before = this.props.cache.sheet.tags[0]),
+                                this.insertStyles();
+                        }),
+                        (n.componentDidUpdate = function (e) {
+                            e.serialized.name !== this.props.serialized.name && this.insertStyles();
+                        }),
+                        (n.insertStyles = function () {
+                            if (
+                                (void 0 !== this.props.serialized.next && Object(d.b)(this.props.cache, this.props.serialized.next, !0), this.sheet.tags.length)
+                            ) {
+                                var e = this.sheet.tags[this.sheet.tags.length - 1].nextElementSibling;
+                                (this.sheet.before = e), this.sheet.flush();
+                            }
+                            this.props.cache.insert('', this.props.serialized, this.sheet, !1);
+                        }),
+                        (n.componentWillUnmount = function () {
+                            this.sheet.flush();
+                        }),
+                        (n.render = function () {
+                            return null;
+                        }),
+                        t
+                    );
+                })(i.Component),
+                O = function () {
+                    var e = x.default.apply(void 0, arguments),
+                        t = 'animation-' + e.name;
+                    return {
+                        name: t,
+                        styles: '@keyframes ' + t + '{' + e.styles + '}',
+                        anim: 1,
+                        toString: function () {
+                            return '_EMO_' + this.name + '_' + this.styles + '_EMO_';
+                        }
+                    };
+                },
+                C = function e(t) {
+                    for (var n = t.length, r = 0, i = ''; r < n; r++) {
+                        var o = t[r];
+                        if (null != o) {
+                            var a = void 0;
+                            switch (typeof o) {
+                                case 'boolean':
+                                    break;
+                                case 'object':
+                                    if (Array.isArray(o)) a = e(o);
+                                    else for (var s in ((a = ''), o)) o[s] && s && (a && (a += ' '), (a += s));
+                                    break;
+                                default:
+                                    a = o;
+                            }
+                            a && (i && (i += ' '), (i += a));
+                        }
+                    }
+                    return i;
+                };
+            function T(e, t, n) {
+                var r = [],
+                    i = Object(d.a)(e, r, n);
+                return r.length < 2 ? n : i + t(r);
+            }
+            var A = v(function (e, t) {
+                return Object(i.createElement)(m.Consumer, null, function (n) {
+                    var r = function () {
+                            for (var e = arguments.length, n = new Array(e), r = 0; r < e; r++) n[r] = arguments[r];
+                            var i = Object(f.a)(n, t.registered);
+                            return Object(d.b)(t, i, !1), t.key + '-' + i.name;
+                        },
+                        i = {
+                            css: r,
+                            cx: function () {
+                                for (var e = arguments.length, n = new Array(e), i = 0; i < e; i++) n[i] = arguments[i];
+                                return T(t.registered, r, C(n));
+                            },
+                            theme: n
+                        },
+                        o = e.children(i);
+                    return !0, o;
+                });
+            });
+        },
+        function (e, t, n) {
+            'use strict';
+            Object.defineProperty(t, '__esModule', { value: !0 }), (t.ReactCSS = t.loop = t.handleActive = t.handleHover = t.hover = void 0);
+            var r = u(n(1685)),
+                i = u(n(1687)),
+                o = u(n(1689)),
+                a = u(n(1690)),
+                s = u(n(1691)),
+                l = u(n(1692));
+            function u(e) {
+                return e && e.__esModule ? e : { default: e };
+            }
+            (t.hover = a.default), (t.handleHover = a.default), (t.handleActive = s.default), (t.loop = l.default);
+            var c = (t.ReactCSS = function (e) {
+                for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), a = 1; a < t; a++) n[a - 1] = arguments[a];
+                var s = (0, r.default)(n),
+                    l = (0, i.default)(e, s);
+                return (0, o.default)(l);
+            });
+            t.default = c;
+        },
+        function (e, t, n) {
+            'use strict';
+            n.d(t, 'c', function () {
+                return l;
+            }),
+                n.d(t, 'b', function () {
+                    return u;
+                }),
+                n.d(t, 'd', function () {
+                    return c;
+                }),
+                n.d(t, 'e', function () {
+                    return d;
+                }),
+                n.d(t, 'f', function () {
+                    return f;
+                }),
+                n.d(t, 'g', function () {
+                    return p;
+                }),
+                n.d(t, 'i', function () {
+                    return h;
+                }),
+                n.d(t, 'k', function () {
+                    return m;
+                }),
+                n.d(t, 'l', function () {
+                    return g;
+                }),
+                n.d(t, 'm', function () {
+                    return v;
+                }),
+                n.d(t, 'j', function () {
+                    return y;
+                }),
+                n.d(t, 'h', function () {
+                    return b;
+                }),
+                n.d(t, 'o', function () {
+                    return _;
+                }),
+                n.d(t, 'a', function () {
+                    return E;
+                }),
+                n.d(t, 'p', function () {
+                    return T;
+                }),
+                n.d(t, 'q', function () {
+                    return A;
+                }),
+                n.d(t, 's', function () {
+                    return P;
+                }),
+                n.d(t, 'r', function () {
+                    return R;
+                }),
+                n.d(t, 'n', function () {
+                    return M;
+                });
+            var r = n(60),
+                i = n(35),
+                o = n(23),
+                a = n(311),
+                s = n(20),
+                l = '10px sans-serif',
+                u = [0, 0, 0, 1],
+                c = 'round',
+                d = [],
+                f = 0,
+                p = 'round',
+                h = 10,
+                m = [0, 0, 0, 1],
+                g = 'center',
+                v = 'middle',
+                y = [0, 0, 0, 0],
+                b = 1,
+                _ = new a.a(),
+                w = {},
+                x = null,
+                k = {},
+                E = (function () {
+                    var e,
+                        t,
+                        n = w,
+                        i = ['monospace', 'serif'],
+                        a = i.length,
+                        s = 'wmytzilWMYTZIL@#/&?$%10';
+                    function l(e) {
+                        for (var n = S(), r = 100; r <= 700; r += 300) {
+                            for (var o = r + ' ', l = !0, u = 0; u < a; ++u) {
+                                var c = i[u];
+                                if (((n.font = o + '32px ' + c), (t = n.measureText(s).width), e != c)) {
+                                    n.font = o + '32px ' + e + ',' + c;
+                                    var d = n.measureText(s).width;
+                                    l = l && d != t;
+                                }
+                            }
+                            if (l) return !0;
+                        }
+                        return !1;
+                    }
+                    function u() {
+                        var t = !0;
+                        for (var r in n) n[r] < 60 && (l(r) ? ((n[r] = 60), Object(o.b)(k), (x = null), _.clear()) : (++n[r], (t = !1)));
+                        t && (clearInterval(e), (e = void 0));
+                    }
+                    return function (t) {
+                        var i = Object(r.e)(t);
+                        if (i)
+                            for (var o = 0, a = i.length; o < a; ++o) {
+                                var s = i[o];
+                                s in n || ((n[s] = 60), l(s) || ((n[s] = 0), void 0 === e && (e = setInterval(u, 32))));
+                            }
+                    };
+                })();
+            function S() {
+                return x || (x = Object(i.a)(1, 1)), x;
+            }
+            var O,
+                C,
+                T =
+                    ((C = k),
+                    function (e) {
+                        var t = C[e];
+                        return (
+                            null == t &&
+                                (O ||
+                                    (((O = document.createElement('span')).textContent = 'M'),
+                                    (O.style.margin = O.style.padding = '0 !important'),
+                                    (O.style.position = 'absolute !important'),
+                                    (O.style.left = '-99999px !important')),
+                                (O.style.font = e),
+                                document.body.appendChild(O),
+                                (t = C[e] = O.offsetHeight),
+                                document.body.removeChild(O)),
+                            t
+                        );
+                    });
+            function A(e, t) {
+                var n = S();
+                return e != n.font && (n.font = e), n.measureText(t).width;
+            }
+            function P(e, t, n, r) {
+                0 !== t && (e.translate(n, r), e.rotate(t), e.translate(-n, -r));
+            }
+            var R = Object(s.c)();
+            function M(e, t, n, r, i, o, a, s, l, u, c) {
+                var d;
+                1 != n && ((d = e.globalAlpha), (e.globalAlpha = d * n)),
+                    t && e.setTransform.apply(e, t),
+                    e.drawImage(r, i, o, a, s, l, u, a * c, s * c),
+                    d && (e.globalAlpha = d),
+                    t && e.setTransform.apply(e, R);
+            }
+        },
+        function (e, t, n) {
+            'use strict';
+            (function (e) {
+                n.d(t, 'a', function () {
+                    return B;
+                }),
+                    n.d(t, 'b', function () {
+                        return f;
+                    }),
+                    n.d(t, 'c', function () {
+                        return S;
+                    }),
+                    n.d(t, 'd', function () {
+                        return q;
+                    }),
+                    n.d(t, 'e', function () {
+                        return W;
+                    }),
+                    n.d(t, 'f', function () {
+                        return $;
+                    }),
+                    n.d(t, 'g', function () {
+                        return M;
+                    }),
+                    n.d(t, 'h', function () {
+                        return I;
+                    }),
+                    n.d(t, 'i', function () {
+                        return b;
+                    }),
+                    n.d(t, 'j', function () {
+                        return A;
+                    }),
+                    n.d(t, 'k', function () {
+                        return E;
+                    }),
+                    n.d(t, 'l', function () {
+                        return R;
+                    }),
+                    n.d(t, 'm', function () {
+                        return C;
+                    }),
+                    n.d(t, 'n', function () {
+                        return T;
+                    }),
+                    n.d(t, 'o', function () {
+                        return P;
+                    }),
+                    n.d(t, 'p', function () {
+                        return d;
+                    }),
+                    n.d(t, 'q', function () {
+                        return X;
+                    }),
+                    n.d(t, 'r', function () {
+                        return x;
+                    }),
+                    n.d(t, 's', function () {
+                        return w;
+                    }),
+                    n.d(t, 't', function () {
+                        return h;
+                    }),
+                    n.d(t, 'u', function () {
+                        return g;
+                    }),
+                    n.d(t, 'v', function () {
+                        return m;
+                    }),
+                    n.d(t, 'w', function () {
+                        return y;
+                    }),
+                    n.d(t, 'x', function () {
+                        return K;
+                    }),
+                    n.d(t, 'y', function () {
+                        return Y;
+                    }),
+                    n.d(t, 'z', function () {
+                        return J;
+                    }),
+                    n.d(t, 'A', function () {
+                        return ee;
+                    }),
+                    n.d(t, 'B', function () {
+                        return te;
+                    }),
+                    n.d(t, 'C', function () {
+                        return H;
+                    }),
+                    n.d(t, 'D', function () {
+                        return U;
+                    }),
+                    n.d(t, 'E', function () {
+                        return p;
+                    }),
+                    n.d(t, 'F', function () {
+                        return _;
+                    }),
+                    n.d(t, 'G', function () {
+                        return u;
+                    }),
+                    n.d(t, 'H', function () {
+                        return v;
+                    }),
+                    n.d(t, 'I', function () {
+                        return Q;
+                    });
+                var r = n(94),
+                    i = n(21),
+                    o = n(7),
+                    a = n(303),
+                    s = n.n(a);
+                n(137);
+                function l(e, t, n, r) {
+                    if (
+                        (function (e) {
+                            return 'IntValue' === e.kind;
+                        })(n) ||
+                        (function (e) {
+                            return 'FloatValue' === e.kind;
+                        })(n)
+                    )
+                        e[t.value] = Number(n.value);
+                    else if (
+                        (function (e) {
+                            return 'BooleanValue' === e.kind;
+                        })(n) ||
+                        (function (e) {
+                            return 'StringValue' === e.kind;
+                        })(n)
+                    )
+                        e[t.value] = n.value;
+                    else if (
+                        (function (e) {
+                            return 'ObjectValue' === e.kind;
+                        })(n)
+                    ) {
+                        var o = {};
+                        n.fields.map(function (e) {
+                            return l(o, e.name, e.value, r);
+                        }),
+                            (e[t.value] = o);
+                    } else if (
+                        (function (e) {
+                            return 'Variable' === e.kind;
+                        })(n)
+                    ) {
+                        var a = (r || {})[n.name.value];
+                        e[t.value] = a;
+                    } else if (
+                        (function (e) {
+                            return 'ListValue' === e.kind;
+                        })(n)
+                    )
+                        e[t.value] = n.values.map(function (e) {
+                            var n = {};
+                            return l(n, t, e, r), n[t.value];
+                        });
+                    else if (
+                        (function (e) {
+                            return 'EnumValue' === e.kind;
+                        })(n)
+                    )
+                        e[t.value] = n.value;
+                    else {
+                        if (
+                            !(function (e) {
+                                return 'NullValue' === e.kind;
+                            })(n)
+                        )
+                            throw new i.a(17);
+                        e[t.value] = null;
+                    }
+                }
+                function u(e, t) {
+                    var n = null;
+                    e.directives &&
+                        ((n = {}),
+                        e.directives.forEach(function (e) {
+                            (n[e.name.value] = {}),
+                                e.arguments &&
+                                    e.arguments.forEach(function (r) {
+                                        var i = r.name,
+                                            o = r.value;
+                                        return l(n[e.name.value], i, o, t);
+                                    });
+                        }));
+                    var r = null;
+                    return (
+                        e.arguments &&
+                            e.arguments.length &&
+                            ((r = {}),
+                            e.arguments.forEach(function (e) {
+                                var n = e.name,
+                                    i = e.value;
+                                return l(r, n, i, t);
+                            })),
+                        d(e.name.value, r, n)
+                    );
+                }
+                var c = ['connection', 'include', 'skip', 'client', 'rest', 'export'];
+                function d(e, t, n) {
+                    if (n && n.connection && n.connection.key) {
+                        if (n.connection.filter && n.connection.filter.length > 0) {
+                            var r = n.connection.filter ? n.connection.filter : [];
+                            r.sort();
+                            var i = t,
+                                o = {};
+                            return (
+                                r.forEach(function (e) {
+                                    o[e] = i[e];
+                                }),
+                                n.connection.key + '(' + JSON.stringify(o) + ')'
+                            );
+                        }
+                        return n.connection.key;
+                    }
+                    var a = e;
+                    if (t) {
+                        var l = s()(t);
+                        a += '(' + l + ')';
+                    }
+                    return (
+                        n &&
+                            Object.keys(n).forEach(function (e) {
+                                -1 === c.indexOf(e) && (n[e] && Object.keys(n[e]).length ? (a += '@' + e + '(' + JSON.stringify(n[e]) + ')') : (a += '@' + e));
+                            }),
+                        a
+                    );
+                }
+                function f(e, t) {
+                    if (e.arguments && e.arguments.length) {
+                        var n = {};
+                        return (
+                            e.arguments.forEach(function (e) {
+                                var r = e.name,
+                                    i = e.value;
+                                return l(n, r, i, t);
+                            }),
+                            n
+                        );
+                    }
+                    return null;
+                }
+                function p(e) {
+                    return e.alias ? e.alias.value : e.name.value;
+                }
+                function h(e) {
+                    return 'Field' === e.kind;
+                }
+                function m(e) {
+                    return 'InlineFragment' === e.kind;
+                }
+                function g(e) {
+                    return e && 'id' === e.type && 'boolean' == typeof e.generated;
+                }
+                function v(e, t) {
+                    return void 0 === t && (t = !1), Object(o.a)({ type: 'id', generated: t }, 'string' == typeof e ? { id: e, typename: void 0 } : e);
+                }
+                function y(e) {
+                    return null != e && 'object' == typeof e && 'json' === e.type;
+                }
+                function b(e, t) {
+                    if (e.directives && e.directives.length) {
+                        var n = {};
+                        return (
+                            e.directives.forEach(function (e) {
+                                n[e.name.value] = f(e, t);
+                            }),
+                            n
+                        );
+                    }
+                    return null;
+                }
+                function _(e, t) {
+                    return (
+                        void 0 === t && (t = {}),
+                        ((n = e.directives),
+                        n
+                            ? n.filter(k).map(function (e) {
+                                  var t = e.arguments;
+                                  e.name.value, Object(i.b)(t && 1 === t.length, 14);
+                                  var n = t[0];
+                                  Object(i.b)(n.name && 'if' === n.name.value, 15);
+                                  var r = n.value;
+                                  return Object(i.b)(r && ('Variable' === r.kind || 'BooleanValue' === r.kind), 16), { directive: e, ifArgument: n };
+                              })
+                            : []).every(function (e) {
+                            var n = e.directive,
+                                r = e.ifArgument,
+                                o = !1;
+                            return (
+                                'Variable' === r.value.kind ? ((o = t[r.value.name.value]), Object(i.b)(void 0 !== o, 13)) : (o = r.value.value),
+                                'skip' === n.name.value ? !o : o
+                            );
+                        })
+                    );
+                    var n;
+                }
+                function w(e, t) {
+                    return (function (e) {
+                        var t = [];
+                        return (
+                            Object(r.visit)(e, {
+                                Directive: function (e) {
+                                    t.push(e.name.value);
+                                }
+                            }),
+                            t
+                        );
+                    })(t).some(function (t) {
+                        return e.indexOf(t) > -1;
+                    });
+                }
+                function x(e) {
+                    return e && w(['client'], e) && w(['export'], e);
+                }
+                function k(e) {
+                    var t = e.name.value;
+                    return 'skip' === t || 'include' === t;
+                }
+                function E(e, t) {
+                    var n = t,
+                        r = [];
+                    return (
+                        e.definitions.forEach(function (e) {
+                            if ('OperationDefinition' === e.kind) throw new i.a(11);
+                            'FragmentDefinition' === e.kind && r.push(e);
+                        }),
+                        void 0 === n && (Object(i.b)(1 === r.length, 12), (n = r[0].name.value)),
+                        Object(o.a)(Object(o.a)({}, e), {
+                            definitions: Object(o.f)(
+                                [
+                                    {
+                                        kind: 'OperationDefinition',
+                                        operation: 'query',
+                                        selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                                {
+                                                    kind: 'FragmentSpread',
+                                                    name: { kind: 'Name', value: n }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                e.definitions
+                            )
+                        })
+                    );
+                }
+                function S(e) {
+                    for (var t = [], n = 1; n < arguments.length; n++) t[n - 1] = arguments[n];
+                    return (
+                        t.forEach(function (t) {
+                            null != t &&
+                                Object.keys(t).forEach(function (n) {
+                                    e[n] = t[n];
+                                });
+                        }),
+                        e
+                    );
+                }
+                function O(e) {
+                    Object(i.b)(e && 'Document' === e.kind, 2);
+                    var t = e.definitions
+                        .filter(function (e) {
+                            return 'FragmentDefinition' !== e.kind;
+                        })
+                        .map(function (e) {
+                            if ('OperationDefinition' !== e.kind) throw new i.a(3);
+                            return e;
+                        });
+                    return Object(i.b)(t.length <= 1, 4), e;
+                }
+                function C(e) {
+                    return (
+                        O(e),
+                        e.definitions.filter(function (e) {
+                            return 'OperationDefinition' === e.kind;
+                        })[0]
+                    );
+                }
+                function T(e) {
+                    return (
+                        e.definitions
+                            .filter(function (e) {
+                                return 'OperationDefinition' === e.kind && e.name;
+                            })
+                            .map(function (e) {
+                                return e.name.value;
+                            })[0] || null
+                    );
+                }
+                function A(e) {
+                    return e.definitions.filter(function (e) {
+                        return 'FragmentDefinition' === e.kind;
+                    });
+                }
+                function P(e) {
+                    var t = C(e);
+                    return Object(i.b)(t && 'query' === t.operation, 6), t;
+                }
+                function R(e) {
+                    var t;
+                    O(e);
+                    for (var n = 0, r = e.definitions; n < r.length; n++) {
+                        var o = r[n];
+                        if ('OperationDefinition' === o.kind) {
+                            var a = o.operation;
+                            if ('query' === a || 'mutation' === a || 'subscription' === a) return o;
+                        }
+                        'FragmentDefinition' !== o.kind || t || (t = o);
+                    }
+                    if (t) return t;
+                    throw new i.a(10);
+                }
+                function M(e) {
+                    void 0 === e && (e = []);
+                    var t = {};
+                    return (
+                        e.forEach(function (e) {
+                            t[e.name.value] = e;
+                        }),
+                        t
+                    );
+                }
+                function I(e) {
+                    if (e && e.variableDefinitions && e.variableDefinitions.length) {
+                        var t = e.variableDefinitions
+                            .filter(function (e) {
+                                return e.defaultValue;
+                            })
+                            .map(function (e) {
+                                var t = e.variable,
+                                    n = e.defaultValue,
+                                    r = {};
+                                return l(r, t.name, n), r;
+                            });
+                        return S.apply(void 0, Object(o.f)([{}], t));
+                    }
+                    return {};
+                }
+                function j(e, t, n) {
+                    var r = 0;
+                    return (
+                        e.forEach(function (n, i) {
+                            t.call(this, n, i, e) && (e[r++] = n);
+                        }, n),
+                        (e.length = r),
+                        e
+                    );
+                }
+                var L = { kind: 'Field', name: { kind: 'Name', value: '__typename' } };
+                function D(e) {
+                    return (function e(t, n) {
+                        return t.selectionSet.selections.every(function (t) {
+                            return 'FragmentSpread' === t.kind && e(n[t.name.value], n);
+                        });
+                    })(
+                        C(e) ||
+                            (function (e) {
+                                Object(i.b)('Document' === e.kind, 7), Object(i.b)(e.definitions.length <= 1, 8);
+                                var t = e.definitions[0];
+                                return Object(i.b)('FragmentDefinition' === t.kind, 9), t;
+                            })(e),
+                        M(A(e))
+                    )
+                        ? null
+                        : e;
+                }
+                function N(e) {
+                    return function (t) {
+                        return e.some(function (e) {
+                            return (e.name && e.name === t.name.value) || (e.test && e.test(t));
+                        });
+                    };
+                }
+                function F(e, t) {
+                    var n = Object.create(null),
+                        i = [],
+                        a = Object.create(null),
+                        s = [],
+                        l = D(
+                            Object(r.visit)(t, {
+                                Variable: {
+                                    enter: function (e, t, r) {
+                                        'VariableDefinition' !== r.kind && (n[e.name.value] = !0);
+                                    }
+                                },
+                                Field: {
+                                    enter: function (t) {
+                                        if (
+                                            e &&
+                                            t.directives &&
+                                            e.some(function (e) {
+                                                return e.remove;
+                                            }) &&
+                                            t.directives &&
+                                            t.directives.some(N(e))
+                                        )
+                                            return (
+                                                t.arguments &&
+                                                    t.arguments.forEach(function (e) {
+                                                        'Variable' === e.value.kind && i.push({ name: e.value.name.value });
+                                                    }),
+                                                t.selectionSet &&
+                                                    (function e(t) {
+                                                        var n = [];
+                                                        return (
+                                                            t.selections.forEach(function (t) {
+                                                                (h(t) || m(t)) && t.selectionSet
+                                                                    ? e(t.selectionSet).forEach(function (e) {
+                                                                          return n.push(e);
+                                                                      })
+                                                                    : 'FragmentSpread' === t.kind && n.push(t);
+                                                            }),
+                                                            n
+                                                        );
+                                                    })(t.selectionSet).forEach(function (e) {
+                                                        s.push({ name: e.name.value });
+                                                    }),
+                                                null
+                                            );
+                                    }
+                                },
+                                FragmentSpread: {
+                                    enter: function (e) {
+                                        a[e.name.value] = !0;
+                                    }
+                                },
+                                Directive: {
+                                    enter: function (t) {
+                                        if (N(e)(t)) return null;
+                                    }
+                                }
+                            })
+                        );
+                    return (
+                        l &&
+                            j(i, function (e) {
+                                return !n[e.name];
+                            }).length &&
+                            (l = (function (e, t) {
+                                var n = (function (e) {
+                                    return function (t) {
+                                        return e.some(function (e) {
+                                            return (
+                                                t.value &&
+                                                'Variable' === t.value.kind &&
+                                                t.value.name &&
+                                                (e.name === t.value.name.value || (e.test && e.test(t)))
+                                            );
+                                        });
+                                    };
+                                })(e);
+                                return D(
+                                    Object(r.visit)(t, {
+                                        OperationDefinition: {
+                                            enter: function (t) {
+                                                return Object(o.a)(Object(o.a)({}, t), {
+                                                    variableDefinitions: t.variableDefinitions.filter(function (t) {
+                                                        return !e.some(function (e) {
+                                                            return e.name === t.variable.name.value;
+                                                        });
+                                                    })
+                                                });
+                                            }
+                                        },
+                                        Field: {
+                                            enter: function (t) {
+                                                if (
+                                                    e.some(function (e) {
+                                                        return e.remove;
+                                                    })
+                                                ) {
+                                                    var r = 0;
+                                                    if (
+                                                        (t.arguments.forEach(function (e) {
+                                                            n(e) && (r += 1);
+                                                        }),
+                                                        1 === r)
+                                                    )
+                                                        return null;
+                                                }
+                                            }
+                                        },
+                                        Argument: {
+                                            enter: function (e) {
+                                                if (n(e)) return null;
+                                            }
+                                        }
+                                    })
+                                );
+                            })(i, l)),
+                        l &&
+                            j(s, function (e) {
+                                return !a[e.name];
+                            }).length &&
+                            (l = (function (e, t) {
+                                function n(t) {
+                                    if (
+                                        e.some(function (e) {
+                                            return e.name === t.name.value;
+                                        })
+                                    )
+                                        return null;
+                                }
+                                return D(
+                                    Object(r.visit)(t, {
+                                        FragmentSpread: { enter: n },
+                                        FragmentDefinition: { enter: n }
+                                    })
+                                );
+                            })(s, l)),
+                        l
+                    );
+                }
+                function B(e) {
+                    return Object(r.visit)(O(e), {
+                        SelectionSet: {
+                            enter: function (e, t, n) {
+                                if (!n || 'OperationDefinition' !== n.kind) {
+                                    var r = e.selections;
+                                    if (r)
+                                        if (
+                                            !r.some(function (e) {
+                                                return h(e) && ('__typename' === e.name.value || 0 === e.name.value.lastIndexOf('__', 0));
+                                            })
+                                        ) {
+                                            var i = n;
+                                            if (
+                                                !(
+                                                    h(i) &&
+                                                    i.directives &&
+                                                    i.directives.some(function (e) {
+                                                        return 'export' === e.name.value;
+                                                    })
+                                                )
+                                            )
+                                                return Object(o.a)(Object(o.a)({}, e), {
+                                                    selections: Object(o.f)(r, [L])
+                                                });
+                                        }
+                                }
+                            }
+                        }
+                    });
+                }
+                var z = {
+                    test: function (e) {
+                        var t = 'connection' === e.name.value;
+                        return (
+                            t &&
+                                (!e.arguments ||
+                                    e.arguments.some(function (e) {
+                                        return 'key' === e.name.value;
+                                    })),
+                            t
+                        );
+                    }
+                };
+                function U(e) {
+                    return F([z], O(e));
+                }
+                function q(e) {
+                    return 'query' === R(e).operation
+                        ? e
+                        : Object(r.visit)(e, {
+                              OperationDefinition: {
+                                  enter: function (e) {
+                                      return Object(o.a)(Object(o.a)({}, e), {
+                                          operation: 'query'
+                                      });
+                                  }
+                              }
+                          });
+                }
+                function H(e) {
+                    O(e);
+                    var t = F(
+                        [
+                            {
+                                test: function (e) {
+                                    return 'client' === e.name.value;
+                                },
+                                remove: !0
+                            }
+                        ],
+                        e
+                    );
+                    return (
+                        t &&
+                            (t = Object(r.visit)(t, {
+                                FragmentDefinition: {
+                                    enter: function (e) {
+                                        if (
+                                            e.selectionSet &&
+                                            e.selectionSet.selections.every(function (e) {
+                                                return h(e) && '__typename' === e.name.value;
+                                            })
+                                        )
+                                            return null;
+                                    }
+                                }
+                            })),
+                        t
+                    );
+                }
+                var W = 'function' == typeof WeakMap && !('object' == typeof navigator && 'ReactNative' === navigator.product),
+                    G = Object.prototype.toString;
+                function $(e) {
+                    return (function e(t, n) {
+                        switch (G.call(t)) {
+                            case '[object Array]':
+                                if (n.has(t)) return n.get(t);
+                                var r = t.slice(0);
+                                return (
+                                    n.set(t, r),
+                                    r.forEach(function (t, i) {
+                                        r[i] = e(t, n);
+                                    }),
+                                    r
+                                );
+                            case '[object Object]':
+                                if (n.has(t)) return n.get(t);
+                                var i = Object.create(Object.getPrototypeOf(t));
+                                return (
+                                    n.set(t, i),
+                                    Object.keys(t).forEach(function (r) {
+                                        i[r] = e(t[r], n);
+                                    }),
+                                    i
+                                );
+                            default:
+                                return t;
+                        }
+                    })(e, new Map());
+                }
+                function V(t) {
+                    return (void 0 !== e ? 'production' : 'development') === t;
+                }
+                function K() {
+                    return !0 === V('production');
+                }
+                function Y() {
+                    return !0 === V('test');
+                }
+                function Q(e) {
+                    try {
+                        return e();
+                    } catch (e) {
+                        console.error && console.error(e);
+                    }
+                }
+                function X(e) {
+                    return e.errors && e.errors.length;
+                }
+                function J(e) {
+                    if ((!0 === V('development') || Y()) && !('function' == typeof Symbol && 'string' == typeof Symbol('')))
+                        return (function e(t) {
+                            return (
+                                Object.freeze(t),
+                                Object.getOwnPropertyNames(t).forEach(function (n) {
+                                    null === t[n] || ('object' != typeof t[n] && 'function' != typeof t[n]) || Object.isFrozen(t[n]) || e(t[n]);
+                                }),
+                                t
+                            );
+                        })(e);
+                    return e;
+                }
+                var Z = Object.prototype.hasOwnProperty;
+                function ee() {
+                    for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
+                    return te(e);
+                }
+                function te(e) {
+                    var t = e[0] || {},
+                        n = e.length;
+                    if (n > 1) {
+                        var r = [];
+                        t = ie(t, r);
+                        for (var i = 1; i < n; ++i) t = re(t, e[i], r);
+                    }
+                    return t;
+                }
+                function ne(e) {
+                    return null !== e && 'object' == typeof e;
+                }
+                function re(e, t, n) {
+                    return ne(t) && ne(e)
+                        ? (Object.isExtensible && !Object.isExtensible(e) && (e = ie(e, n)),
+                          Object.keys(t).forEach(function (r) {
+                              var i = t[r];
+                              if (Z.call(e, r)) {
+                                  var o = e[r];
+                                  i !== o && (e[r] = re(ie(o, n), i, n));
+                              } else e[r] = i;
+                          }),
+                          e)
+                        : t;
+                }
+                function ie(e, t) {
+                    return (
+                        null !== e &&
+                            'object' == typeof e &&
+                            t.indexOf(e) < 0 &&
+                            ((e = Array.isArray(e) ? e.slice(0) : Object(o.a)({ __proto__: Object.getPrototypeOf(e) }, e)), t.push(e)),
+                        e
+                    );
+                }
+                Object.create({});
+            }.call(this, n(78)));
+        },
+        function (e, t, n) {
+            'use strict';
+            t.a = {
+                CHANGE: 'change',
+                CLEAR: 'clear',
+                CONTEXTMENU: 'contextmenu',
+                CLICK: 'click',
+                DBLCLICK: 'dblclick',
+                DRAGENTER: 'dragenter',
+                DRAGOVER: 'dragover',
+                DROP: 'drop',
+                ERROR: 'error',
+                KEYDOWN: 'keydown',
+                KEYPRESS: 'keypress',
+                LOAD: 'load',
+                MOUSEDOWN: 'mousedown',
+                MOUSEMOVE: 'mousemove',
+                MOUSEOUT: 'mouseout',
+                MOUSEUP: 'mouseup',
+                MOUSEWHEEL: 'mousewheel',
+                MSPOINTERDOWN: 'MSPointerDown',
+                RESIZE: 'resize',
+                TOUCHSTART: 'touchstart',
+                TOUCHMOVE: 'touchmove',
+                TOUCHEND: 'touchend',
+                WHEEL: 'wheel'
+            };
+        },
+        function (e, t, n) {
+            'use strict';
+            Object.defineProperty(t, '__esModule', { value: !0 }),
+                Object.defineProperty(t, 'Dropdown', {
+                    enumerable: !0,
+                    get: function () {
+                        return r.default;
+                    }
+                }),
+                Object.defineProperty(t, 'DropdownItem', {
+                    enumerable: !0,
+                    get: function () {
+                        return r.DropdownItem;
+                    }
+                }),
+                Object.defineProperty(t, 'DropdownCheckedItem', {
+                    enumerable: !0,
+                    get: function () {
+                        return r.DropdownCheckedItem;
+                    }
+                }),
+                Object.defineProperty(t, 'DropdownButton', {
+                    enumerable: !0,
+                    get: function () {
+                        return r.DropdownButton;
+                    }
+                }),
+                Object.defineProperty(t, 'StyledDropdownButton', {
+                    enumerable: !0,
+                    get: function () {
+                        return r.StyledDropdownButton;
+                    }
+                }),
+                Object.defineProperty(t, 'Icon', {
+                    enumerable: !0,
+                    get: function () {
+                        return i.default;
+                    }
+                }),
+                Object.defineProperty(t, 'ListItemTopBar', {
+                    enumerable: !0,
+                    get: function () {
+                        return o.default;
+                    }
+                }),
+                Object.defineProperty(t, 'Loader', {
+                    enumerable: !0,
+                    get: function () {
+                        return a.default;
+                    }
+                }),
+                Object.defineProperty(t, 'FieldLabel', {
+                    enumerable: !0,
+                    get: function () {
+                        return s.default;
+                    }
+                }),
+                Object.defineProperty(t, 'IconButton', {
+                    enumerable: !0,
+                    get: function () {
+                        return l.default;
+                    }
+                }),
+                Object.defineProperty(t, 'Toggle', {
+                    enumerable: !0,
+                    get: function () {
+                        return u.default;
+                    }
+                }),
+                Object.defineProperty(t, 'ToggleContainer', {
+                    enumerable: !0,
+                    get: function () {
+                        return u.ToggleContainer;
+                    }
+                }),
+                Object.defineProperty(t, 'ToggleBackground', {
+                    enumerable: !0,
+                    get: function () {
+                        return u.ToggleBackground;
+                    }
+                }),
+                Object.defineProperty(t, 'ToggleHandle', {
+                    enumerable: !0,
+                    get: function () {
+                        return u.ToggleHandle;
+                    }
+                }),
+                Object.defineProperty(t, 'AuthenticationPage', {
+                    enumerable: !0,
+                    get: function () {
+                        return c.default;
+                    }
+                }),
+                Object.defineProperty(t, 'WidgetPreviewContainer', {
+                    enumerable: !0,
+                    get: function () {
+                        return d.default;
+                    }
+                }),
+                Object.defineProperty(t, 'ObjectWidgetTopBar', {
+                    enumerable: !0,
+                    get: function () {
+                        return f.default;
+                    }
+                }),
+                Object.defineProperty(t, 'GoBackButton', {
+                    enumerable: !0,
+                    get: function () {
+                        return p.default;
+                    }
+                }),
+                Object.defineProperty(t, 'fonts', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.fonts;
+                    }
+                }),
+                Object.defineProperty(t, 'colorsRaw', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.colorsRaw;
+                    }
+                }),
+                Object.defineProperty(t, 'colors', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.colors;
+                    }
+                }),
+                Object.defineProperty(t, 'lengths', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.lengths;
+                    }
+                }),
+                Object.defineProperty(t, 'components', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.components;
+                    }
+                }),
+                Object.defineProperty(t, 'buttons', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.buttons;
+                    }
+                }),
+                Object.defineProperty(t, 'text', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.text;
+                    }
+                }),
+                Object.defineProperty(t, 'shadows', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.shadows;
+                    }
+                }),
+                Object.defineProperty(t, 'borders', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.borders;
+                    }
+                }),
+                Object.defineProperty(t, 'transitions', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.transitions;
+                    }
+                }),
+                Object.defineProperty(t, 'effects', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.effects;
+                    }
+                }),
+                Object.defineProperty(t, 'zIndex', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.zIndex;
+                    }
+                }),
+                Object.defineProperty(t, 'reactSelectStyles', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.reactSelectStyles;
+                    }
+                }),
+                Object.defineProperty(t, 'GlobalStyles', {
+                    enumerable: !0,
+                    get: function () {
+                        return h.GlobalStyles;
+                    }
+                }),
+                (t.NetlifyCmsUiDefault = void 0);
+            var r = v(n(543)),
+                i = m(n(172)),
+                o = m(n(1040)),
+                a = m(n(1041)),
+                s = m(n(1042)),
+                l = m(n(1043)),
+                u = v(n(1044)),
+                c = m(n(1046)),
+                d = m(n(1047)),
+                f = m(n(1048)),
+                p = m(n(549)),
+                h = n(115);
+            function m(e) {
+                return e && e.__esModule ? e : { default: e };
+            }
+            function g() {
+                if ('function' != typeof WeakMap) return null;
+                var e = new WeakMap();
+                return (
+                    (g = function () {
+                        return e;
+                    }),
+                    e
+                );
+            }
+            function v(e) {
+                if (e && e.__esModule) return e;
+                if (null === e || ('object' != typeof e && 'function' != typeof e)) return { default: e };
+                var t = g();
+                if (t && t.has(e)) return t.get(e);
+                var n = {},
+                    r = Object.defineProperty && Object.getOwnPropertyDescriptor;
+                for (var i in e)
+                    if (Object.prototype.hasOwnProperty.call(e, i)) {
+                        var o = r ? Object.getOwnPropertyDescriptor(e, i) : null;
+                        o && (o.get || o.set) ? Object.defineProperty(n, i, o) : (n[i] = e[i]);
+                    }
+                return (n.default = e), t && t.set(e, n), n;
+            }
+            const y = {
+                Dropdown: r.default,
+                DropdownItem: r.DropdownItem,
+                DropdownCheckedItem: r.DropdownCheckedItem,
+                DropdownButton: r.DropdownButton,
+                StyledDropdownButton: r.StyledDropdownButton,
+                ListItemTopBar: o.default,
+                FieldLabel: s.default,
+                Icon: i.default,
+                IconButton: l.default,
+                Loader: a.default,
+                Toggle: u.default,
+                ToggleContainer: u.ToggleContainer,
+                ToggleBackground: u.ToggleBackground,
+                ToggleHandle: u.ToggleHandle,
+                AuthenticationPage: c.default,
+                WidgetPreviewContainer: d.default,
+                ObjectWidgetTopBar: f.default,
+                fonts: h.fonts,
+                colorsRaw: h.colorsRaw,
+                colors: h.colors,
+                lengths: h.lengths,
+                components: h.components,
+                buttons: h.buttons,
+                shadows: h.shadows,
+                text: h.text,
+                borders: h.borders,
+                transitions: h.transitions,
+                effects: h.effects,
+                zIndex: h.zIndex,
+                reactSelectStyles: h.reactSelectStyles,
+                GlobalStyles: h.GlobalStyles
+            };
+            t.NetlifyCmsUiDefault = y;
+        },
+        function (e, t, n) {
+            'use strict';
+            n.d(t, 'a', function () {
+                return r;
+            }),
+                n.d(t, 'b', function () {
+                    return i;
+                }),
+                n.d(t, 'g', function () {
+                    return o;
+                }),
+                n.d(t, 'f', function () {
+                    return a;
+                }),
+                n.d(t, 'e', function () {
+                    return s;
+                }),
+                n.d(t, 'h', function () {
+                    return l;
+                }),
+                n.d(t, 'i', function () {
+                    return u;
+                }),
+                n.d(t, 'd', function () {
+                    return c;
+                }),
+                n.d(t, 'c', function () {
+                    return d;
+                });
+            n(27);
+            function r(e, t, n) {
+                return Math.min(Math.max(e, t), n);
+            }
+            var i =
+                'cosh' in Math
+                    ? Math.cosh
+                    : function (e) {
+                          var t = Math.exp(e);
+                          return (t + 1 / t) / 2;
+                      };
+            function o(e, t, n, r, i, o) {
+                var s = i - n,
+                    l = o - r;
+                if (0 !== s || 0 !== l) {
+                    var u = ((e - n) * s + (t - r) * l) / (s * s + l * l);
+                    u > 1 ? ((n = i), (r = o)) : u > 0 && ((n += s * u), (r += l * u));
+                }
+                return a(e, t, n, r);
+            }
+            function a(e, t, n, r) {
+                var i = n - e,
+                    o = r - t;
+                return i * i + o * o;
+            }
+            function s(e) {
+                for (var t = e.length, n = 0; n < t; n++) {
+                    for (var r = n, i = Math.abs(e[n][n]), o = n + 1; o < t; o++) {
+                        var a = Math.abs(e[o][n]);
+                        a > i && ((i = a), (r = o));
+                    }
+                    if (0 === i) return null;
+                    var s = e[r];
+                    (e[r] = e[n]), (e[n] = s);
+                    for (var l = n + 1; l < t; l++) for (var u = -e[l][n] / e[n][n], c = n; c < t + 1; c++) n == c ? (e[l][c] = 0) : (e[l][c] += u * e[n][c]);
+                }
+                for (var d = new Array(t), f = t - 1; f >= 0; f--) {
+                    d[f] = e[f][t] / e[f][f];
+                    for (var p = f - 1; p >= 0; p--) e[p][t] -= e[p][f] * d[f];
+                }
+                return d;
+            }
+            function l(e) {
+                return (180 * e) / Math.PI;
+            }
+            function u(e) {
+                return (e * Math.PI) / 180;
+            }
+            function c(e, t) {
+                var n = e % t;
+                return n * t < 0 ? n + t : n;
+            }
+            function d(e, t, n) {
+                return e + n * (t - e);
+            }
+        },
+        function (e, t, n) {
+            'use strict';
+            t.a = { IDLE: 0, LOADING: 1, LOADED: 2, ERROR: 3, EMPTY: 4, ABORT: 5 };
+        },
+        function (e, t, n) {
+            'use strict';
+            n.r(t);
+            var r = n(686),
+                i = n.n(r),
+                o = n(0);
+            var a =
+                    /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|download|draggable|encType|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|inert|itemProp|itemScope|itemType|itemID|itemRef|on|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/,
+                s = (function (e) {
+                    var t = {};
+                    return function (n) {
+                        return void 0 === t[n] && (t[n] = e(n)), t[n];
+                    };
+                })(function (e) {
+                    return a.test(e) || (111 === e.charCodeAt(0) && 110 === e.charCodeAt(1) && e.charCodeAt(2) < 91);
+                }),
+                l = n(11),
+                u = n(120),
+                c = n(119),
+                d = s,
+                f = function (e) {
+                    return 'theme' !== e && 'innerRef' !== e;
+                },
+                p = function (e) {
+                    return 'string' == typeof e && e.charCodeAt(0) > 96 ? d : f;
+                };
+            function h(e, t) {
+                var n = Object.keys(e);
+                if (Object.getOwnPropertySymbols) {
+                    var r = Object.getOwnPropertySymbols(e);
+                    t &&
+                        (r = r.filter(function (t) {
+                            return Object.getOwnPropertyDescriptor(e, t).enumerable;
+                        })),
+                        n.push.apply(n, r);
+                }
+                return n;
+            }
+            function m(e) {
+                for (var t = 1; t < arguments.length; t++) {
+                    var n = null != arguments[t] ? arguments[t] : {};
+                    t % 2
+                        ? h(n, !0).forEach(function (t) {
+                              i()(e, t, n[t]);
+                          })
+                        : Object.getOwnPropertyDescriptors
+                        ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(n))
+                        : h(n).forEach(function (t) {
+                              Object.defineProperty(e, t, Object.getOwnPropertyDescriptor(n, t));
+                          });
+                }
+                return e;
+            }
+            t.default = function e(t, n) {
+                var r, i, a;
+                void 0 !== n &&
+                    ((r = n.label),
+                    (a = n.target),
+                    (i =
+                        t.__emotion_forwardProp && n.shouldForwardProp
+                            ? function (e) {
+                                  return t.__emotion_forwardProp(e) && n.shouldForwardProp(e);
+                              }
+                            : n.shouldForwardProp));
+                var s = t.__emotion_real === t,
+                    d = (s && t.__emotion_base) || t;
+                'function' != typeof i && s && (i = t.__emotion_forwardProp);
+                var f = i || p(d),
+                    h = !f('as');
+                return function () {
+                    var g = arguments,
+                        v = s && void 0 !== t.__emotion_styles ? t.__emotion_styles.slice(0) : [];
+                    if ((void 0 !== r && v.push('label:' + r + ';'), null == g[0] || void 0 === g[0].raw)) v.push.apply(v, g);
+                    else {
+                        0, v.push(g[0][0]);
+                        for (var y = g.length, b = 1; b < y; b++) v.push(g[b], g[0][b]);
+                    }
+                    var _ = Object(l.withEmotionCache)(function (e, t, n) {
+                        return Object(o.createElement)(l.ThemeContext.Consumer, null, function (r) {
+                            var s = (h && e.as) || d,
+                                l = '',
+                                m = [],
+                                g = e;
+                            if (null == e.theme) {
+                                for (var y in ((g = {}), e)) g[y] = e[y];
+                                g.theme = r;
+                            }
+                            'string' == typeof e.className ? (l = Object(u.a)(t.registered, m, e.className)) : null != e.className && (l = e.className + ' ');
+                            var b = Object(c.a)(v.concat(m), t.registered, g);
+                            Object(u.b)(t, b, 'string' == typeof s);
+                            (l += t.key + '-' + b.name), void 0 !== a && (l += ' ' + a);
+                            var _ = h && void 0 === i ? p(s) : f,
+                                w = {};
+                            for (var x in e) (h && 'as' === x) || (_(x) && (w[x] = e[x]));
+                            return (w.className = l), (w.ref = n || e.innerRef), Object(o.createElement)(s, w);
+                        });
+                    });
+                    return (
+                        (_.displayName = void 0 !== r ? r : 'Styled(' + ('string' == typeof d ? d : d.displayName || d.name || 'Component') + ')'),
+                        (_.defaultProps = t.defaultProps),
+                        (_.__emotion_real = _),
+                        (_.__emotion_base = d),
+                        (_.__emotion_styles = v),
+                        (_.__emotion_forwardProp = i),
+                        Object.defineProperty(_, 'toString', {
+                            value: function () {
+                                return '.' + a;
+                            }
+                        }),
+                        (_.withComponent = function (t, r) {
+                            return e(t, void 0 !== r ? m({}, n || {}, {}, r) : n).apply(void 0, v);
+                        }),
+                        _
+                    );
+                };
+            };
+        },
+        function (e, t, n) {
+            'use strict';
+            n.d(t, 'c', function () {
+                return o;
+            }),
+                n.d(t, 'e', function () {
+                    return a;
+                }),
+                n.d(t, 'g', function () {
+                    return u;
+                }),
+                n.d(t, 'a', function () {
+                    return c;
+                }),
+                n.d(t, 'f', function () {
+                    return d;
+                }),
+                n.d(t, 'h', function () {
+                    return f;
+                }),
+                n.d(t, 'b', function () {
+                    return p;
+                }),
+                n.d(t, 'd', function () {
+                    return h;
+                });
+            var r = n(27),
+                i = new Array(6);
+            function o() {
+                return [1, 0, 0, 1, 0, 0];
+            }
+            function a(e) {
+                return l(e, 1, 0, 0, 1, 0, 0);
+            }
+            function s(e, t) {
+                var n = e[0],
+                    r = e[1],
+                    i = e[2],
+                    o = e[3],
+                    a = e[4],
+                    s = e[5],
+                    l = t[0],
+                    u = t[1],
+                    c = t[2],
+                    d = t[3],
+                    f = t[4],
+                    p = t[5];
+                return (
+                    (e[0] = n * l + i * u),
+                    (e[1] = r * l + o * u),
+                    (e[2] = n * c + i * d),
+                    (e[3] = r * c + o * d),
+                    (e[4] = n * f + i * p + a),
+                    (e[5] = r * f + o * p + s),
+                    e
+                );
+            }
+            function l(e, t, n, r, i, o, a) {
+                return (e[0] = t), (e[1] = n), (e[2] = r), (e[3] = i), (e[4] = o), (e[5] = a), e;
+            }
+            function u(e, t) {
+                return (e[0] = t[0]), (e[1] = t[1]), (e[2] = t[2]), (e[3] = t[3]), (e[4] = t[4]), (e[5] = t[5]), e;
+            }
+            function c(e, t) {
+                var n = t[0],
+                    r = t[1];
+                return (t[0] = e[0] * n + e[2] * r + e[4]), (t[1] = e[1] * n + e[3] * r + e[5]), t;
+            }
+            function d(e, t, n) {
+                return s(e, l(i, t, 0, 0, n, 0, 0));
+            }
+            function f(e, t, n) {
+                return s(e, l(i, 1, 0, 0, 1, t, n));
+            }
+            function p(e, t, n, r, i, o, a, s) {
+                var l = Math.sin(o),
+                    u = Math.cos(o);
+                return (
+                    (e[0] = r * u), (e[1] = i * l), (e[2] = -r * l), (e[3] = i * u), (e[4] = a * r * u - s * r * l + t), (e[5] = a * i * l + s * i * u + n), e
+                );
+            }
+            function h(e) {
+                var t,
+                    n = (t = e)[0] * t[3] - t[1] * t[2];
+                Object(r.a)(0 !== n, 32);
+                var i = e[0],
+                    o = e[1],
+                    a = e[2],
+                    s = e[3],
+                    l = e[4],
+                    u = e[5];
+                return (e[0] = s / n), (e[1] = -o / n), (e[2] = -a / n), (e[3] = i / n), (e[4] = (a * u - s * l) / n), (e[5] = -(i * u - o * l) / n), e;
+            }
+        },
+        function (e, t, n) {
+            'use strict';
+            (function (e) {
+                n.d(t, 'a', function () {
+                    return a;
+                }),
+                    n.d(t, 'b', function () {
+                        return s;
+                    });
+                var r = n(7),
+                    i = Object.setPrototypeOf,
+                    o =
+                        void 0 === i
+                            ? function (e, t) {
+                                  return (e.__proto__ = t), e;
+                              }
+                            : i,
+                    a = (function (e) {
+                        function t(n) {
+                            void 0 === n && (n = 'Invariant Violation');
+                            var r =
+                                e.call(
+                                    this,
+                                    'number' == typeof n ? 'Invariant Violation: ' + n + ' (see https://github.com/apollographql/invariant-packages)' : n
+                                ) || this;
+                            return (r.framesToPop = 1), (r.name = 'Invariant Violation'), o(r, t.prototype), r;
+                        }
+                        return Object(r.c)(t, e), t;
+                    })(Error);
+                function s(e, t) {
+                    if (!e) throw new a(t);
+                }
+                function l(e) {
+                    return function () {
+                        return console[e].apply(console, arguments);
+                    };
+                }
+                !(function (e) {
+                    (e.warn = l('warn')), (e.error = l('error'));
+                })(s || (s = {}));
+                var u = { env: {} };
+                if ('object' == typeof e) u = e;
+                else
+                    try {
+                        Function('stub', 'process = stub')(u);
+                    } catch (e) {}
+            }.call(this, n(78)));
+        },
+        function (e, t, n) {
+            'use strict';
+            t.a = function (e, t) {
+                0;
+            };
+        },
+        function (e, t, n) {
+            'use strict';
+            n.d(t, 'a', function () {
+                return r;
+            }),
+                n.d(t, 'b', function () {
+                    return i;
+                }),
+                n.d(t, 'c', function () {
+                    return o;
+                }),
+                n.d(t, 'd', function () {
+                    return a;
+                });
+            var r =
+                'function' == typeof Object.assign
+                    ? Object.assign
+                    : function (e, t) {
+                          var n = arguments;
+                          if (null == e) throw new TypeError('Cannot convert undefined or null to object');
+                          for (var r = Object(e), i = 1, o = arguments.length; i < o; ++i) {
+                              var a = n[i];
+                              if (null != a) for (var s in a) a.hasOwnProperty(s) && (r[s] = a[s]);
+                          }
+                          return r;
+                      };
+            function i(e) {
+                for (var t in e) delete e[t];
+            }
+            function o(e) {
+                var t = [];
+                for (var n in e) t.push(e[n]);
+                return t;
+            }
+            function a(e) {
+                var t;
+                for (t in e) return !1;
+                return !t;
+            }
+        },
+        function (e, t, n) {
+            'use strict';
+            n.r(t),
+                function (e) {
+                    n.d(t, 'Annotation', function () {
+                        return te;
+                    }),
+                        n.d(t, 'Block', function () {
+                            return de;
+                        }),
+                        n.d(t, 'Change', function () {
+                            return xe;
+                        }),
+                        n.d(t, 'Data', function () {
+                            return H;
+                        }),
+                        n.d(t, 'Decoration', function () {
+                            return V;
+                        }),
+                        n.d(t, 'Document', function () {
+                            return re;
+                        }),
+                        n.d(t, 'Editor', function () {
+                            return kt;
+                        }),
+                        n.d(t, 'Inline', function () {
+                            return oe;
+                        }),
+                        n.d(t, 'KeyUtils', function () {
+                            return _;
+                        }),
+                        n.d(t, 'Leaf', function () {
+                            return Tt;
+                        }),
+                        n.d(t, 'Mark', function () {
+                            return G;
+                        }),
+                        n.d(t, 'Node', function () {
+                            return ue;
+                        }),
+                        n.d(t, 'Operation', function () {
+                            return _e;
+                        }),
+                        n.d(t, 'PathUtils', function () {
+                            return z;
+                        }),
+                        n.d(t, 'Point', function () {
+                            return q;
+                        }),
+                        n.d(t, 'Range', function () {
+                            return Z;
+                        }),
+                        n.d(t, 'resetMemoization', function () {
+                            return Bt;
+                        }),
+                        n.d(t, 'Selection', function () {
+                            return Y;
+                        }),
+                        n.d(t, 'Text', function () {
+                            return le;
+                        }),
+                        n.d(t, 'TextUtils', function () {
+                            return je;
+                        }),
+                        n.d(t, 'useMemoization', function () {
+                            return zt;
+                        }),
+                        n.d(t, 'Value', function () {
+                            return pe;
+                        });
+                    var r = n(4),
+                        i = n(44),
+                        o = n.n(i),
+                        a = n(22),
+                        s = n(34),
+                        l = n(320),
+                        u = n.n(l),
+                        c = n(431),
+                        d = n(152),
+                        f = n.n(d),
+                        p = n(149),
+                        h = n.n(p),
+                        m = n(692),
+                        g = n.n(m),
+                        v = void 0,
+                        y = void 0;
+                    function b() {
+                        (v = 0),
+                            (y = function () {
+                                return '' + v++;
+                            });
+                    }
+                    b();
+                    var _ = {
+                            create: function (e) {
+                                if (null == e) return y();
+                                if ('string' == typeof e) return e;
+                                throw new Error('Keys must be strings, but you passed: ' + e);
+                            },
+                            setGenerator: function (e) {
+                                y = e;
+                            },
+                            resetGenerator: b
+                        },
+                        w =
+                            'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
+                                ? function (e) {
+                                      return typeof e;
+                                  }
+                                : function (e) {
+                                      return e && 'function' == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? 'symbol' : typeof e;
+                                  },
+                        x = function (e, t) {
+                            if (!(e instanceof t)) throw new TypeError('Cannot call a class as a function');
+                        },
+                        k = (function () {
+                            function e(e, t) {
+                                for (var n = 0; n < t.length; n++) {
+                                    var r = t[n];
+                                    (r.enumerable = r.enumerable || !1),
+                                        (r.configurable = !0),
+                                        'value' in r && (r.writable = !0),
+                                        Object.defineProperty(e, r.key, r);
+                                }
+                            }
+                            return function (t, n, r) {
+                                return n && e(t.prototype, n), r && e(t, r), t;
+                            };
+                        })(),
+                        E = function (e, t, n) {
+                            return (
+                                t in e
+                                    ? Object.defineProperty(e, t, {
+                                          value: n,
+                                          enumerable: !0,
+                                          configurable: !0,
+                                          writable: !0
+                                      })
+                                    : (e[t] = n),
+                                e
+                            );
+                        },
+                        S =
+                            Object.assign ||
+                            function (e) {
+                                for (var t = 1; t < arguments.length; t++) {
+                                    var n = arguments[t];
+                                    for (var r in n) Object.prototype.hasOwnProperty.call(n, r) && (e[r] = n[r]);
+                                }
+                                return e;
+                            },
+                        O = function (e, t) {
+                            if ('function' != typeof t && null !== t)
+                                throw new TypeError('Super expression must either be null or a function, not ' + typeof t);
+                            (e.prototype = Object.create(t && t.prototype, {
+                                constructor: {
+                                    value: e,
+                                    enumerable: !1,
+                                    writable: !0,
+                                    configurable: !0
+                                }
+                            })),
+                                t && (Object.setPrototypeOf ? Object.setPrototypeOf(e, t) : (e.__proto__ = t));
+                        },
+                        C = function (e, t) {
+                            var n = {};
+                            for (var r in e) t.indexOf(r) >= 0 || (Object.prototype.hasOwnProperty.call(e, r) && (n[r] = e[r]));
+                            return n;
+                        },
+                        T = function (e, t) {
+                            if (!e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+                            return !t || ('object' != typeof t && 'function' != typeof t) ? e : t;
+                        },
+                        A = function (e, t) {
+                            if (Array.isArray(e)) return e;
+                            if (Symbol.iterator in Object(e))
+                                return (function (e, t) {
+                                    var n = [],
+                                        r = !0,
+                                        i = !1,
+                                        o = void 0;
+                                    try {
+                                        for (var a, s = e[Symbol.iterator](); !(r = (a = s.next()).done) && (n.push(a.value), !t || n.length !== t); r = !0);
+                                    } catch (e) {
+                                        (i = !0), (o = e);
+                                    } finally {
+                                        try {
+                                            !r && s.return && s.return();
+                                        } finally {
+                                            if (i) throw o;
+                                        }
+                                    }
+                                    return n;
+                                })(e, t);
+                            throw new TypeError('Invalid attempt to destructure non-iterable instance');
+                        },
+                        P = function (e) {
+                            if (Array.isArray(e)) {
+                                for (var t = 0, n = Array(e.length); t < e.length; t++) n[t] = e[t];
+                                return n;
+                            }
+                            return Array.from(e);
+                        };
+                    function R(e, t) {
+                        for (var n = B(e, t), r = 0; r < n; r++) {
+                            var i = e.get(r),
+                                o = t.get(r);
+                            if (i < o) return -1;
+                            if (i > o) return 1;
+                        }
+                        return e.size === t.size ? 0 : null;
+                    }
+                    function M(e) {
+                        if (null == e) return null;
+                        if (r.List.isList(e)) return e;
+                        if (Array.isArray(e)) return Object(r.List)(e);
+                        throw new Error('Paths can only be created from arrays or lists, but you passed: ' + e);
+                    }
+                    function I(e, t) {
+                        var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : B(e, t),
+                            r = e.slice(0, n),
+                            i = t.slice(0, n);
+                        return [r, i];
+                    }
+                    function j(e) {
+                        var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1,
+                            n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : e.size - 1;
+                        return L(e, 0 - t, n);
+                    }
+                    function L(e) {
+                        var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1,
+                            n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : e.size - 1,
+                            r = e.get(n),
+                            i = r + t,
+                            o = e.set(n, i);
+                        return o;
+                    }
+                    function D(e, t) {
+                        var n = I(e, t),
+                            r = A(n, 2),
+                            i = r[0],
+                            o = r[1];
+                        return e.size < t.size && 0 === R(i, o);
+                    }
+                    function N(e, t) {
+                        return e.equals(t);
+                    }
+                    function F(e, t) {
+                        var n = e.size - 1,
+                            r = I(e, t, n),
+                            i = A(r, 2),
+                            o = i[0],
+                            a = i[1],
+                            s = e.get(n),
+                            l = t.get(n);
+                        return N(o, a) && s < l;
+                    }
+                    function B(e, t) {
+                        return Math.min(e.size, t.size);
+                    }
+                    var z = {
+                            compare: R,
+                            create: M,
+                            crop: I,
+                            decrement: j,
+                            getAncestors: function (e) {
+                                return Object(r.List)().withMutations(function (t) {
+                                    for (var n = 0; n < e.size; n++) t.push(e.slice(0, n));
+                                });
+                            },
+                            increment: L,
+                            isAbove: D,
+                            isAfter: function (e, t) {
+                                var n = I(e, t),
+                                    r = A(n, 2);
+                                return 1 === R(r[0], r[1]);
+                            },
+                            isBefore: function (e, t) {
+                                var n = I(e, t),
+                                    r = A(n, 2);
+                                return -1 === R(r[0], r[1]);
+                            },
+                            isEqual: N,
+                            isOlder: function (e, t) {
+                                var n = e.size - 1,
+                                    r = I(e, t, n),
+                                    i = A(r, 2),
+                                    o = i[0],
+                                    a = i[1],
+                                    s = e.get(n),
+                                    l = t.get(n);
+                                return N(o, a) && s > l;
+                            },
+                            isPath: function (e) {
+                                return (
+                                    (r.List.isList(e) || Array.isArray(e)) &&
+                                    e.every(function (e) {
+                                        return 'number' == typeof e;
+                                    })
+                                );
+                            },
+                            isSibling: function (e, t) {
+                                if (e.size !== t.size) return !1;
+                                var n = e.butLast(),
+                                    r = t.butLast();
+                                return n.equals(r);
+                            },
+                            isYounger: F,
+                            lift: function (e) {
+                                var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1,
+                                    n = e.slice(0, -1 * t);
+                                return n;
+                            },
+                            drop: function (e) {
+                                var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1,
+                                    n = e.slice(t);
+                                return n;
+                            },
+                            max: function (e, t) {
+                                return Math.max(e.size, t.size);
+                            },
+                            min: B,
+                            relate: function (e, t) {
+                                for (var n = [], r = 0; r < e.size && r < t.size; r++) {
+                                    var i = e.get(r);
+                                    if (i !== t.get(r)) break;
+                                    n.push(i);
+                                }
+                                return M(n);
+                            },
+                            transform: function (e, t) {
+                                var n = t.type,
+                                    i = t.position,
+                                    o = t.path;
+                                if (
+                                    'add_mark' === n ||
+                                    'insert_text' === n ||
+                                    'remove_mark' === n ||
+                                    'remove_text' === n ||
+                                    'set_mark' === n ||
+                                    'set_node' === n ||
+                                    'set_selection' === n ||
+                                    'set_value' === n ||
+                                    'add_annotation' === n ||
+                                    'remove_annotation' === n ||
+                                    'set_annotation' === n ||
+                                    0 === e.size
+                                )
+                                    return Object(r.List)([e]);
+                                var a = o.size - 1,
+                                    s = N(o, e),
+                                    l = F(o, e),
+                                    u = D(o, e);
+                                if (
+                                    ('insert_node' === n && (s || l || u) && (e = L(e, 1, a)),
+                                    'remove_node' === n && (l ? (e = j(e, 1, a)) : (s || u) && (e = [])),
+                                    'merge_node' === n && (s || l ? (e = j(e, 1, a)) : u && (e = L((e = j(e, 1, a)), i, a + 1))),
+                                    'split_node' === n &&
+                                        (s ? (e = [e, L(e)]) : l ? (e = L(e, 1, a)) : u && e.get(a + 1) >= i && (e = j((e = L(e, 1, a)), i, a + 1))),
+                                    'move_node' === n)
+                                ) {
+                                    var c = t.newPath;
+                                    if (N(o, c)) return Object(r.List)([e]);
+                                    u || s
+                                        ? (e = F(o, c) && o.size < c.size ? j(c, 1, B(c, o) - 1).concat(e.slice(o.size)) : c.concat(e.slice(o.size)))
+                                        : (l && (e = j(e, 1, a)), (F(c, e) || N(c, e) || D(c, e)) && (e = L(e, 1, c.size - 1)));
+                                }
+                                var d = Array.isArray(e) ? e : [e];
+                                return Object(r.List)(d);
+                            }
+                        },
+                        U = { key: void 0, offset: void 0, path: void 0 },
+                        q = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'isAfterPoint',
+                                            value: function (e) {
+                                                return !this.isUnset && ((this.key === e.key && this.offset > e.offset) || 1 === z.compare(this.path, e.path));
+                                            }
+                                        },
+                                        {
+                                            key: 'isAfterRange',
+                                            value: function (e) {
+                                                return !this.isUnset && this.isAfterPoint(e.end);
+                                            }
+                                        },
+                                        {
+                                            key: 'isAtEndOfRange',
+                                            value: function (e) {
+                                                return !this.isUnset && this.equals(e.end);
+                                            }
+                                        },
+                                        {
+                                            key: 'isAtStartOfRange',
+                                            value: function (e) {
+                                                return !this.isUnset && this.equals(e.start);
+                                            }
+                                        },
+                                        {
+                                            key: 'isBeforePoint',
+                                            value: function (e) {
+                                                return !this.isUnset && ((this.key === e.key && this.offset < e.offset) || -1 === z.compare(this.path, e.path));
+                                            }
+                                        },
+                                        {
+                                            key: 'isBeforeRange',
+                                            value: function (e) {
+                                                return !this.isUnset && this.isBeforePoint(e.start);
+                                            }
+                                        },
+                                        {
+                                            key: 'isInRange',
+                                            value: function (e) {
+                                                return (
+                                                    !this.isUnset &&
+                                                    (this.equals(e.start) || this.equals(e.end) || (this.isAfterPoint(e.start) && this.isBeforePoint(e.end)))
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'isAtEndOfNode',
+                                            value: function (e) {
+                                                if (this.isUnset) return !1;
+                                                var t = e.getLastText();
+                                                return this.key === t.key && this.offset === t.text.length;
+                                            }
+                                        },
+                                        {
+                                            key: 'isAtStartOfNode',
+                                            value: function (e) {
+                                                if (this.isUnset) return !1;
+                                                if (0 !== this.offset) return !1;
+                                                var t = e.getFirstText();
+                                                return this.key === t.key;
+                                            }
+                                        },
+                                        {
+                                            key: 'isInNode',
+                                            value: function (e) {
+                                                return !this.isUnset && (('text' === e.object && e.key === this.key) || !!e.hasNode(this.key));
+                                            }
+                                        },
+                                        {
+                                            key: 'moveBackward',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 1;
+                                                if (0 === e) return this;
+                                                if (e < 0) return this.moveForward(-e);
+                                                var t = this.setOffset(this.offset - e);
+                                                return t;
+                                            }
+                                        },
+                                        {
+                                            key: 'moveForward',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 1;
+                                                if (0 === e) return this;
+                                                if (e < 0) return this.moveBackward(-e);
+                                                var t = this.setOffset(this.offset + e);
+                                                return t;
+                                            }
+                                        },
+                                        {
+                                            key: 'moveTo',
+                                            value: function (e) {
+                                                var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 0,
+                                                    n = this.key;
+                                                'number' == typeof e
+                                                    ? ((t = e), (e = this.path))
+                                                    : 'string' == typeof e
+                                                    ? (e = (n = e) === this.key ? this.path : null)
+                                                    : (n = e.equals(this.path) ? this.key : null);
+                                                var r = this.merge({ key: n, path: e, offset: t });
+                                                return r;
+                                            }
+                                        },
+                                        {
+                                            key: 'moveToStartOfNode',
+                                            value: function (e) {
+                                                var t = e.getFirstText();
+                                                return this.moveTo(t.key, 0);
+                                            }
+                                        },
+                                        {
+                                            key: 'moveToEndOfNode',
+                                            value: function (e) {
+                                                var t = e.getLastText();
+                                                return this.moveTo(t.key, t.text.length);
+                                            }
+                                        },
+                                        {
+                                            key: 'normalize',
+                                            value: function (e) {
+                                                if (null == this.key && null == this.path) return this.setOffset(null);
+                                                var n = this.key,
+                                                    r = this.offset,
+                                                    i = this.path,
+                                                    o = i && e.getNode(i);
+                                                if (!o && (o = e.getNode(n))) return this.merge({ path: e.getPath(n) });
+                                                if (!o) {
+                                                    Object(a.a)(!1, "A point's `path` or `key` invalid and was reset!");
+                                                    var s = e.getFirstText();
+                                                    return s
+                                                        ? this.merge({
+                                                              key: s.key,
+                                                              offset: 0,
+                                                              path: e.getPath(s.key)
+                                                          })
+                                                        : t.create();
+                                                }
+                                                if ('text' !== o.object) {
+                                                    Object(a.a)(!1, 'A point should not reference a non-text node!');
+                                                    var l = o.getTextAtOffset(r),
+                                                        u = o.getOffset(l.key);
+                                                    return this.merge({
+                                                        offset: r - u,
+                                                        key: l.key,
+                                                        path: e.getPath(l.key)
+                                                    });
+                                                }
+                                                o && i && n && n !== o.key && Object(a.a)(!1, "A point's `key` did not match its `path`!");
+                                                var c = this.merge({
+                                                    key: o.key,
+                                                    path: null == i ? e.getPath(o.key) : i,
+                                                    offset: null == r ? 0 : Math.min(r, o.text.length)
+                                                });
+                                                if (c.offset === o.text.length) {
+                                                    var d = e.getClosestBlock(c.path).getNextText();
+                                                    d &&
+                                                        (c = c.merge({
+                                                            key: d.key,
+                                                            path: e.getPath(d.key),
+                                                            offset: 0
+                                                        }));
+                                                }
+                                                return c;
+                                            }
+                                        },
+                                        {
+                                            key: 'setKey',
+                                            value: function (e) {
+                                                return null != e && (e = _.create(e)), this.set('key', e);
+                                            }
+                                        },
+                                        {
+                                            key: 'setOffset',
+                                            value: function (e) {
+                                                return this.set('offset', e);
+                                            }
+                                        },
+                                        {
+                                            key: 'setPath',
+                                            value: function (e) {
+                                                return null != e && (e = z.create(e)), this.set('path', e);
+                                            }
+                                        },
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    t = {
+                                                        object: this.object,
+                                                        key: this.key,
+                                                        offset: this.offset,
+                                                        path: this.path && this.path.toArray()
+                                                    };
+                                                return e.preserveKeys || delete t.key, t;
+                                            }
+                                        },
+                                        {
+                                            key: 'unset',
+                                            value: function () {
+                                                return this.merge({
+                                                    key: null,
+                                                    offset: null,
+                                                    path: null
+                                                });
+                                            }
+                                        },
+                                        {
+                                            key: 'isSet',
+                                            get: function () {
+                                                return null != this.key && null != this.offset && null != this.path;
+                                            }
+                                        },
+                                        {
+                                            key: 'isUnset',
+                                            get: function () {
+                                                return !this.isSet;
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isPoint(e)) return e;
+                                                if (o()(e)) return t.fromJSON(e);
+                                                throw new Error('`Point.create` only accepts objects or points, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createProperties',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isPoint(e)) return { key: e.key, offset: e.offset, path: e.path };
+                                                if (o()(e)) {
+                                                    var n = {};
+                                                    return (
+                                                        'key' in e && (n.key = e.key),
+                                                        'offset' in e && (n.offset = e.offset),
+                                                        'path' in e && (n.path = z.create(e.path)),
+                                                        'path' in e && !('key' in e) && (n.key = null),
+                                                        'key' in e && !('path' in e) && (n.path = null),
+                                                        n
+                                                    );
+                                                }
+                                                throw new Error('`Point.createProperties` only accepts objects or points, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                var n = e.key,
+                                                    r = void 0 === n ? null : n,
+                                                    i = e.offset,
+                                                    o = void 0 === i ? null : i,
+                                                    a = e.path,
+                                                    s = void 0 === a ? null : a;
+                                                return new t({ key: r, offset: o, path: z.create(s) });
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(U)),
+                        H = (function () {
+                            function e() {
+                                x(this, e);
+                            }
+                            return (
+                                k(e, null, [
+                                    {
+                                        key: 'create',
+                                        value: function () {
+                                            var t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                            if (r.Map.isMap(t)) return t;
+                                            if (o()(t)) return e.fromJSON(t);
+                                            throw new Error('`Data.create` only accepts objects or maps, but you passed it: ' + t);
+                                        }
+                                    },
+                                    {
+                                        key: 'fromJSON',
+                                        value: function (e) {
+                                            return new r.Map(e);
+                                        }
+                                    }
+                                ]),
+                                e
+                            );
+                        })();
+                    H.fromJS = H.fromJSON;
+                    var W = { data: void 0, type: void 0 },
+                        G = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                return {
+                                                    object: this.object,
+                                                    type: this.type,
+                                                    data: this.data.toJSON()
+                                                };
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isMark(e)) return e;
+                                                if (('string' == typeof e && (e = { type: e }), o()(e))) return t.fromJSON(e);
+                                                throw new Error('`Mark.create` only accepts objects, strings or marks, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createSet',
+                                            value: function (e) {
+                                                if (r.Set.isSet(e) || Array.isArray(e)) return new r.Set(e.map(t.create));
+                                                if (null == e) return Object(r.Set)();
+                                                throw new Error('`Mark.createSet` only accepts sets, arrays or null, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createProperties',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isMark(e)) return { data: e.data, type: e.type };
+                                                if ('string' == typeof e) return { type: e };
+                                                if (o()(e)) {
+                                                    var n = {};
+                                                    return 'type' in e && (n.type = e.type), 'data' in e && (n.data = H.create(e.data)), n;
+                                                }
+                                                throw new Error('`Mark.createProperties` only accepts objects, strings or marks, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                var n = e.data,
+                                                    i = void 0 === n ? {} : n,
+                                                    o = e.type;
+                                                if ('string' != typeof o) throw new Error('`Mark.fromJS` requires a `type` string.');
+                                                return new t({ type: o, data: new r.Map(i) });
+                                            }
+                                        },
+                                        {
+                                            key: 'isMarkSet',
+                                            value: function (e) {
+                                                return (
+                                                    r.Set.isSet(e) &&
+                                                    e.every(function (e) {
+                                                        return t.isMark(e);
+                                                    })
+                                                );
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(W)),
+                        $ = { type: void 0, data: void 0, anchor: void 0, focus: void 0 },
+                        V = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'setProperties',
+                                            value: function (e) {
+                                                return (e = t.createProperties(e)), this.merge(e);
+                                            }
+                                        },
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    t = {
+                                                        object: this.object,
+                                                        type: this.type,
+                                                        data: this.data.toJSON(),
+                                                        anchor: this.anchor.toJSON(e),
+                                                        focus: this.focus.toJSON(e)
+                                                    };
+                                                return t;
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isDecoration(e)) return e;
+                                                if (Z.isRange(e)) return t.fromJSON(Z.createProperties(e));
+                                                if (o()(e)) return t.fromJSON(e);
+                                                throw new Error('`Decoration.create` only accepts objects or decorations, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createList',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+                                                if (r.List.isList(e) || Array.isArray(e)) {
+                                                    var n = new r.List(e.map(t.create));
+                                                    return n;
+                                                }
+                                                throw new Error('`Decoration.createList` only accepts arrays or lists, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createProperties',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isDecoration(e))
+                                                    return {
+                                                        type: e.type,
+                                                        data: e.data,
+                                                        anchor: q.createProperties(e.anchor),
+                                                        focus: q.createProperties(e.focus),
+                                                        mark: G.create(e.mark)
+                                                    };
+                                                if (o()(e)) {
+                                                    var n = {};
+                                                    return (
+                                                        'type' in e && (n.type = e.type),
+                                                        'data' in e && (n.data = H.create(e.data)),
+                                                        'anchor' in e && (n.anchor = q.create(e.anchor)),
+                                                        'focus' in e && (n.focus = q.create(e.focus)),
+                                                        n
+                                                    );
+                                                }
+                                                throw new Error('`Decoration.createProperties` only accepts objects or decorations, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                var n = e.anchor,
+                                                    r = e.focus,
+                                                    i = e.type,
+                                                    o = e.data;
+                                                if (
+                                                    (e.mark &&
+                                                        !i &&
+                                                        (Object(a.a)(
+                                                            !1,
+                                                            'As of slate@0.47 the `decoration.mark` property has been changed to `decoration.type` and `decoration.data` directly.'
+                                                        ),
+                                                        (i = e.mark.type),
+                                                        (o = e.mark.data)),
+                                                    !i)
+                                                )
+                                                    throw new Error('Decorations must be created with a `type`, but you passed: ' + JSON.stringify(e));
+                                                return new t({
+                                                    type: i,
+                                                    data: H.create(o || {}),
+                                                    anchor: q.fromJSON(n || {}),
+                                                    focus: q.fromJSON(r || {})
+                                                });
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)($)),
+                        K = {
+                            anchor: void 0,
+                            focus: void 0,
+                            isFocused: void 0,
+                            marks: void 0
+                        },
+                        Y = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'setIsFocused',
+                                            value: function (e) {
+                                                return this.set('isFocused', e);
+                                            }
+                                        },
+                                        {
+                                            key: 'setMarks',
+                                            value: function (e) {
+                                                return this.set('marks', e);
+                                            }
+                                        },
+                                        {
+                                            key: 'setProperties',
+                                            value: function (e) {
+                                                var n = (e = t.createProperties(e)),
+                                                    r = n.anchor,
+                                                    i = n.focus,
+                                                    o = C(n, ['anchor', 'focus']);
+                                                return r && (o.anchor = q.create(r)), i && (o.focus = q.create(i)), this.merge(o);
+                                            }
+                                        },
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    t = {
+                                                        object: this.object,
+                                                        anchor: this.anchor.toJSON(e),
+                                                        focus: this.focus.toJSON(e),
+                                                        isFocused: this.isFocused,
+                                                        marks:
+                                                            null == this.marks
+                                                                ? null
+                                                                : this.marks.toArray().map(function (e) {
+                                                                      return e.toJSON();
+                                                                  })
+                                                    };
+                                                return t;
+                                            }
+                                        },
+                                        {
+                                            key: 'isBlurred',
+                                            get: function () {
+                                                return !this.isFocused;
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isSelection(e)) return e;
+                                                if (Z.isRange(e)) return t.fromJSON(Z.createProperties(e));
+                                                if (o()(e)) return t.fromJSON(e);
+                                                throw new Error('`Selection.create` only accepts objects, ranges or selections, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createProperties',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isSelection(e))
+                                                    return {
+                                                        anchor: q.createProperties(e.anchor),
+                                                        focus: q.createProperties(e.focus),
+                                                        isFocused: e.isFocused,
+                                                        marks: e.marks
+                                                    };
+                                                if (Z.isRange(e))
+                                                    return {
+                                                        anchor: q.createProperties(e.anchor),
+                                                        focus: q.createProperties(e.focus)
+                                                    };
+                                                if (o()(e)) {
+                                                    var n = {};
+                                                    return (
+                                                        'anchor' in e && (n.anchor = q.create(e.anchor)),
+                                                        'focus' in e && (n.focus = q.create(e.focus)),
+                                                        'isFocused' in e && (n.isFocused = e.isFocused),
+                                                        'marks' in e && (n.marks = null == e.marks ? null : G.createSet(e.marks)),
+                                                        n
+                                                    );
+                                                }
+                                                throw new Error(
+                                                    '`Selection.createProperties` only accepts objects, ranges or selections, but you passed it: ' + e
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                var n = e.anchor,
+                                                    i = e.focus,
+                                                    o = e.isFocused,
+                                                    a = void 0 !== o && o,
+                                                    s = e.marks,
+                                                    l = void 0 === s ? null : s;
+                                                return new t({
+                                                    anchor: q.fromJSON(n || {}),
+                                                    focus: q.fromJSON(i || {}),
+                                                    isFocused: a,
+                                                    marks: null == l ? null : new r.Set(l.map(G.fromJSON))
+                                                });
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(K)),
+                        Q = {
+                            annotation: '@@__SLATE_ANNOTATION__@@',
+                            block: '@@__SLATE_BLOCK__@@',
+                            change: '@@__SLATE_CHANGE__@@',
+                            decoration: '@@__SLATE_DECORATION__@@',
+                            document: '@@__SLATE_DOCUMENT__@@',
+                            editor: '@@__SLATE_EDITOR__@@',
+                            inline: '@@__SLATE_INLINE__@@',
+                            leaf: '@@__SLATE_LEAF__@@',
+                            mark: '@@__SLATE_MARK__@@',
+                            operation: '@@__SLATE_OPERATION__@@',
+                            point: '@@__SLATE_POINT__@@',
+                            range: '@@__SLATE_RANGE__@@',
+                            selection: '@@__SLATE_SELECTION__@@',
+                            text: '@@__SLATE_TEXT__@@',
+                            value: '@@__SLATE_VALUE__@@'
+                        };
+                    function X(e, t) {
+                        return !(!t || !t[Q[e]]);
+                    }
+                    var J = { anchor: void 0, focus: void 0 },
+                        Z = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    t = {
+                                                        object: this.object,
+                                                        anchor: this.anchor.toJSON(e),
+                                                        focus: this.focus.toJSON(e)
+                                                    };
+                                                return t;
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isRange(e)) return 'range' === e.object ? e : t.fromJSON(t.createProperties(e));
+                                                if (o()(e)) return t.fromJSON(e);
+                                                throw new Error('`Range.create` only accepts objects or ranges, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createList',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+                                                if (r.List.isList(e) || Array.isArray(e)) {
+                                                    var n = new r.List(e.map(t.create));
+                                                    return n;
+                                                }
+                                                throw new Error('`Range.createList` only accepts arrays or lists, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createProperties',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isRange(e))
+                                                    return {
+                                                        anchor: q.createProperties(e.anchor),
+                                                        focus: q.createProperties(e.focus)
+                                                    };
+                                                if (o()(e)) {
+                                                    var n = {};
+                                                    return 'anchor' in e && (n.anchor = q.create(e.anchor)), 'focus' in e && (n.focus = q.create(e.focus)), n;
+                                                }
+                                                throw new Error(
+                                                    '`Range.createProperties` only accepts objects, annotations, decorations, ranges or selections, but you passed it: ' +
+                                                        e
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                var n = e.anchor,
+                                                    r = e.focus;
+                                                return new t({
+                                                    anchor: q.fromJSON(n || {}),
+                                                    focus: q.fromJSON(r || {})
+                                                });
+                                            }
+                                        },
+                                        {
+                                            key: 'isRange',
+                                            value: function (e) {
+                                                return X('range', e) || V.isDecoration(e) || Y.isSelection(e);
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(J)),
+                        ee = {
+                            key: void 0,
+                            type: void 0,
+                            data: void 0,
+                            anchor: void 0,
+                            focus: void 0
+                        },
+                        te = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'setProperties',
+                                            value: function (e) {
+                                                return (e = t.createProperties(e)), this.merge(e);
+                                            }
+                                        },
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    t = {
+                                                        object: this.object,
+                                                        key: this.key,
+                                                        type: this.type,
+                                                        data: this.data.toJSON(),
+                                                        anchor: this.anchor.toJSON(e),
+                                                        focus: this.focus.toJSON(e)
+                                                    };
+                                                return t;
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isAnnotation(e)) return e;
+                                                if (Z.isRange(e)) return t.fromJSON(Z.createProperties(e));
+                                                if (o()(e)) return t.fromJSON(e);
+                                                throw new Error('`Annotation.create` only accepts objects or annotations, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createMap',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+                                                if (r.Map.isMap(e)) return e;
+                                                if (o()(e)) {
+                                                    var n = {};
+                                                    for (var i in e) {
+                                                        var a = e[i],
+                                                            s = t.create(a);
+                                                        n[i] = s;
+                                                    }
+                                                    return Object(r.Map)(n);
+                                                }
+                                                throw new Error('`Annotation.createMap` only accepts arrays or lists, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createProperties',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isAnnotation(e))
+                                                    return {
+                                                        key: e.key,
+                                                        type: e.type,
+                                                        data: e.data,
+                                                        anchor: q.createProperties(e.anchor),
+                                                        focus: q.createProperties(e.focus)
+                                                    };
+                                                if (o()(e)) {
+                                                    var n = {};
+                                                    return (
+                                                        'key' in e && (n.key = e.key),
+                                                        'type' in e && (n.type = e.type),
+                                                        'data' in e && (n.data = H.create(e.data)),
+                                                        'anchor' in e && (n.anchor = q.create(e.anchor)),
+                                                        'focus' in e && (n.focus = q.create(e.focus)),
+                                                        n
+                                                    );
+                                                }
+                                                throw new Error('`Annotation.createProperties` only accepts objects or annotations, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                var n = e.key,
+                                                    r = e.type,
+                                                    i = e.data,
+                                                    o = e.anchor,
+                                                    a = e.focus;
+                                                if (!n) throw new Error('Annotations must be created with a `key`, but you passed: ' + JSON.stringify(e));
+                                                if (!r) throw new Error('Annotations must be created with a `type`, but you passed: ' + JSON.stringify(e));
+                                                return new t({
+                                                    key: n,
+                                                    type: r,
+                                                    data: H.create(i || {}),
+                                                    anchor: q.fromJSON(o || {}),
+                                                    focus: q.fromJSON(a || {})
+                                                });
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(ee)),
+                        ne = { data: void 0, key: void 0, nodes: void 0 },
+                        re = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    t = {
+                                                        object: this.object,
+                                                        data: this.data.toJSON(),
+                                                        nodes: this.nodes.toArray().map(function (t) {
+                                                            return t.toJSON(e);
+                                                        })
+                                                    };
+                                                return e.preserveKeys && (t.key = this.key), t;
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isDocument(e)) return e;
+                                                if (((r.List.isList(e) || Array.isArray(e)) && (e = { nodes: e }), o()(e))) return t.fromJSON(e);
+                                                throw new Error('`Document.create` only accepts objects, arrays, lists or documents, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                if (t.isDocument(e)) return e;
+                                                var n = e.data,
+                                                    i = void 0 === n ? {} : n,
+                                                    o = e.key,
+                                                    a = void 0 === o ? _.create() : o,
+                                                    s = e.nodes,
+                                                    l = void 0 === s ? [] : s;
+                                                return new t({
+                                                    key: a,
+                                                    data: new r.Map(i),
+                                                    nodes: ue.createList(l)
+                                                });
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(ne)),
+                        ie = { data: void 0, key: void 0, nodes: void 0, type: void 0 },
+                        oe = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    t = {
+                                                        object: this.object,
+                                                        type: this.type,
+                                                        data: this.data.toJSON(),
+                                                        nodes: this.nodes.toArray().map(function (t) {
+                                                            return t.toJSON(e);
+                                                        })
+                                                    };
+                                                return e.preserveKeys && (t.key = this.key), t;
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isInline(e)) return e;
+                                                if (('string' == typeof e && (e = { type: e }), o()(e))) return t.fromJSON(e);
+                                                throw new Error('`Inline.create` only accepts objects, strings or inlines, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createList',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+                                                if (r.List.isList(e) || Array.isArray(e)) {
+                                                    var n = new r.List(e.map(t.create));
+                                                    return n;
+                                                }
+                                                throw new Error('`Inline.createList` only accepts arrays or lists, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                if (t.isInline(e)) return e;
+                                                var n = e.data,
+                                                    i = void 0 === n ? {} : n,
+                                                    o = e.key,
+                                                    a = void 0 === o ? _.create() : o,
+                                                    s = e.nodes,
+                                                    l = void 0 === s ? [] : s,
+                                                    u = e.type;
+                                                if ('string' != typeof u) throw new Error('`Inline.fromJS` requires a `type` string.');
+                                                return new t({
+                                                    key: a,
+                                                    type: u,
+                                                    data: new r.Map(i),
+                                                    nodes: ue.createList(l)
+                                                });
+                                            }
+                                        },
+                                        {
+                                            key: 'isInlineList',
+                                            value: function (e) {
+                                                return (
+                                                    r.List.isList(e) &&
+                                                    e.every(function (e) {
+                                                        return t.isInline(e);
+                                                    })
+                                                );
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(ie)),
+                        ae = { key: void 0, marks: void 0, text: void 0 },
+                        se = Object(r.Record)({
+                            text: void 0,
+                            marks: void 0,
+                            annotations: void 0,
+                            decorations: void 0
+                        }),
+                        le = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'addMark',
+                                            value: function (e) {
+                                                e = G.create(e);
+                                                var t = this.marks.add(e);
+                                                return this.set('marks', t);
+                                            }
+                                        },
+                                        {
+                                            key: 'addMarks',
+                                            value: function (e) {
+                                                return (e = G.createSet(e)), this.set('marks', this.marks.union(e));
+                                            }
+                                        },
+                                        {
+                                            key: 'getLeaves',
+                                            value: function (e, t) {
+                                                var n = [
+                                                        {
+                                                            text: this.text,
+                                                            marks: this.marks,
+                                                            annotations: [],
+                                                            decorations: []
+                                                        }
+                                                    ],
+                                                    i = function (e, t) {
+                                                        return [
+                                                            {
+                                                                text: e.text.slice(0, t),
+                                                                marks: e.marks,
+                                                                annotations: [].concat(P(e.annotations)),
+                                                                decorations: [].concat(P(e.decorations))
+                                                            },
+                                                            {
+                                                                text: e.text.slice(t),
+                                                                marks: e.marks,
+                                                                annotations: [].concat(P(e.annotations)),
+                                                                decorations: [].concat(P(e.decorations))
+                                                            }
+                                                        ];
+                                                    },
+                                                    o = function (r) {
+                                                        var o = 'annotations' === r ? e.values() : t,
+                                                            a = !0,
+                                                            s = !1,
+                                                            l = void 0;
+                                                        try {
+                                                            for (var u, c = o[Symbol.iterator](); !(a = (u = c.next()).done); a = !0) {
+                                                                var d = u.value,
+                                                                    f = d.start,
+                                                                    p = d.end,
+                                                                    h = [],
+                                                                    m = 0,
+                                                                    g = !0,
+                                                                    v = !1,
+                                                                    y = void 0;
+                                                                try {
+                                                                    for (var b, _ = n[Symbol.iterator](); !(g = (b = _.next()).done); g = !0) {
+                                                                        var w = b.value,
+                                                                            x = w.text.length,
+                                                                            k = m;
+                                                                        if (((m += x), f.offset <= k && p.offset >= k + x)) w[r].push(d), h.push(w);
+                                                                        else if (f.offset > k + x || p.offset < k || (p.offset === k && 0 !== k)) h.push(w);
+                                                                        else {
+                                                                            var E = w,
+                                                                                S = void 0,
+                                                                                O = void 0;
+                                                                            if (p.offset < k + x) {
+                                                                                var C = i(E, p.offset - k),
+                                                                                    T = A(C, 2);
+                                                                                (E = T[0]), (O = T[1]);
+                                                                            }
+                                                                            if (f.offset > k) {
+                                                                                var P = i(E, f.offset - k),
+                                                                                    R = A(P, 2);
+                                                                                (S = R[0]), (E = R[1]);
+                                                                            }
+                                                                            E[r].push(d), S && h.push(S), h.push(E), O && h.push(O);
+                                                                        }
+                                                                    }
+                                                                } catch (e) {
+                                                                    (v = !0), (y = e);
+                                                                } finally {
+                                                                    try {
+                                                                        !g && _.return && _.return();
+                                                                    } finally {
+                                                                        if (v) throw y;
+                                                                    }
+                                                                }
+                                                                n = h;
+                                                            }
+                                                        } catch (e) {
+                                                            (s = !0), (l = e);
+                                                        } finally {
+                                                            try {
+                                                                !a && c.return && c.return();
+                                                            } finally {
+                                                                if (s) throw l;
+                                                            }
+                                                        }
+                                                    };
+                                                return (
+                                                    o('annotations'),
+                                                    o('decorations'),
+                                                    (n = n.map(function (e) {
+                                                        return new se(
+                                                            S({}, e, {
+                                                                annotations: Object(r.List)(e.annotations),
+                                                                decorations: Object(r.List)(e.decorations)
+                                                            })
+                                                        );
+                                                    })),
+                                                    Object(r.List)(n)
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'insertText',
+                                            value: function (e, t) {
+                                                var n = this.text,
+                                                    r = n.slice(0, e) + t + n.slice(e);
+                                                return this.set('text', r);
+                                            }
+                                        },
+                                        {
+                                            key: 'removeMark',
+                                            value: function (e) {
+                                                e = G.create(e);
+                                                var t = this.marks.remove(e);
+                                                return this.set('marks', t);
+                                            }
+                                        },
+                                        {
+                                            key: 'removeText',
+                                            value: function (e, t) {
+                                                var n = this.text,
+                                                    r = n.slice(0, e) + n.slice(e + t);
+                                                return this.set('text', r);
+                                            }
+                                        },
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    t = {
+                                                        object: this.object,
+                                                        text: this.text,
+                                                        marks: this.marks.toArray().map(function (e) {
+                                                            return e.toJSON();
+                                                        })
+                                                    };
+                                                return e.preserveKeys && (t.key = this.key), t;
+                                            }
+                                        },
+                                        {
+                                            key: 'setMark',
+                                            value: function (e, t) {
+                                                var n = this.marks,
+                                                    r = G.create(e),
+                                                    i = r.merge(t),
+                                                    o = n.remove(r).add(i);
+                                                return this.set('marks', o);
+                                            }
+                                        },
+                                        {
+                                            key: 'splitText',
+                                            value: function (e) {
+                                                var t = this.text;
+                                                return [this.set('text', t.slice(0, e)), this.set('text', t.slice(e)).regenerateKey()];
+                                            }
+                                        },
+                                        {
+                                            key: 'mergeText',
+                                            value: function (e) {
+                                                var t = this.text + e.text;
+                                                return this.set('text', t);
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : '';
+                                                if (t.isText(e)) return e;
+                                                if (('string' == typeof e && (e = { text: e }), o()(e))) return t.fromJSON(e);
+                                                throw new Error('`Text.create` only accepts objects, arrays, strings or texts, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createList',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+                                                if (r.List.isList(e) || Array.isArray(e)) {
+                                                    var n = new r.List(e.map(t.create));
+                                                    return n;
+                                                }
+                                                throw new Error('`Text.createList` only accepts arrays or lists, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                if (t.isText(e)) return e;
+                                                Object(s.a)(
+                                                    null == e.leaves,
+                                                    'As of slate@0.46, the `leaves` property of text nodes has been removed! Each individual leaf should be created as a text node instead.'
+                                                );
+                                                var n = e.text,
+                                                    r = void 0 === n ? '' : n,
+                                                    i = e.marks,
+                                                    o = void 0 === i ? [] : i,
+                                                    a = e.key;
+                                                return new t({
+                                                    key: void 0 === a ? _.create() : a,
+                                                    text: r,
+                                                    marks: G.createSet(o)
+                                                });
+                                            }
+                                        },
+                                        {
+                                            key: 'isTextList',
+                                            value: function (e) {
+                                                return (
+                                                    r.List.isList(e) &&
+                                                    e.every(function (e) {
+                                                        return t.isText(e);
+                                                    })
+                                                );
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(ae)),
+                        ue = (function () {
+                            function e() {
+                                x(this, e);
+                            }
+                            return (
+                                k(e, null, [
+                                    {
+                                        key: 'create',
+                                        value: function () {
+                                            var t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                            if (e.isNode(t)) return t;
+                                            if (o()(t)) {
+                                                var n = t.object;
+                                                switch (
+                                                    (!n &&
+                                                        t.kind &&
+                                                        (Object(a.a)(
+                                                            !1,
+                                                            'As of slate@0.32.0, the `kind` property of Slate objects has been renamed to `object`.'
+                                                        ),
+                                                        (n = t.kind)),
+                                                    n)
+                                                ) {
+                                                    case 'block':
+                                                        return de.create(t);
+                                                    case 'document':
+                                                        return re.create(t);
+                                                    case 'inline':
+                                                        return oe.create(t);
+                                                    case 'text':
+                                                        return le.create(t);
+                                                    default:
+                                                        throw new Error('`Node.create` requires a `object` string.');
+                                                }
+                                            }
+                                            throw new Error('`Node.create` only accepts objects or nodes but you passed it: ' + t);
+                                        }
+                                    },
+                                    {
+                                        key: 'createList',
+                                        value: function () {
+                                            var t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+                                            if (r.List.isList(t) || Array.isArray(t)) {
+                                                var n = [];
+                                                t.forEach(function (t) {
+                                                    if (t && 'text' === t.object && t.leaves && Array.isArray(t.leaves)) {
+                                                        Object(a.a)(
+                                                            !1,
+                                                            'As of slate@0.46, the `leaves` property of Text nodes has been removed. Instead, each text node contains a string of text and a unique set of marks and leaves are unnecessary.'
+                                                        );
+                                                        var r = le.createList(t.leaves).toArray();
+                                                        n = n.concat(r);
+                                                    } else {
+                                                        var i = e.create(t);
+                                                        n.push(i);
+                                                    }
+                                                });
+                                                var i = Object(r.List)(n);
+                                                return i;
+                                            }
+                                            throw new Error('`Node.createList` only accepts lists or arrays, but you passed it: ' + t);
+                                        }
+                                    },
+                                    {
+                                        key: 'createProperties',
+                                        value: function () {
+                                            var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                            if (de.isBlock(e) || oe.isInline(e)) return { data: e.data, type: e.type };
+                                            if ('string' == typeof e) return { type: e };
+                                            if (o()(e)) {
+                                                var t = {};
+                                                return 'type' in e && (t.type = e.type), 'data' in e && (t.data = H.create(e.data)), t;
+                                            }
+                                            throw new Error(
+                                                '`Node.createProperties` only accepts objects, strings, blocks or inlines, but you passed it: ' + e
+                                            );
+                                        }
+                                    },
+                                    {
+                                        key: 'fromJSON',
+                                        value: function (e) {
+                                            var t = e.object;
+                                            switch (
+                                                (!t &&
+                                                    e.kind &&
+                                                    (Object(a.a)(!1, 'As of slate@0.32.0, the `kind` property of Slate objects has been renamed to `object`.'),
+                                                    (t = e.kind)),
+                                                t)
+                                            ) {
+                                                case 'block':
+                                                    return de.fromJSON(e);
+                                                case 'document':
+                                                    return re.fromJSON(e);
+                                                case 'inline':
+                                                    return oe.fromJSON(e);
+                                                case 'text':
+                                                    return le.fromJSON(e);
+                                                default:
+                                                    throw new Error(
+                                                        "`Node.fromJSON` requires an `object` of either 'block', 'document', 'inline' or 'text', but you passed: " +
+                                                            e
+                                                    );
+                                            }
+                                        }
+                                    },
+                                    {
+                                        key: 'isNode',
+                                        value: function (e) {
+                                            return de.isBlock(e) || re.isDocument(e) || oe.isInline(e) || le.isText(e);
+                                        }
+                                    },
+                                    {
+                                        key: 'isNodeList',
+                                        value: function (t) {
+                                            return (
+                                                r.List.isList(t) &&
+                                                t.every(function (t) {
+                                                    return e.isNode(t);
+                                                })
+                                            );
+                                        }
+                                    }
+                                ]),
+                                e
+                            );
+                        })(),
+                        ce = { data: void 0, key: void 0, nodes: void 0, type: void 0 },
+                        de = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    t = {
+                                                        object: this.object,
+                                                        type: this.type,
+                                                        data: this.data.toJSON(),
+                                                        nodes: this.nodes.toArray().map(function (t) {
+                                                            return t.toJSON(e);
+                                                        })
+                                                    };
+                                                return e.preserveKeys && (t.key = this.key), t;
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isBlock(e)) return e;
+                                                if (('string' == typeof e && (e = { type: e }), o()(e))) return t.fromJSON(e);
+                                                throw new Error('`Block.create` only accepts objects, strings or blocks, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createList',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+                                                if (r.List.isList(e) || Array.isArray(e)) {
+                                                    var n = new r.List(e.map(t.create));
+                                                    return n;
+                                                }
+                                                throw new Error('`Block.createList` only accepts arrays or lists, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                if (t.isBlock(e)) return e;
+                                                var n = e.data,
+                                                    i = void 0 === n ? {} : n,
+                                                    o = e.key,
+                                                    a = void 0 === o ? _.create() : o,
+                                                    s = e.nodes,
+                                                    l = void 0 === s ? [] : s,
+                                                    u = e.type;
+                                                if ('string' != typeof u) throw new Error('`Block.fromJSON` requires a `type` string.');
+                                                return new t({
+                                                    key: a,
+                                                    type: u,
+                                                    data: Object(r.Map)(i),
+                                                    nodes: ue.createList(l)
+                                                });
+                                            }
+                                        },
+                                        {
+                                            key: 'isBlockList',
+                                            value: function (e) {
+                                                return (
+                                                    r.List.isList(e) &&
+                                                    e.every(function (e) {
+                                                        return t.isBlock(e);
+                                                    })
+                                                );
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(ce)),
+                        fe = {
+                            annotations: void 0,
+                            data: void 0,
+                            document: void 0,
+                            selection: void 0
+                        },
+                        pe = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'addAnnotation',
+                                            value: function (e) {
+                                                e = te.create(e);
+                                                var t = this,
+                                                    n = t,
+                                                    r = n.annotations,
+                                                    i = n.document,
+                                                    o = e.key;
+                                                return (
+                                                    (e = e.updatePoints(function (e) {
+                                                        return e.normalize(i);
+                                                    })),
+                                                    (r = r.set(o, e)),
+                                                    (t = t.set('annotations', r))
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'addMark',
+                                            value: function (e, t) {
+                                                t = G.create(t);
+                                                var n = this,
+                                                    r = n.document;
+                                                return (r = r.addMark(e, t)), (n = n.set('document', r));
+                                            }
+                                        },
+                                        {
+                                            key: 'insertNode',
+                                            value: function (e, t) {
+                                                var n = this,
+                                                    r = n.document;
+                                                return (
+                                                    (r = r.insertNode(e, t)),
+                                                    (n = (n = n.set('document', r)).mapRanges(function (e) {
+                                                        return e.updatePoints(function (e) {
+                                                            return e.setPath(null);
+                                                        });
+                                                    }))
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'insertText',
+                                            value: function (e, t, n) {
+                                                var r = this,
+                                                    i = r.document,
+                                                    o = i.assertNode(e);
+                                                return (
+                                                    (i = i.insertText(e, t, n)),
+                                                    (o = i.assertNode(e)),
+                                                    (r = (r = r.set('document', i)).mapPoints(function (e) {
+                                                        return e.key === o.key && e.offset >= t ? e.setOffset(e.offset + n.length) : e;
+                                                    }))
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'mergeNode',
+                                            value: function (e) {
+                                                var t = this,
+                                                    n = t.document,
+                                                    r = n.mergeNode(e);
+                                                e = n.resolvePath(e);
+                                                var i = z.decrement(e),
+                                                    o = n.getNode(i),
+                                                    a = n.getNode(e);
+                                                return (t = (t = t.set('document', r)).mapRanges(function (e) {
+                                                    if ('text' === a.object) {
+                                                        var t = o.text.length;
+                                                        e.anchor.key === a.key && (e = e.moveAnchorTo(o.key, t + e.anchor.offset)),
+                                                            e.focus.key === a.key && (e = e.moveFocusTo(o.key, t + e.focus.offset));
+                                                    }
+                                                    return (e = e.updatePoints(function (e) {
+                                                        return e.setPath(null);
+                                                    }));
+                                                }));
+                                            }
+                                        },
+                                        {
+                                            key: 'moveNode',
+                                            value: function (e, t) {
+                                                var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 0,
+                                                    r = this,
+                                                    i = r,
+                                                    o = i.document;
+                                                return z.isEqual(e, t)
+                                                    ? r
+                                                    : ((o = o.moveNode(e, t, n)),
+                                                      (r = (r = r.set('document', o)).mapPoints(function (e) {
+                                                          return e.setPath(null);
+                                                      })));
+                                            }
+                                        },
+                                        {
+                                            key: 'removeAnnotation',
+                                            value: function (e) {
+                                                e = te.create(e);
+                                                var t = this,
+                                                    n = t.annotations,
+                                                    r = e.key;
+                                                return (n = n.delete(r)), (t = t.set('annotations', n));
+                                            }
+                                        },
+                                        {
+                                            key: 'removeMark',
+                                            value: function (e, t) {
+                                                t = G.create(t);
+                                                var n = this,
+                                                    r = n.document;
+                                                return (r = r.removeMark(e, t)), (n = n.set('document', r));
+                                            }
+                                        },
+                                        {
+                                            key: 'removeNode',
+                                            value: function (e) {
+                                                var t = this,
+                                                    n = t.document,
+                                                    r = n.assertNode(e),
+                                                    i = 'text' === r.object ? r : r.getFirstText() || r,
+                                                    o = 'text' === r.object ? r : r.getLastText() || r,
+                                                    a = n.getPreviousText(i.key),
+                                                    s = n.getNextText(o.key);
+                                                return (
+                                                    (n = n.removeNode(e)),
+                                                    (t = (t = t.set('document', n)).mapRanges(function (e) {
+                                                        var t = e,
+                                                            n = t.anchor,
+                                                            i = t.focus;
+                                                        return (
+                                                            r.hasNode(n.key) &&
+                                                                (e = a ? e.moveAnchorTo(a.key, a.text.length) : s ? e.moveAnchorTo(s.key, 0) : e.unset()),
+                                                            r.hasNode(i.key) &&
+                                                                (e = a ? e.moveFocusTo(a.key, a.text.length) : s ? e.moveFocusTo(s.key, 0) : e.unset()),
+                                                            (e = e.updatePoints(function (e) {
+                                                                return e.setPath(null);
+                                                            }))
+                                                        );
+                                                    }))
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'removeText',
+                                            value: function (e, t, n) {
+                                                var r = this,
+                                                    i = r.document,
+                                                    o = i.assertNode(e);
+                                                (i = i.removeText(e, t, n)), (r = r.set('document', i));
+                                                var a = n.length,
+                                                    s = t,
+                                                    l = t + a;
+                                                return (r = r.mapPoints(function (e) {
+                                                    return e.key !== o.key ? e : e.offset >= l ? e.setOffset(e.offset - a) : e.offset > s ? e.setOffset(s) : e;
+                                                }));
+                                            }
+                                        },
+                                        {
+                                            key: 'setAnnotation',
+                                            value: function (e, t) {
+                                                t = te.createProperties(t);
+                                                var n = te.create(e),
+                                                    r = n.merge(t),
+                                                    i = this,
+                                                    o = i.annotations,
+                                                    a = n.key;
+                                                return (o = o.set(a, r)), (i = i.set('annotations', o));
+                                            }
+                                        },
+                                        {
+                                            key: 'setNode',
+                                            value: function (e, t) {
+                                                var n = this,
+                                                    r = n.document;
+                                                return (r = r.setNode(e, t)), (n = n.set('document', r));
+                                            }
+                                        },
+                                        {
+                                            key: 'setMark',
+                                            value: function (e, t, n) {
+                                                var r = this,
+                                                    i = r.document;
+                                                return (i = i.setMark(e, t, n)), (r = r.set('document', i));
+                                            }
+                                        },
+                                        {
+                                            key: 'setProperties',
+                                            value: function (e) {
+                                                var t = this,
+                                                    n = t.document,
+                                                    r = e.data,
+                                                    i = e.annotations,
+                                                    o = {};
+                                                return (
+                                                    r && (o.data = r),
+                                                    i &&
+                                                        (o.annotations = i.map(function (e) {
+                                                            return e.isSet ? e : n.resolveAnnotation(e);
+                                                        })),
+                                                    (t = t.merge(o))
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'setSelection',
+                                            value: function (e) {
+                                                var t = this,
+                                                    n = t,
+                                                    r = n.document,
+                                                    i = n.selection,
+                                                    o = i.setProperties(e);
+                                                return (i = r.resolveSelection(o)), (t = t.set('selection', i));
+                                            }
+                                        },
+                                        {
+                                            key: 'splitNode',
+                                            value: function (e, t, n) {
+                                                var r = this,
+                                                    i = r.document,
+                                                    o = i.splitNode(e, t, n),
+                                                    a = i.assertNode(e);
+                                                return (r = (r = r.set('document', o)).mapRanges(function (e) {
+                                                    var n = o.getNextText(a.key),
+                                                        r = e,
+                                                        i = r.anchor,
+                                                        s = r.focus;
+                                                    return (
+                                                        a.key === i.key && t <= i.offset && (e = e.moveAnchorTo(n.key, i.offset - t)),
+                                                        a.key === s.key && t <= s.offset && (e = e.moveFocusTo(n.key, s.offset - t)),
+                                                        (e = e.updatePoints(function (e) {
+                                                            return e.setPath(null);
+                                                        }))
+                                                    );
+                                                }));
+                                            }
+                                        },
+                                        {
+                                            key: 'mapRanges',
+                                            value: function (e) {
+                                                var t = this,
+                                                    n = t,
+                                                    r = n.document,
+                                                    i = n.selection,
+                                                    o = n.annotations,
+                                                    a = i.isSet ? e(i) : i;
+                                                a || (a = i.unset()), a !== i && (a = r.createSelection(a)), (t = t.set('selection', a));
+                                                var s = o.map(function (t) {
+                                                    var n = t.isSet ? e(t) : t;
+                                                    return n && n !== t && (n = r.createAnnotation(n)), n;
+                                                });
+                                                return (
+                                                    (s = s.filter(function (e) {
+                                                        return !!e;
+                                                    })),
+                                                    (t = t.set('annotations', s))
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'mapPoints',
+                                            value: function (e) {
+                                                return this.mapRanges(function (t) {
+                                                    return t.updatePoints(e);
+                                                });
+                                            }
+                                        },
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    t = {
+                                                        object: this.object,
+                                                        document: this.document.toJSON(e)
+                                                    };
+                                                return (
+                                                    e.preserveData && (t.data = this.data.toJSON(e)),
+                                                    e.preserveAnnotations &&
+                                                        (t.annotations = this.annotations
+                                                            .map(function (t) {
+                                                                return t.toJSON(e);
+                                                            })
+                                                            .toObject()),
+                                                    e.preserveSelection && (t.selection = this.selection.toJSON(e)),
+                                                    t
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'change',
+                                            value: function () {
+                                                Object(s.a)(
+                                                    !1,
+                                                    'As of Slate 0.42.0, value object are no longer schema-aware, and the `value.change()` method is no longer available. Use the `editor.change()` method on the new `Editor` controller instead.'
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'startBlock',
+                                            get: function () {
+                                                return this.selection.start.key && this.document.getClosestBlock(this.selection.start.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'endBlock',
+                                            get: function () {
+                                                return this.selection.end.key && this.document.getClosestBlock(this.selection.end.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'anchorBlock',
+                                            get: function () {
+                                                return this.selection.anchor.key && this.document.getClosestBlock(this.selection.anchor.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'focusBlock',
+                                            get: function () {
+                                                return this.selection.focus.key && this.document.getClosestBlock(this.selection.focus.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'startInline',
+                                            get: function () {
+                                                return this.selection.start.key && this.document.getClosestInline(this.selection.start.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'endInline',
+                                            get: function () {
+                                                return this.selection.end.key && this.document.getClosestInline(this.selection.end.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'anchorInline',
+                                            get: function () {
+                                                return this.selection.anchor.key && this.document.getClosestInline(this.selection.anchor.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'focusInline',
+                                            get: function () {
+                                                return this.selection.focus.key && this.document.getClosestInline(this.selection.focus.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'startText',
+                                            get: function () {
+                                                return this.selection.start.key && this.document.getDescendant(this.selection.start.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'endText',
+                                            get: function () {
+                                                return this.selection.end.key && this.document.getDescendant(this.selection.end.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'anchorText',
+                                            get: function () {
+                                                return this.selection.anchor.key && this.document.getDescendant(this.selection.anchor.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'focusText',
+                                            get: function () {
+                                                return this.selection.focus.key && this.document.getDescendant(this.selection.focus.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'nextBlock',
+                                            get: function () {
+                                                return this.selection.end.key && this.document.getNextBlock(this.selection.end.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'previousBlock',
+                                            get: function () {
+                                                return this.selection.start.key && this.document.getPreviousBlock(this.selection.start.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'nextInline',
+                                            get: function () {
+                                                return this.selection.end.key && this.document.getNextInline(this.selection.end.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'previousInline',
+                                            get: function () {
+                                                return this.selection.start.key && this.document.getPreviousInline(this.selection.start.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'nextText',
+                                            get: function () {
+                                                return this.selection.end.key && this.document.getNextText(this.selection.end.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'previousText',
+                                            get: function () {
+                                                return this.selection.start.key && this.document.getPreviousText(this.selection.start.key);
+                                            }
+                                        },
+                                        {
+                                            key: 'marks',
+                                            get: function () {
+                                                return this.selection.isUnset
+                                                    ? new r.Set()
+                                                    : this.selection.marks || this.document.getMarksAtRange(this.selection);
+                                            }
+                                        },
+                                        {
+                                            key: 'activeMarks',
+                                            get: function () {
+                                                return this.selection.isUnset
+                                                    ? new r.Set()
+                                                    : this.selection.marks || this.document.getActiveMarksAtRange(this.selection);
+                                            }
+                                        },
+                                        {
+                                            key: 'blocks',
+                                            get: function () {
+                                                return this.selection.isUnset ? new r.List() : this.document.getLeafBlocksAtRange(this.selection);
+                                            }
+                                        },
+                                        {
+                                            key: 'fragment',
+                                            get: function () {
+                                                return this.selection.isUnset ? re.create() : this.document.getFragmentAtRange(this.selection);
+                                            }
+                                        },
+                                        {
+                                            key: 'inlines',
+                                            get: function () {
+                                                return this.selection.isUnset ? new r.List() : this.document.getLeafInlinesAtRange(this.selection);
+                                            }
+                                        },
+                                        {
+                                            key: 'texts',
+                                            get: function () {
+                                                return this.selection.isUnset ? new r.List() : this.document.getTextsAtRange(this.selection);
+                                            }
+                                        },
+                                        {
+                                            key: 'history',
+                                            get: function () {
+                                                Object(s.a)(
+                                                    !1,
+                                                    'As of Slate 0.42.0, the `value.history` model no longer exists, and the history is stored in `value.data` instead using plugins.'
+                                                );
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    n = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};
+                                                if (t.isValue(e)) return e;
+                                                if (o()(e)) return t.fromJSON(e, n);
+                                                throw new Error('`Value.create` only accepts objects or values, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createProperties',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isValue(e)) return { annotations: e.annotations, data: e.data };
+                                                if (o()(e)) {
+                                                    var n = {};
+                                                    return (
+                                                        'annotations' in e && (n.annotations = te.createMap(e.annotations)),
+                                                        'data' in e && (n.data = H.create(e.data)),
+                                                        n
+                                                    );
+                                                }
+                                                throw new Error('`Value.createProperties` only accepts objects or values, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                var n = e.data,
+                                                    r = void 0 === n ? {} : n,
+                                                    i = e.annotations,
+                                                    o = void 0 === i ? {} : i,
+                                                    a = e.document,
+                                                    s = void 0 === a ? {} : a,
+                                                    l = e.selection,
+                                                    u = void 0 === l ? {} : l;
+                                                if (((r = H.fromJSON(r)), (u = (s = re.fromJSON(s)).createSelection(u)), (o = te.createMap(o)), u.isUnset)) {
+                                                    var c = s.getFirstText();
+                                                    c && (u = u.moveToStartOfNode(c)), (u = s.createSelection(u));
+                                                }
+                                                return new t({
+                                                    annotations: o,
+                                                    data: r,
+                                                    document: s,
+                                                    selection: u
+                                                });
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(fe)),
+                        he = u()('slate:operation:apply');
+                    function me(e, t) {
+                        var n = (t = _e.create(t)).type;
+                        switch ((he(n, t), n)) {
+                            case 'add_annotation':
+                                var r = t.annotation;
+                                return e.addAnnotation(r);
+                            case 'add_mark':
+                                var i = t,
+                                    o = i.path,
+                                    a = i.mark;
+                                return e.addMark(o, a);
+                            case 'insert_node':
+                                var s = t,
+                                    l = s.path,
+                                    u = s.node;
+                                return e.insertNode(l, u);
+                            case 'insert_text':
+                                var c = t,
+                                    d = c.path,
+                                    f = c.offset,
+                                    p = c.text,
+                                    h = c.marks;
+                                return e.insertText(d, f, p, h);
+                            case 'merge_node':
+                                var m = t.path;
+                                return e.mergeNode(m);
+                            case 'move_node':
+                                var g = t,
+                                    v = g.path,
+                                    y = g.newPath;
+                                return e.moveNode(v, y);
+                            case 'remove_annotation':
+                                var b = t.annotation;
+                                return e.removeAnnotation(b);
+                            case 'remove_mark':
+                                var _ = t,
+                                    w = _.path,
+                                    x = _.mark;
+                                return e.removeMark(w, x);
+                            case 'remove_node':
+                                var k = t.path;
+                                return e.removeNode(k);
+                            case 'remove_text':
+                                var E = t,
+                                    S = E.path,
+                                    O = E.offset,
+                                    C = E.text;
+                                return e.removeText(S, O, C);
+                            case 'set_annotation':
+                                var T = t,
+                                    A = T.properties,
+                                    P = T.newProperties;
+                                return e.setAnnotation(A, P);
+                            case 'set_mark':
+                                var R = t,
+                                    M = R.path,
+                                    I = R.properties,
+                                    j = R.newProperties;
+                                return e.setMark(M, I, j);
+                            case 'set_node':
+                                var L = t,
+                                    D = L.path,
+                                    N = L.newProperties;
+                                return e.setNode(D, N);
+                            case 'set_selection':
+                                var F = t.newProperties;
+                                return e.setSelection(F);
+                            case 'set_value':
+                                var B = t.newProperties;
+                                return e.setProperties(B);
+                            case 'split_node':
+                                var z = t,
+                                    U = z.path,
+                                    q = z.position,
+                                    H = z.properties;
+                                return e.splitNode(U, q, H);
+                            default:
+                                throw new Error('Unknown operation type: "' + n + '".');
+                        }
+                    }
+                    var ge = u()('slate:operation:invert');
+                    function ve(e) {
+                        var t = (e = _e.create(e)).type;
+                        switch ((ge(t, e), t)) {
+                            case 'move_node':
+                                var n = e,
+                                    r = n.newPath,
+                                    i = n.path;
+                                if (z.isEqual(r, i)) return e;
+                                var o = z.transform(i, e).first(),
+                                    a = z.transform(z.increment(i), e).first();
+                                return e.set('path', o).set('newPath', a);
+                            case 'merge_node':
+                                var s = e.path,
+                                    l = z.decrement(s);
+                                return e.set('type', 'split_node').set('path', l);
+                            case 'split_node':
+                                var u = e.path,
+                                    c = z.increment(u);
+                                return e.set('type', 'merge_node').set('path', c);
+                            case 'set_annotation':
+                            case 'set_node':
+                            case 'set_value':
+                            case 'set_selection':
+                            case 'set_mark':
+                                var d = e,
+                                    f = d.properties,
+                                    p = d.newProperties;
+                                return e.set('properties', p).set('newProperties', f);
+                            case 'insert_node':
+                            case 'insert_text':
+                                return e.set('type', t.replace('insert_', 'remove_'));
+                            case 'remove_node':
+                            case 'remove_text':
+                                return e.set('type', t.replace('remove_', 'insert_'));
+                            case 'add_annotation':
+                            case 'add_mark':
+                                return e.set('type', t.replace('add_', 'remove_'));
+                            case 'remove_annotation':
+                            case 'remove_mark':
+                                return e.set('type', t.replace('remove_', 'add_'));
+                            default:
+                                throw new Error('Unknown operation type: "' + t + '".');
+                        }
+                    }
+                    var ye = {
+                            add_mark: ['path', 'mark', 'data'],
+                            add_annotation: ['annotation', 'data'],
+                            insert_node: ['path', 'node', 'data'],
+                            insert_text: ['path', 'offset', 'text', 'data'],
+                            merge_node: ['path', 'position', 'properties', 'target', 'data'],
+                            move_node: ['path', 'newPath', 'data'],
+                            remove_annotation: ['annotation', 'data'],
+                            remove_mark: ['path', 'mark', 'data'],
+                            remove_node: ['path', 'node', 'data'],
+                            remove_text: ['path', 'offset', 'text', 'data'],
+                            set_annotation: ['properties', 'newProperties', 'data'],
+                            set_mark: ['path', 'properties', 'newProperties', 'data'],
+                            set_node: ['path', 'properties', 'newProperties', 'data'],
+                            set_selection: ['properties', 'newProperties', 'data'],
+                            set_value: ['properties', 'newProperties', 'data'],
+                            split_node: ['path', 'position', 'properties', 'target', 'data']
+                        },
+                        be = {
+                            annotation: void 0,
+                            data: void 0,
+                            length: void 0,
+                            mark: void 0,
+                            marks: void 0,
+                            newPath: void 0,
+                            newProperties: void 0,
+                            node: void 0,
+                            offset: void 0,
+                            path: void 0,
+                            position: void 0,
+                            properties: void 0,
+                            target: void 0,
+                            text: void 0,
+                            type: void 0
+                        },
+                        _e = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'apply',
+                                            value: function (e) {
+                                                return me(e, this);
+                                            }
+                                        },
+                                        {
+                                            key: 'invert',
+                                            value: function () {
+                                                return ve(this);
+                                            }
+                                        },
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = this.object,
+                                                    t = this.type,
+                                                    n = { object: e, type: t },
+                                                    r = ye[t],
+                                                    i = !0,
+                                                    o = !1,
+                                                    a = void 0;
+                                                try {
+                                                    for (var s, l = r[Symbol.iterator](); !(i = (s = l.next()).done); i = !0) {
+                                                        var u = s.value,
+                                                            c = this[u];
+                                                        if (
+                                                            (('annotation' !== u &&
+                                                                'mark' !== u &&
+                                                                'marks' !== u &&
+                                                                'node' !== u &&
+                                                                'path' !== u &&
+                                                                'newPath' !== u) ||
+                                                                (c = c.toJSON()),
+                                                            'properties' === u && 'merge_node' === t)
+                                                        ) {
+                                                            var d = {};
+                                                            'data' in c && (d.data = c.data.toJS()), 'type' in c && (d.type = c.type), (c = d);
+                                                        }
+                                                        if (('properties' === u || 'newProperties' === u) && 'set_annotation' === t) {
+                                                            var f = {};
+                                                            'anchor' in c && (f.anchor = c.anchor.toJS()),
+                                                                'focus' in c && (f.focus = c.focus.toJS()),
+                                                                'key' in c && (f.key = c.key),
+                                                                'data' in c && (f.data = c.data.toJS()),
+                                                                'type' in c && (f.type = c.type),
+                                                                (c = f);
+                                                        }
+                                                        if (('properties' === u || 'newProperties' === u) && 'set_mark' === t) {
+                                                            var p = {};
+                                                            'data' in c && (p.data = c.data.toJS()), 'type' in c && (p.type = c.type), (c = p);
+                                                        }
+                                                        if (('properties' === u || 'newProperties' === u) && 'set_node' === t) {
+                                                            var h = {};
+                                                            'data' in c && (h.data = c.data.toJS()), 'type' in c && (h.type = c.type), (c = h);
+                                                        }
+                                                        if (('properties' === u || 'newProperties' === u) && 'set_selection' === t) {
+                                                            var m = {};
+                                                            'anchor' in c && (m.anchor = c.anchor.toJSON()),
+                                                                'focus' in c && (m.focus = c.focus.toJSON()),
+                                                                'isFocused' in c && (m.isFocused = c.isFocused),
+                                                                'marks' in c && (m.marks = c.marks && c.marks.toJSON()),
+                                                                (c = m);
+                                                        }
+                                                        if (('properties' === u || 'newProperties' === u) && 'set_value' === t) {
+                                                            var g = {};
+                                                            'data' in c && (g.data = c.data.toJS()), (c = g);
+                                                        }
+                                                        if ('properties' === u && 'split_node' === t) {
+                                                            var v = {};
+                                                            'data' in c && (v.data = c.data.toJS()), 'type' in c && (v.type = c.type), (c = v);
+                                                        }
+                                                        'data' === u && (c = c.toJSON()), (n[u] = c);
+                                                    }
+                                                } catch (e) {
+                                                    (o = !0), (a = e);
+                                                } finally {
+                                                    try {
+                                                        !i && l.return && l.return();
+                                                    } finally {
+                                                        if (o) throw a;
+                                                    }
+                                                }
+                                                return n;
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isOperation(e)) return e;
+                                                if (o()(e)) return t.fromJSON(e);
+                                                throw new Error('`Operation.create` only accepts objects or operations, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createList',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+                                                if (r.List.isList(e) || Array.isArray(e)) {
+                                                    var n = new r.List(e.map(t.create));
+                                                    return n;
+                                                }
+                                                throw new Error('`Operation.createList` only accepts arrays or lists, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                if (t.isOperation(e)) return e;
+                                                var n = e.type,
+                                                    i = ye[n],
+                                                    o = { type: n };
+                                                if (!i) throw new Error('`Operation.fromJSON` was passed an unrecognized operation type: "' + n + '"');
+                                                var a = !0,
+                                                    s = !1,
+                                                    l = void 0;
+                                                try {
+                                                    for (var u, c = i[Symbol.iterator](); !(a = (u = c.next()).done); a = !0) {
+                                                        var d = u.value,
+                                                            f = e[d];
+                                                        if (('data' === d && void 0 === f && (f = {}), void 0 === f))
+                                                            throw new Error(
+                                                                '`Operation.fromJSON` was passed a "' +
+                                                                    n +
+                                                                    '" operation without the required "' +
+                                                                    d +
+                                                                    '" attribute.'
+                                                            );
+                                                        'annotation' === d && (f = te.create(f)),
+                                                            ('path' !== d && 'newPath' !== d) || (f = z.create(f)),
+                                                            'mark' === d && (f = G.create(f)),
+                                                            'node' === d && (f = ue.create(f)),
+                                                            ('properties' !== d && 'newProperties' !== d) ||
+                                                                'set_annotation' !== n ||
+                                                                (f = te.createProperties(f)),
+                                                            ('properties' !== d && 'newProperties' !== d) || 'set_mark' !== n || (f = G.createProperties(f)),
+                                                            ('properties' !== d && 'newProperties' !== d) ||
+                                                                ('set_node' !== n && 'merge_node' !== n && 'split_node' !== n) ||
+                                                                (f = ue.createProperties(f)),
+                                                            ('properties' !== d && 'newProperties' !== d) ||
+                                                                'set_selection' !== n ||
+                                                                (f = Y.createProperties(f)),
+                                                            ('properties' !== d && 'newProperties' !== d) || 'set_value' !== n || (f = pe.createProperties(f)),
+                                                            'data' === d && (f = Object(r.Map)(f)),
+                                                            (o[d] = f);
+                                                    }
+                                                } catch (e) {
+                                                    (s = !0), (l = e);
+                                                } finally {
+                                                    try {
+                                                        !a && c.return && c.return();
+                                                    } finally {
+                                                        if (s) throw l;
+                                                    }
+                                                }
+                                                return new t(o);
+                                            }
+                                        },
+                                        {
+                                            key: 'isOperationList',
+                                            value: function (e) {
+                                                return (
+                                                    r.List.isList(e) &&
+                                                    e.every(function (e) {
+                                                        return t.isOperation(e);
+                                                    })
+                                                );
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(be)),
+                        we = { operations: void 0, value: void 0 },
+                        xe = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                    t = {
+                                                        object: this.object,
+                                                        value: this.value.toJSON(e),
+                                                        operations: this.operations.toArray().map(function (t) {
+                                                            return t.toJSON(e);
+                                                        })
+                                                    };
+                                                return t;
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if (t.isChange(e)) return e;
+                                                if (o()(e)) return t.fromJSON(e);
+                                                throw new Error('`Change.create` only accepts objects or changes, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                var n = e.value,
+                                                    r = e.operations,
+                                                    i = void 0 === r ? [] : r;
+                                                return new t({
+                                                    value: pe.create(n),
+                                                    operations: _e.createList(i)
+                                                });
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(we));
+                    function ke() {
+                        var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                        function t(t, n, r) {
+                            var i = t.type,
+                                o = t.args,
+                                a = e[i];
+                            if (!a) return r();
+                            n.command.apply(n, [a].concat(P(o)));
+                        }
+                        function n(t, n) {
+                            for (var r in e) t.registerCommand(r);
+                            return n();
+                        }
+                        return { onCommand: t, onConstruct: n };
+                    }
+                    var Ee = /\s/,
+                        Se = /['\u2018\u2019]/,
+                        Oe =
+                            /[\u0021-\u0023\u0025-\u002A\u002C-\u002F\u003A\u003B\u003F\u0040\u005B-\u005D\u005F\u007B\u007D\u00A1\u00A7\u00AB\u00B6\u00B7\u00BB\u00BF\u037E\u0387\u055A-\u055F\u0589\u058A\u05BE\u05C0\u05C3\u05C6\u05F3\u05F4\u0609\u060A\u060C\u060D\u061B\u061E\u061F\u066A-\u066D\u06D4\u0700-\u070D\u07F7-\u07F9\u0830-\u083E\u085E\u0964\u0965\u0970\u0AF0\u0DF4\u0E4F\u0E5A\u0E5B\u0F04-\u0F12\u0F14\u0F3A-\u0F3D\u0F85\u0FD0-\u0FD4\u0FD9\u0FDA\u104A-\u104F\u10FB\u1360-\u1368\u1400\u166D\u166E\u169B\u169C\u16EB-\u16ED\u1735\u1736\u17D4-\u17D6\u17D8-\u17DA\u1800-\u180A\u1944\u1945\u1A1E\u1A1F\u1AA0-\u1AA6\u1AA8-\u1AAD\u1B5A-\u1B60\u1BFC-\u1BFF\u1C3B-\u1C3F\u1C7E\u1C7F\u1CC0-\u1CC7\u1CD3\u2010-\u2027\u2030-\u2043\u2045-\u2051\u2053-\u205E\u207D\u207E\u208D\u208E\u2329\u232A\u2768-\u2775\u27C5\u27C6\u27E6-\u27EF\u2983-\u2998\u29D8-\u29DB\u29FC\u29FD\u2CF9-\u2CFC\u2CFE\u2CFF\u2D70\u2E00-\u2E2E\u2E30-\u2E3B\u3001-\u3003\u3008-\u3011\u3014-\u301F\u3030\u303D\u30A0\u30FB\uA4FE\uA4FF\uA60D-\uA60F\uA673\uA67E\uA6F2-\uA6F7\uA874-\uA877\uA8CE\uA8CF\uA8F8-\uA8FA\uA92E\uA92F\uA95F\uA9C1-\uA9CD\uA9DE\uA9DF\uAA5C-\uAA5F\uAADE\uAADF\uAAF0\uAAF1\uABEB\uFD3E\uFD3F\uFE10-\uFE19\uFE30-\uFE52\uFE54-\uFE61\uFE63\uFE68\uFE6A\uFE6B\uFF01-\uFF03\uFF05-\uFF0A\uFF0C-\uFF0F\uFF1A\uFF1B\uFF1F\uFF20\uFF3B-\uFF3D\uFF3F\uFF5B\uFF5D\uFF5F-\uFF65]/;
+                    function Ce(e) {
+                        return 55296 <= e && e <= 57343;
+                    }
+                    function Te(e, t, n) {
+                        if (55356 === e) {
+                            var r = t.charCodeAt(n + 1);
+                            return r <= 57343 && r >= 57339;
+                        }
+                        return !1;
+                    }
+                    function Ae(e) {
+                        return e <= 65039 && e >= 65024;
+                    }
+                    function Pe(e, t) {
+                        if (Ee.test(e)) return !1;
+                        if (Se.test(e)) {
+                            var n = t.charAt(0),
+                                r = Re(n);
+                            if (Pe((n = t.slice(0, r)), t.slice(r))) return !0;
+                        }
+                        return !Oe.test(e);
+                    }
+                    function Re(e) {
+                        return Ce(e.charCodeAt(0)) ? 2 : 1;
+                    }
+                    function Me(e, t, n) {
+                        var r,
+                            i = 0;
+                        if ('' === e) return 1;
+                        for (var o = 0; o < t; o++)
+                            for (var a = null, s = e.charCodeAt(i); s; )
+                                if (Ce(s)) {
+                                    var l = Te(s, e, i);
+                                    if (n) {
+                                        if ((!l && a && 'ZWJ' !== a) || (l && a && 'SURR' !== a)) break;
+                                    } else if ('SURR' === a || 'BMP' === a) break;
+                                    (i += 2), (a = l ? 'MOD' : 'SURR'), (s = e.charCodeAt(i));
+                                } else if (8205 !== s)
+                                    if (10084 !== (r = s) && 9794 !== r && 9792 !== r && 9760 !== r && 9877 !== r && 9992 !== r && 9711 !== r) {
+                                        if (!Ae(s)) {
+                                            if (n) {
+                                                if (Te(e.charCodeAt(i + 1), e, i + 1)) {
+                                                    (i += 3), (a = 'MOD'), (s = e.charCodeAt(i));
+                                                    continue;
+                                                }
+                                            } else if ('MOD' === a) {
+                                                i += 1;
+                                                break;
+                                            }
+                                            null === a && (i += 1);
+                                            break;
+                                        }
+                                        if (!n && a && 'ZWJ' !== a) break;
+                                        (i += 1), (a = 'VAR'), (s = e.charCodeAt(i));
+                                    } else {
+                                        if ((n && 'VAR' === a) || (a && 'ZWJ' !== a && 'VAR' !== a)) break;
+                                        (i += 1), (a = 'BMP'), (s = e.charCodeAt(i));
+                                    }
+                                else (i += 1), (a = 'ZWJ'), (s = e.charCodeAt(i));
+                        return i;
+                    }
+                    function Ie(e) {
+                        for (var t = 0, n = 0, r = !1, i = void 0; (i = e.charAt(n)); ) {
+                            var o = Re(i);
+                            if (Pe((i = e.slice(n, n + o)), e.slice(n + o))) (r = !0), (t += o);
+                            else {
+                                if (r) break;
+                                t += o;
+                            }
+                            n += o;
+                        }
+                        return t;
+                    }
+                    var je = {
+                        getCharLength: Re,
+                        getCharOffset: Me,
+                        getCharOffsetBackward: function (e, t) {
+                            var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 1;
+                            return (e = e.slice(0, t)), Me((e = Object(c.reverse)(e)), n);
+                        },
+                        getCharOffsetForward: function (e, t) {
+                            var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 1;
+                            return Me((e = e.slice(t)), n, !0);
+                        },
+                        getWordOffset: Ie,
+                        getWordOffsetBackward: function (e, t) {
+                            return (e = e.slice(0, t)), Ie((e = Object(c.reverse)(e)));
+                        },
+                        getWordOffsetForward: function (e, t) {
+                            return Ie((e = e.slice(t)));
+                        },
+                        isSurrogate: Ce,
+                        isWord: Pe
+                    };
+                    function Le(e, t) {
+                        t.isExpanded && e.deleteAtRange(t);
+                        var n = e.value.document,
+                            r = t,
+                            i = r.start,
+                            o = r.end;
+                        return (t = n.hasDescendant(i.path) ? t.moveToStart() : t.moveTo(o.path, 0).normalize(n));
+                    }
+                    var De = {
+                            addMarkAtRange: function (e, t, n) {
+                                if (!t.isCollapsed) {
+                                    var r = e.value.document,
+                                        i = t.start,
+                                        o = t.end,
+                                        a = r.getTextsAtRange(t);
+                                    e.withoutNormalizing(function () {
+                                        a.forEach(function (t) {
+                                            var r = t.key,
+                                                a = 0,
+                                                s = t.text.length;
+                                            r === i.key && (a = i.offset),
+                                                r === o.key && (s = o.offset),
+                                                r === i.key && r === o.key && (s = o.offset - i.offset),
+                                                e.addMarkByKey(r, a, s, n);
+                                        });
+                                    });
+                                }
+                            },
+                            addMarksAtRange: function (e, t, n) {
+                                n.forEach(function (n) {
+                                    return e.addMarkAtRange(t, n);
+                                });
+                            },
+                            deleteAtRange: function (e, t) {
+                                e.snapshotSelection();
+                                var n = e.value,
+                                    r = t.start,
+                                    i = t.end,
+                                    o = r.key,
+                                    a = r.offset,
+                                    s = i.key,
+                                    l = i.offset,
+                                    u = n.document,
+                                    c = u.hasVoidParent(o, e),
+                                    d = u.hasVoidParent(s, e),
+                                    f = u.getClosestBlock(o),
+                                    p = u.getClosestBlock(s),
+                                    h = 0 === a && 0 === l && !1 === c && o === f.getFirstText().key && s === p.getFirstText().key && o !== s;
+                                if (h && d) {
+                                    var m = u.getPreviousText(s);
+                                    (s = m.key), (l = m.text.length), (d = u.hasVoidParent(s, e));
+                                }
+                                e.withoutNormalizing(function () {
+                                    for (; c; ) {
+                                        var t = u.getClosestVoid(o, e),
+                                            n = u.getNextText(o);
+                                        if ((e.removeNodeByKey(t.key), o === s)) return;
+                                        if (!n) return;
+                                        (u = e.value.document), (o = n.key), (a = 0), (c = u.hasVoidParent(o, e));
+                                    }
+                                    for (; d; ) {
+                                        var r = u.getClosestVoid(s, e),
+                                            i = u.getPreviousText(s);
+                                        e.removeNodeByKey(r.key), (u = e.value.document), (s = i.key), (l = i.text.length), (d = u.hasVoidParent(s, e));
+                                    }
+                                    if (o === s && h) e.removeNodeByKey(f.key);
+                                    else if (o !== s) {
+                                        (f = u.getClosestBlock(o)), (p = u.getClosestBlock(s));
+                                        var m = u.getNode(o),
+                                            g = u.getNode(s),
+                                            v = m.text.length - a,
+                                            y = l,
+                                            b = u.getCommonAncestor(o, s),
+                                            _ = b.getFurthestChild(o),
+                                            w = b.getFurthestChild(s),
+                                            x = u.getParent(f.key),
+                                            k = x.nodes.indexOf(f),
+                                            E = x.nodes.indexOf(p),
+                                            S = void 0;
+                                        for (S = m; S.key !== _.key; ) {
+                                            var O = u.getParent(S.key),
+                                                C = O.nodes.indexOf(S);
+                                            O.nodes
+                                                .slice(C + 1)
+                                                .reverse()
+                                                .forEach(function (t) {
+                                                    e.removeNodeByKey(t.key);
+                                                }),
+                                                (S = O);
+                                        }
+                                        var T = b.nodes.indexOf(_),
+                                            P = b.nodes.indexOf(w);
+                                        for (
+                                            b.nodes
+                                                .slice(T + 1, P)
+                                                .reverse()
+                                                .forEach(function (t) {
+                                                    e.removeNodeByKey(t.key);
+                                                }),
+                                                S = g;
+                                            S.key !== w.key;
+
+                                        ) {
+                                            var R = u.getParent(S.key),
+                                                M = R.nodes.indexOf(S);
+                                            R.nodes
+                                                .slice(0, M)
+                                                .reverse()
+                                                .forEach(function (t) {
+                                                    e.removeNodeByKey(t.key);
+                                                }),
+                                                (S = R);
+                                        }
+                                        if ((0 !== v && e.removeTextByKey(o, a, v), 0 !== y && e.removeTextByKey(s, 0, l), f.key !== p.key)) {
+                                            u = e.value.document;
+                                            var I = void 0,
+                                                j = !0,
+                                                L = !1,
+                                                D = void 0;
+                                            try {
+                                                for (var N, F = u.ancestors(p.key)[Symbol.iterator](); !(j = (N = F.next()).done); j = !0) {
+                                                    var B = N.value,
+                                                        z = A(B, 1)[0];
+                                                    if (z.nodes.size > 1) break;
+                                                    I = z;
+                                                }
+                                            } catch (e) {
+                                                (L = !0), (D = e);
+                                            } finally {
+                                                try {
+                                                    !j && F.return && F.return();
+                                                } finally {
+                                                    if (L) throw D;
+                                                }
+                                            }
+                                            E !== k + 1 && e.moveNodeByKey(p.key, x.key, k + 1),
+                                                h ? e.removeNodeByKey(f.key) : e.mergeNodeByKey(p.key),
+                                                I && e.removeNodeByKey(I.key);
+                                        }
+                                    } else {
+                                        var U = a,
+                                            q = l - a;
+                                        e.removeTextByKey(o, U, q);
+                                    }
+                                });
+                            },
+                            deleteBackwardAtRange: function (e, t) {
+                                var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 1;
+                                if (0 !== n) {
+                                    var r = e.value,
+                                        i = r.document,
+                                        o = t,
+                                        a = o.start,
+                                        s = o.focus;
+                                    if (t.isExpanded) e.deleteAtRange(t);
+                                    else {
+                                        var l = i.getClosestVoid(a.path, e);
+                                        if (l) e.removeNodeByKey(l.key);
+                                        else if (!a.isAtStartOfNode(i)) {
+                                            var u = i.getClosestBlock(a.path);
+                                            if (1 !== i.nodes.size && u && '' === u.text && 1 === u.nodes.size) e.removeNodeByKey(u.key);
+                                            else {
+                                                var c = i.getDescendant(a.path);
+                                                if (a.isAtStartOfNode(c)) {
+                                                    var d = i.getPreviousText(c.key),
+                                                        f = i.getClosestInline(c.key);
+                                                    f && '' === d.text && (d = i.getPreviousText(d.key));
+                                                    var p = i.getClosestBlock(d.key),
+                                                        h = i.getClosestVoid(d.key, e);
+                                                    if (h) return void e.removeNodeByKey(h.key);
+                                                    if (1 === n && p !== u) return (t = t.moveAnchorTo(d.key, d.text.length)), void e.deleteAtRange(t);
+                                                }
+                                                if (n <= s.offset) return (t = t.moveFocusBackward(n)), void e.deleteAtRange(t);
+                                                for (var m = c, g = 0, v = s.offset; n > v; ) {
+                                                    var y = v + (m = i.getPreviousText(m.key)).text.length;
+                                                    if (n <= y) {
+                                                        g = y - n;
+                                                        break;
+                                                    }
+                                                    v = y;
+                                                }
+                                                (t = t.moveAnchorTo(m.key, g)), e.deleteAtRange(t);
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            deleteCharBackwardAtRange: function (e, t) {
+                                if (t.isExpanded) e.deleteAtRange(t);
+                                else {
+                                    var n = e.value.document,
+                                        r = t.start,
+                                        i = n.getClosestBlock(r.path),
+                                        o = i.getOffset(r.key) + r.offset,
+                                        a = i.text,
+                                        s = je.getCharOffsetBackward(a, o);
+                                    e.deleteBackwardAtRange(t, s);
+                                }
+                            },
+                            deleteCharForwardAtRange: function (e, t) {
+                                if (t.isExpanded) e.deleteAtRange(t);
+                                else {
+                                    var n = e.value.document,
+                                        r = t.start,
+                                        i = n.getClosestBlock(r.path),
+                                        o = i.getOffset(r.key) + r.offset,
+                                        a = i.text,
+                                        s = je.getCharOffsetForward(a, o);
+                                    e.deleteForwardAtRange(t, s);
+                                }
+                            },
+                            deleteForwardAtRange: function (e, t) {
+                                var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 1;
+                                if (0 !== n) {
+                                    var r = e.value,
+                                        i = r.document,
+                                        o = t,
+                                        a = o.start,
+                                        s = o.focus;
+                                    if (t.isExpanded) e.deleteAtRange(t);
+                                    else {
+                                        var l = i.getClosestVoid(a.path, e);
+                                        if (l) e.removeNodeByKey(l.key);
+                                        else {
+                                            var u = i.getClosestBlock(a.path);
+                                            if (u && !e.isVoid(u) && '' === u.text && 1 !== i.nodes.size) {
+                                                var c = i.getNextBlock(u.key);
+                                                return e.removeNodeByKey(u.key), void (c && c.key && e.moveToStartOfNode(c));
+                                            }
+                                            if (!a.isAtEndOfNode(i)) {
+                                                var d = i.getDescendant(a.path);
+                                                if (a.isAtEndOfNode(d)) {
+                                                    var f = i.getNextText(d.key),
+                                                        p = i.getClosestBlock(f.key),
+                                                        h = i.getClosestVoid(f.key, e);
+                                                    if (h) return void e.removeNodeByKey(h.key);
+                                                    if (1 === n && p !== u) return (t = t.moveFocusTo(f.key, 0)), void e.deleteAtRange(t);
+                                                }
+                                                if (n <= d.text.length - s.offset) return (t = t.moveFocusForward(n)), void e.deleteAtRange(t);
+                                                for (var m = d, g = s.offset, v = d.text.length - s.offset; n > v; ) {
+                                                    var y = v + (m = i.getNextText(m.key)).text.length;
+                                                    if (n <= y) {
+                                                        g = n - v;
+                                                        break;
+                                                    }
+                                                    v = y;
+                                                }
+                                                (t = t.moveFocusTo(m.key, g)), e.deleteAtRange(t);
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            deleteLineBackwardAtRange: function (e, t) {
+                                if (t.isExpanded) e.deleteAtRange(t);
+                                else {
+                                    var n = e.value.document,
+                                        r = t.start,
+                                        i = n.getClosestBlock(r.path).getOffset(r.key) + r.offset;
+                                    e.deleteBackwardAtRange(t, i);
+                                }
+                            },
+                            deleteLineForwardAtRange: function (e, t) {
+                                if (t.isExpanded) e.deleteAtRange(t);
+                                else {
+                                    var n = e.value.document,
+                                        r = t.start,
+                                        i = n.getClosestBlock(r.path),
+                                        o = i.getOffset(r.key) + r.offset;
+                                    e.deleteForwardAtRange(t, i.text.length - o);
+                                }
+                            },
+                            deleteWordBackwardAtRange: function (e, t) {
+                                if (t.isExpanded) e.deleteAtRange(t);
+                                else {
+                                    var n = e.value.document,
+                                        r = t.start,
+                                        i = n.getClosestBlock(r.path),
+                                        o = i.getOffset(r.key) + r.offset,
+                                        a = i.text,
+                                        s = 0 === o ? 1 : je.getWordOffsetBackward(a, o);
+                                    e.deleteBackwardAtRange(t, s);
+                                }
+                            },
+                            deleteWordForwardAtRange: function (e, t) {
+                                if (t.isExpanded) e.deleteAtRange(t);
+                                else {
+                                    var n = e.value.document,
+                                        r = t.start,
+                                        i = n.getClosestBlock(r.path),
+                                        o = i.getOffset(r.key) + r.offset,
+                                        a = i.text,
+                                        s = je.getWordOffsetForward(a, o),
+                                        l = 0 === s ? 1 : s;
+                                    e.deleteForwardAtRange(t, l);
+                                }
+                            },
+                            insertBlockAtRange: function (e, t, n) {
+                                (t = Le(e, t)), (n = de.create(n));
+                                var r = e.value.document,
+                                    i = t.start,
+                                    o = i.key,
+                                    a = i.offset,
+                                    s = r.getClosestBlock(o),
+                                    l = r.getClosestInline(o),
+                                    u = r.getParent(s.key),
+                                    c = u.nodes.indexOf(s),
+                                    d = Ne(e, t);
+                                if ('before' === d) e.insertNodeByKey(u.key, c, n);
+                                else if ('behind' === d) e.insertNodeByKey(u.key, c + 1, n);
+                                else {
+                                    if (l && e.isVoid(l)) {
+                                        var f = i.isAtEndOfNode(l),
+                                            p = f ? r.getNextText(o) : r.getPreviousText(o),
+                                            h = f ? t.moveToStartOfNode(p) : t.moveToEndOfNode(p);
+                                        (o = h.start.key), (a = h.start.offset);
+                                    }
+                                    e.withoutNormalizing(function () {
+                                        e.splitDescendantsByKey(s.key, o, a), e.insertNodeByKey(u.key, c + 1, n);
+                                    });
+                                }
+                            }
+                        },
+                        Ne = function (e, t) {
+                            var n = e.value.document,
+                                r = t.start,
+                                i = r.key,
+                                o = n.getClosestBlock(i),
+                                a = n.getClosestInline(i);
+                            return e.isVoid(o)
+                                ? r.isAtEndOfNode(o)
+                                    ? 'behind'
+                                    : 'before'
+                                : a || '' !== o.text
+                                ? r.isAtStartOfNode(o)
+                                    ? 'before'
+                                    : r.isAtEndOfNode(o)
+                                    ? 'behind'
+                                    : 'split'
+                                : 'behind';
+                        };
+                    De.insertFragmentAtRange = function (e, t, n) {
+                        e.withoutNormalizing(function () {
+                            if (((t = Le(e, t)), n.nodes.size)) {
+                                n = n.mapDescendants(function (e) {
+                                    return e.regenerateKey();
+                                });
+                                var i = t.start,
+                                    o = e.value.document,
+                                    a = o.getDescendant(i.path),
+                                    s = o.getClosestBlock(a.key),
+                                    l = s.getFurthestChild(a.key),
+                                    u = i.isAtStartOfNode(s),
+                                    c = o.getParent(s.key),
+                                    d = c.nodes.indexOf(s),
+                                    f = n.getBlocks(),
+                                    p = n.nodes.first(),
+                                    h = n.nodes.last(),
+                                    m = f.first(),
+                                    g = f.last(),
+                                    v = Fe(n, o, s.key);
+                                if (m === g && e.isVoid(m)) e.insertBlockAtRange(t, m);
+                                else if (v !== n || (!p.hasBlockChildren() && !h.hasBlockChildren())) {
+                                    if (m !== g) {
+                                        var y =
+                                                v.getFurthest(m.key, function (e) {
+                                                    return 1 === e.nodes.size;
+                                                }) || m,
+                                            b = c.nodes.indexOf(s);
+                                        v.removeNode(y.key).nodes.forEach(function (t, n) {
+                                            var r = b + n + 1;
+                                            e.insertNodeByKey(c.key, r, t);
+                                        });
+                                    }
+                                    if (
+                                        (0 !== i.offset && e.splitDescendantsByKey(l.key, i.key, i.offset),
+                                        (a = (o = e.value.document).getDescendant(i.key)),
+                                        (l = (s = o.getClosestBlock(i.key)).getFurthestChild(a.key)),
+                                        m !== g)
+                                    ) {
+                                        var _ = u ? l : s.getNextSibling(l.key),
+                                            w = _
+                                                ? s.nodes.skipUntil(function (e) {
+                                                      return e.key === _.key;
+                                                  })
+                                                : Object(r.List)(),
+                                            x = g.nodes.size;
+                                        w.forEach(function (t, n) {
+                                            var r = x + n;
+                                            e.moveNodeByKey(t.key, g.key, r);
+                                        });
+                                    }
+                                    if (
+                                        e.isVoid(s) ||
+                                        '' !== s.text ||
+                                        s.findDescendant(function (t) {
+                                            return e.isVoid(t);
+                                        })
+                                    ) {
+                                        var k = s.getFurthestChild(a.key),
+                                            E = s.nodes.indexOf(k);
+                                        m.nodes.forEach(function (t, n) {
+                                            var r = 0 === i.offset ? 0 : 1,
+                                                o = E + n + r;
+                                            e.insertNodeByKey(s.key, o, t);
+                                        });
+                                    } else e.removeNodeByKey(s.key), e.insertNodeByKey(c.key, d, m);
+                                } else {
+                                    ('before' === Ne(e, t) ? n.nodes : n.nodes.reverse()).forEach(function (n) {
+                                        e.insertBlockAtRange(t, n);
+                                    });
+                                }
+                            }
+                        });
+                    };
+                    var Fe = function (e, t, n) {
+                        var r = function (e, t) {
+                                return (
+                                    t.size >= e.size &&
+                                    e.every(function (e, n) {
+                                        return t.get(n).type === e.type;
+                                    })
+                                );
+                            },
+                            i = function (e, t) {
+                                return e.getAncestors(t).slice(1).push(e.getNode(t)).reverse();
+                            },
+                            o = (function (e) {
+                                for (var t = e; 1 === t.nodes.size && 'block' === t.nodes.first().object; ) t = t.nodes.first();
+                                return t === e ? null : t;
+                            })(e);
+                        return o
+                            ? (function (t, n) {
+                                  var i = t.size - n.size;
+                                  if (i < 0) return e;
+                                  for (var o = 0; o < n.size; o++) for (var a = 0; a <= i; a++) if (r(n.slice(o), t.slice(a))) return n.get(o);
+                                  return e;
+                              })(i(t, n), i(e, o.key))
+                            : e;
+                    };
+                    (De.insertInlineAtRange = function (e, t, n) {
+                        (n = oe.create(n)),
+                            e.withoutNormalizing(function () {
+                                t = Le(e, t);
+                                var r = e.value.document,
+                                    i = t.start,
+                                    o = r.getParent(i.path),
+                                    a = r.assertDescendant(i.path),
+                                    s = o.nodes.indexOf(a);
+                                e.isVoid(o) || (e.splitNodeByPath(i.path, i.offset), e.insertNodeByKey(o.key, s + 1, n));
+                            });
+                    }),
+                        (De.insertTextAtRange = function (e, t, n, r) {
+                            e.withoutNormalizing(function () {
+                                t = Le(e, t);
+                                var i = e.value.document,
+                                    o = t.start,
+                                    a = o.offset,
+                                    s = i.getParent(o.path);
+                                e.isVoid(s) || e.insertTextByPath(o.path, a, n, r);
+                            });
+                        }),
+                        (De.removeMarkAtRange = function (e, t, n) {
+                            if (!t.isCollapsed) {
+                                var r = e.value.document.getTextsAtRange(t),
+                                    i = t.start,
+                                    o = t.end;
+                                e.withoutNormalizing(function () {
+                                    r.forEach(function (t) {
+                                        var r = t.key,
+                                            a = 0,
+                                            s = t.text.length;
+                                        r === i.key && (a = i.offset),
+                                            r === o.key && (s = o.offset),
+                                            r === i.key && r === o.key && (s = o.offset - i.offset),
+                                            e.removeMarkByKey(r, a, s, n);
+                                    });
+                                });
+                            }
+                        }),
+                        (De.setBlocksAtRange = function (e, t, n) {
+                            var r = e.value.document,
+                                i = r.getLeafBlocksAtRange(t),
+                                o = t.start,
+                                a = t.end,
+                                s = t.isCollapsed,
+                                l = r.hasVoidParent(o.path, e),
+                                u = r.getClosestBlock(o.path),
+                                c = r.getClosestBlock(a.key),
+                                d =
+                                    !1 === s && 0 === o.offset && 0 === a.offset && !1 === l && o.key === u.getFirstText().key && a.key === c.getFirstText().key
+                                        ? i.slice(0, -1)
+                                        : i;
+                            e.withoutNormalizing(function () {
+                                d.forEach(function (t) {
+                                    e.setNodeByKey(t.key, n);
+                                });
+                            });
+                        }),
+                        (De.setInlinesAtRange = function (e, t, n) {
+                            var r = e.value.document.getLeafInlinesAtRange(t);
+                            e.withoutNormalizing(function () {
+                                r.forEach(function (t) {
+                                    e.setNodeByKey(t.key, n);
+                                });
+                            });
+                        }),
+                        (De.splitBlockAtRange = function (e, t) {
+                            for (
+                                var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 1,
+                                    r = (t = Le(e, t)),
+                                    i = r.start,
+                                    o = r.end,
+                                    a = e.value,
+                                    s = a,
+                                    l = s.document,
+                                    u = l.assertDescendant(i.path),
+                                    c = l.getClosestBlock(u.key),
+                                    d = 0;
+                                c && 'block' === c.object && d < n;
+
+                            )
+                                (u = c), (c = l.getClosestBlock(c.key)), d++;
+                            e.withoutNormalizing(function () {
+                                if ((e.splitDescendantsByKey(u.key, i.path, i.offset), (a = e.value), (l = a.document), t.isExpanded)) {
+                                    t.isBackward && (t = t.flip());
+                                    var n = l.getNextBlock(u.key);
+                                    (t = (t = t.moveAnchorToStartOfNode(n)).setFocus(t.focus.setPath(null))),
+                                        i.path.equals(o.path) && (t = t.moveFocusTo(t.anchor.key, o.offset - i.offset)),
+                                        (t = l.resolveRange(t)),
+                                        e.deleteAtRange(t);
+                                }
+                            });
+                        }),
+                        (De.splitInlineAtRange = function (e, t) {
+                            for (
+                                var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 1 / 0,
+                                    r = (t = Le(e, t)),
+                                    i = r.start,
+                                    o = e.value,
+                                    a = o.document,
+                                    s = a.assertDescendant(i.path),
+                                    l = a.getClosestInline(s.key),
+                                    u = 0;
+                                l && 'inline' === l.object && u < n;
+
+                            )
+                                (s = l), (l = a.getClosestInline(l.key)), u++;
+                            e.splitDescendantsByKey(s.key, i.path, i.offset);
+                        }),
+                        (De.toggleMarkAtRange = function (e, t, n) {
+                            t.isCollapsed ||
+                                ((n = G.create(n)),
+                                e.value.document.getActiveMarksAtRange(t).some(function (e) {
+                                    return e.equals(n);
+                                })
+                                    ? e.removeMarkAtRange(t, n)
+                                    : e.addMarkAtRange(t, n));
+                        }),
+                        (De.unwrapBlockAtRange = function (e, t, n) {
+                            n = ue.createProperties(n);
+                            var r = e.value.document,
+                                i = r.getLeafBlocksAtRange(t),
+                                o = i
+                                    .map(function (e) {
+                                        return r.getClosest(e.key, function (e) {
+                                            return (
+                                                'block' === e.object && (null == n.type || e.type === n.type) && !(null != n.data && !e.data.isSuperset(n.data))
+                                            );
+                                        });
+                                    })
+                                    .filter(function (e) {
+                                        return e;
+                                    })
+                                    .toOrderedSet()
+                                    .toList();
+                            e.withoutNormalizing(function () {
+                                o.forEach(function (t) {
+                                    var n = t.nodes.first(),
+                                        o = t.nodes.last(),
+                                        a = e.value.document.getParent(t.key),
+                                        s = a.nodes.indexOf(t),
+                                        l = t.nodes.filter(function (e) {
+                                            return i.some(function (t) {
+                                                return e === t || e.hasDescendant(t.key);
+                                            });
+                                        }),
+                                        u = l.first(),
+                                        c = l.last();
+                                    if (n === u && o === c)
+                                        t.nodes.forEach(function (t, n) {
+                                            e.moveNodeByKey(t.key, a.key, s + n);
+                                        }),
+                                            e.removeNodeByKey(t.key);
+                                    else if (o === c)
+                                        t.nodes
+                                            .skipUntil(function (e) {
+                                                return e === u;
+                                            })
+                                            .forEach(function (t, n) {
+                                                e.moveNodeByKey(t.key, a.key, s + 1 + n);
+                                            });
+                                    else if (n === u)
+                                        t.nodes
+                                            .takeUntil(function (e) {
+                                                return e === c;
+                                            })
+                                            .push(c)
+                                            .forEach(function (t, n) {
+                                                e.moveNodeByKey(t.key, a.key, s + n);
+                                            });
+                                    else {
+                                        var d = u.getFirstText();
+                                        e.splitDescendantsByKey(t.key, d.key, 0),
+                                            (r = e.value.document),
+                                            l.forEach(function (t, n) {
+                                                if (0 === n) {
+                                                    var i = t;
+                                                    (t = r.getNextBlock(t.key)), e.removeNodeByKey(i.key);
+                                                }
+                                                e.moveNodeByKey(t.key, a.key, s + 1 + n);
+                                            });
+                                    }
+                                });
+                            });
+                        }),
+                        (De.unwrapInlineAtRange = function (e, t, n) {
+                            n = ue.createProperties(n);
+                            var r = e.value.document,
+                                i = r
+                                    .getTextsAtRange(t)
+                                    .map(function (e) {
+                                        return r.getClosest(e.key, function (e) {
+                                            return (
+                                                'inline' === e.object &&
+                                                (null == n.type || e.type === n.type) &&
+                                                !(null != n.data && !e.data.isSuperset(n.data))
+                                            );
+                                        });
+                                    })
+                                    .filter(function (e) {
+                                        return e;
+                                    })
+                                    .toOrderedSet()
+                                    .toList();
+                            e.withoutNormalizing(function () {
+                                i.forEach(function (t) {
+                                    var n = e.value.document.getParent(t.key),
+                                        r = n.nodes.indexOf(t);
+                                    t.nodes.forEach(function (t, i) {
+                                        e.moveNodeByKey(t.key, n.key, r + i);
+                                    }),
+                                        e.removeNodeByKey(t.key);
+                                });
+                            });
+                        }),
+                        (De.wrapBlockAtRange = function (e, t, n) {
+                            n = (n = de.create(n)).set('nodes', n.nodes.clear());
+                            var r = e.value.document,
+                                i = r.getLeafBlocksAtRange(t),
+                                o = i.first(),
+                                a = i.last(),
+                                s = void 0,
+                                l = void 0,
+                                u = void 0;
+                            if (
+                                (1 === i.length
+                                    ? ((s = r.getParent(o.key)), (l = i))
+                                    : (s = r.getClosest(o.key, function (e) {
+                                          return !!r.getClosest(a.key, function (t) {
+                                              return e === t;
+                                          });
+                                      })),
+                                null == s && (s = r),
+                                null == l)
+                            ) {
+                                var c = s.nodes.reduce(function (e, t, n) {
+                                    return (t === o || t.hasDescendant(o.key)) && (e[0] = n), (t === a || t.hasDescendant(a.key)) && (e[1] = n), e;
+                                }, []);
+                                (u = c[0]), (l = s.nodes.slice(c[0], c[1] + 1));
+                            }
+                            null == u && (u = s.nodes.indexOf(l.first())),
+                                e.withoutNormalizing(function () {
+                                    e.insertNodeByKey(s.key, u, n),
+                                        l.forEach(function (t, r) {
+                                            e.moveNodeByKey(t.key, n.key, r);
+                                        });
+                                });
+                        }),
+                        (De.wrapInlineAtRange = function (e, t, n) {
+                            var r = e.value.document,
+                                i = t.start,
+                                o = t.end;
+                            if (t.isCollapsed) {
+                                var a = r.getClosestInline(i.path);
+                                if (!a) return;
+                                if (!e.isVoid(a)) return;
+                                return e.wrapInlineByKey(a.key, n);
+                            }
+                            n = (n = oe.create(n)).set('nodes', n.nodes.clear());
+                            var s = r.getLeafBlocksAtRange(t),
+                                l = r.getClosestBlock(i.path),
+                                u = r.getClosestBlock(o.path),
+                                c = r.getClosestInline(i.path),
+                                d = r.getClosestInline(o.path),
+                                f = l.getFurthestChild(i.key),
+                                p = u.getFurthestChild(o.key);
+                            e.withoutNormalizing(function () {
+                                (c && c === d) || (e.splitDescendantsByKey(p.key, o.key, o.offset), e.splitDescendantsByKey(f.key, i.key, i.offset)),
+                                    (r = e.value.document),
+                                    (l = r.getDescendant(l.key)),
+                                    (u = r.getDescendant(u.key)),
+                                    (f = l.getFurthestChild(i.key)),
+                                    (p = u.getFurthestChild(o.key));
+                                var a = l.nodes.indexOf(f),
+                                    h = u.nodes.indexOf(p);
+                                if (c && c === d) {
+                                    var m = l.getTextsAtRange(t).map(function (e) {
+                                        return i.key === e.key && o.key === e.key
+                                            ? e
+                                                  .splitText(i.offset)[1]
+                                                  .splitText(o.offset - i.offset)[0]
+                                                  .regenerateKey()
+                                            : i.key === e.key
+                                            ? e.splitText(i.offset)[1].regenerateKey()
+                                            : o.key === e.key
+                                            ? e.splitText(o.offset)[0].regenerateKey()
+                                            : e.regenerateKey();
+                                    });
+                                    (n = n.set('nodes', m)), e.insertInlineAtRange(t, n);
+                                } else if (l === u) {
+                                    (r = e.value.document), (l = r.getClosestBlock(i.key)), (f = l.getFurthestChild(i.key));
+                                    var g = r.getNextSibling(f.key),
+                                        v = l.nodes.indexOf(g),
+                                        y = i.key === o.key ? g : l.getFurthestChild(o.key),
+                                        b = l.nodes
+                                            .skipUntil(function (e) {
+                                                return e === g;
+                                            })
+                                            .takeUntil(function (e) {
+                                                return e === y;
+                                            })
+                                            .push(y),
+                                        _ = n.regenerateKey();
+                                    e.insertNodeByKey(l.key, v, _),
+                                        b.forEach(function (t, n) {
+                                            e.moveNodeByKey(t.key, _.key, n);
+                                        });
+                                } else {
+                                    var w = l.nodes.slice(a + 1),
+                                        x = u.nodes.slice(0, h + 1),
+                                        k = n.regenerateKey(),
+                                        E = n.regenerateKey();
+                                    e.insertNodeByKey(l.key, a + 1, k),
+                                        e.insertNodeByKey(u.key, h, E),
+                                        w.forEach(function (t, n) {
+                                            e.moveNodeByKey(t.key, k.key, n);
+                                        }),
+                                        x.forEach(function (t, n) {
+                                            e.moveNodeByKey(t.key, E.key, n);
+                                        }),
+                                        s.slice(1, -1).forEach(function (t) {
+                                            var r = n.regenerateKey();
+                                            e.insertNodeByKey(t.key, 0, r),
+                                                t.nodes.forEach(function (t, n) {
+                                                    e.moveNodeByKey(t.key, r.key, n);
+                                                });
+                                        });
+                                }
+                            });
+                        }),
+                        (De.wrapTextAtRange = function (e, t, n) {
+                            var r = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : n,
+                                i = t.start,
+                                o = t.end,
+                                a = t.moveToStart(),
+                                s = t.moveToEnd();
+                            i.path.equals(o.path) && (s = s.moveForward(n.length)),
+                                e.withoutNormalizing(function () {
+                                    e.insertTextAtRange(a, n), e.insertTextAtRange(s, r);
+                                });
+                        });
+                    var Be = {
+                            addMarkByPath: function (e, t, n, r, i) {
+                                (i = G.create(i)), e.addMarksByPath(t, n, r, [i]);
+                            },
+                            addMarksByPath: function (e, t, n, r, i) {
+                                if ((i = G.createSet(i)).size) {
+                                    var o = e.value.document.assertNode(t);
+                                    e.withoutNormalizing(function () {
+                                        n + r < o.text.length && e.splitNodeByPath(t, n + r),
+                                            n > 0 && (e.splitNodeByPath(t, n), (t = z.increment(t)), (n = 0)),
+                                            i.forEach(function (n) {
+                                                e.applyOperation({
+                                                    type: 'add_mark',
+                                                    path: t,
+                                                    mark: G.create(n)
+                                                });
+                                            });
+                                    });
+                                }
+                            },
+                            replaceMarksByPath: function (e, t, n, r, i) {
+                                var o = G.createSet(i),
+                                    a = e.value.document.assertNode(t);
+                                a.marks.equals(o) ||
+                                    e.withoutNormalizing(function () {
+                                        n + r < a.text.length && e.splitNodeByPath(t, n + r), n > 0 && (e.splitNodeByPath(t, n), (t = z.increment(t)), (n = 0));
+                                        var i = o.subtract(a.marks);
+                                        a.marks.subtract(o).forEach(function (n) {
+                                            e.applyOperation({
+                                                type: 'remove_mark',
+                                                path: t,
+                                                mark: G.create(n)
+                                            });
+                                        }),
+                                            i.forEach(function (n) {
+                                                e.applyOperation({
+                                                    type: 'add_mark',
+                                                    path: t,
+                                                    mark: G.create(n)
+                                                });
+                                            });
+                                    });
+                            },
+                            insertFragmentByPath: function (e, t, n, r) {
+                                r.nodes.forEach(function (r, i) {
+                                    e.insertNodeByPath(t, n + i, r);
+                                });
+                            },
+                            insertNodeByPath: function (e, t, n, r) {
+                                e.applyOperation({
+                                    type: 'insert_node',
+                                    path: t.concat(n),
+                                    node: r
+                                });
+                            },
+                            insertTextByPath: function (e, t, n, r, i) {
+                                var o = e.value,
+                                    a = o.annotations;
+                                o.document.assertNode(t),
+                                    e.withoutNormalizing(function () {
+                                        var o = !0,
+                                            s = !1,
+                                            l = void 0;
+                                        try {
+                                            for (var u, c = a.values()[Symbol.iterator](); !(o = (u = c.next()).done); o = !0) {
+                                                var d = u.value,
+                                                    f = d.start,
+                                                    p = d.end;
+                                                e.isAtomic(d) &&
+                                                    f.path.equals(t) &&
+                                                    f.offset < n &&
+                                                    (!p.path.equals(t) || p.offset > n) &&
+                                                    e.removeAnnotation(d);
+                                            }
+                                        } catch (e) {
+                                            (s = !0), (l = e);
+                                        } finally {
+                                            try {
+                                                !o && c.return && c.return();
+                                            } finally {
+                                                if (s) throw l;
+                                            }
+                                        }
+                                        e.applyOperation({
+                                            type: 'insert_text',
+                                            path: t,
+                                            offset: n,
+                                            text: r
+                                        }),
+                                            i && e.replaceMarksByPath(t, n, r.length, i);
+                                    });
+                            },
+                            mergeNodeByPath: function (e, t) {
+                                var n = e.value.document,
+                                    r = n.getDescendant(t),
+                                    i = n.getPreviousSibling(t);
+                                if (!i) throw new Error('Unable to merge node with path "' + t + '", because it has no previous sibling.');
+                                var o = 'text' === i.object ? i.text.length : i.nodes.size;
+                                e.applyOperation({
+                                    type: 'merge_node',
+                                    path: t,
+                                    position: o,
+                                    properties: { type: r.type, data: r.data },
+                                    target: null
+                                });
+                            },
+                            moveNodeByPath: function (e, t, n, r) {
+                                if (z.isEqual(t, n)) return e;
+                                var i = n.concat(r);
+                                if (z.isEqual(t, i)) return e;
+                                e.applyOperation({ type: 'move_node', path: t, newPath: i });
+                            },
+                            removeMarkByPath: function (e, t, n, r, i) {
+                                (i = G.create(i)), e.removeMarksByPath(t, n, r, [i]);
+                            },
+                            removeMarksByPath: function (e, t, n, r, i) {
+                                if ((i = G.createSet(i)).size) {
+                                    var o = e.value.document.assertNode(t);
+                                    i.intersect(o.marks).isEmpty() ||
+                                        e.withoutNormalizing(function () {
+                                            n + r < o.text.length && e.splitNodeByPath(t, n + r),
+                                                n > 0 && (e.splitNodeByPath(t, n), (t = z.increment(t)), (n = 0)),
+                                                i.forEach(function (i) {
+                                                    e.applyOperation({
+                                                        type: 'remove_mark',
+                                                        path: t,
+                                                        offset: n,
+                                                        length: r,
+                                                        mark: i
+                                                    });
+                                                });
+                                        });
+                                }
+                            },
+                            removeAllMarksByPath: function (e, t) {
+                                var n = e.state.document.assertNode(t);
+                                e.withoutNormalizing(function () {
+                                    if ('text' !== n.object) {
+                                        var r = !0,
+                                            i = !1,
+                                            o = void 0;
+                                        try {
+                                            for (var a, s = n.texts()[Symbol.iterator](); !(r = (a = s.next()).done); r = !0) {
+                                                var l = a.value,
+                                                    u = A(l, 2),
+                                                    c = u[0],
+                                                    d = u[1],
+                                                    f = t.concat(d);
+                                                e.removeMarksByPath(f, 0, c.text.length, c.marks);
+                                            }
+                                        } catch (e) {
+                                            (i = !0), (o = e);
+                                        } finally {
+                                            try {
+                                                !r && s.return && s.return();
+                                            } finally {
+                                                if (i) throw o;
+                                            }
+                                        }
+                                    } else e.removeMarksByPath(t, 0, n.text.length, n.marks);
+                                });
+                            },
+                            removeNodeByPath: function (e, t) {
+                                var n = e.value.document.assertNode(t);
+                                e.applyOperation({ type: 'remove_node', path: t, node: n });
+                            },
+                            removeTextByPath: function (e, t, n, r) {
+                                var i = e.value,
+                                    o = i.document,
+                                    a = i.annotations,
+                                    s = o.assertNode(t).text.slice(n, n + r);
+                                e.withoutNormalizing(function () {
+                                    var r = !0,
+                                        i = !1,
+                                        o = void 0;
+                                    try {
+                                        for (var l, u = a.values()[Symbol.iterator](); !(r = (l = u.next()).done); r = !0) {
+                                            var c = l.value,
+                                                d = c.start,
+                                                f = c.end;
+                                            e.isAtomic(c) && d.path.equals(t) && d.offset < n && (!f.path.equals(t) || f.offset > n) && e.removeAnnotation(c);
+                                        }
+                                    } catch (e) {
+                                        (i = !0), (o = e);
+                                    } finally {
+                                        try {
+                                            !r && u.return && u.return();
+                                        } finally {
+                                            if (i) throw o;
+                                        }
+                                    }
+                                    e.applyOperation({
+                                        type: 'remove_text',
+                                        path: t,
+                                        offset: n,
+                                        text: s
+                                    });
+                                });
+                            },
+                            replaceNodeByPath: function (e, t, n) {
+                                n = ue.create(n);
+                                var r = t.last(),
+                                    i = z.lift(t);
+                                e.withoutNormalizing(function () {
+                                    e.removeNodeByPath(t), e.insertNodeByPath(i, r, n);
+                                });
+                            },
+                            replaceTextByPath: function (e, t, n, r, i, o) {
+                                e.withoutNormalizing(function () {
+                                    e.removeTextByPath(t, n, r), e.insertTextByPath(t, n, i, o);
+                                });
+                            },
+                            setMarkByPath: function (e, t, n, r, i, o) {
+                                (i = G.create(i)), (o = G.createProperties(o));
+                                var a = e.value.document.assertNode(t);
+                                e.withoutNormalizing(function () {
+                                    n + r < a.text.length && e.splitNodeByPath(t, n + r),
+                                        n > 0 && (e.splitNodeByPath(t, n), (t = z.increment(t)), (n = 0)),
+                                        e.applyOperation({
+                                            type: 'set_mark',
+                                            path: t,
+                                            properties: i,
+                                            newProperties: o
+                                        });
+                                });
+                            },
+                            setNodeByPath: function (e, t, n) {
+                                var r = e.value.document.assertNode(t);
+                                n = ue.createProperties(n);
+                                var i = f()(r, Object.keys(n));
+                                e.applyOperation({
+                                    type: 'set_node',
+                                    path: t,
+                                    properties: i,
+                                    newProperties: n
+                                });
+                            },
+                            setTextByPath: function (e, t, n, r) {
+                                var i = e.value.document.assertNode(t).text.length;
+                                e.replaceTextByPath(t, 0, i, n, r);
+                            },
+                            splitNodeByPath: function (e, t, n) {
+                                var r = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : {},
+                                    i = r.target,
+                                    o = void 0 === i ? null : i,
+                                    a = e.value,
+                                    s = a.document,
+                                    l = s.getDescendant(t);
+                                e.applyOperation({
+                                    type: 'split_node',
+                                    path: t,
+                                    position: n,
+                                    target: o,
+                                    properties: { type: l.type, data: l.data }
+                                });
+                            },
+                            splitDescendantsByPath: function (e, t, n, r) {
+                                if (t.equals(n)) e.splitNodeByPath(n, r);
+                                else {
+                                    var i = e.value.document,
+                                        o = r,
+                                        a = n;
+                                    e.withoutNormalizing(function () {
+                                        e.splitNodeByKey(n, r);
+                                        var s = !0,
+                                            l = !1,
+                                            u = void 0;
+                                        try {
+                                            for (var c, d = i.ancestors(n)[Symbol.iterator](); !(s = (c = d.next()).done); s = !0) {
+                                                var f = c.value,
+                                                    p = A(f, 2)[1],
+                                                    h = o;
+                                                if (((o = a.last() + 1), (a = p), e.splitNodeByPath(p, o, { target: h }), p.equals(t))) break;
+                                            }
+                                        } catch (e) {
+                                            (l = !0), (u = e);
+                                        } finally {
+                                            try {
+                                                !s && d.return && d.return();
+                                            } finally {
+                                                if (l) throw u;
+                                            }
+                                        }
+                                    });
+                                }
+                            },
+                            unwrapInlineByPath: function (e, t, n) {
+                                var r = e.value,
+                                    i = r.document,
+                                    o = r.selection,
+                                    a = i.assertNode(t),
+                                    s = a.getFirstText(),
+                                    l = a.getLastText(),
+                                    u = o.moveToRangeOfNode(s, l);
+                                e.unwrapInlineAtRange(u, n);
+                            },
+                            unwrapBlockByPath: function (e, t, n) {
+                                var r = e.value,
+                                    i = r.document,
+                                    o = r.selection,
+                                    a = i.assertNode(t),
+                                    s = a.getFirstText(),
+                                    l = a.getLastText(),
+                                    u = o.moveToRangeOfNode(s, l);
+                                e.unwrapBlockAtRange(u, n);
+                            },
+                            unwrapNodeByPath: function (e, t) {
+                                var n = e.value.document;
+                                n.assertNode(t);
+                                var r = z.lift(t),
+                                    i = n.assertNode(r),
+                                    o = t.last(),
+                                    a = r.last(),
+                                    s = z.lift(r),
+                                    l = 0 === o,
+                                    u = o === i.nodes.size - 1;
+                                e.withoutNormalizing(function () {
+                                    if (1 === i.nodes.size) e.moveNodeByPath(t, s, a + 1), e.removeNodeByPath(r);
+                                    else if (l) e.moveNodeByPath(t, s, a);
+                                    else if (u) e.moveNodeByPath(t, s, a + 1);
+                                    else {
+                                        var n = z.increment(t, 1, r.size - 1);
+                                        (n = n.set(n.size - 1, 0)), e.splitNodeByPath(r, o), e.moveNodeByPath(n, s, a + 1);
+                                    }
+                                });
+                            },
+                            unwrapChildrenByPath: function (e, t) {
+                                t = z.create(t);
+                                var n = e.value.document.assertNode(t),
+                                    r = z.lift(t),
+                                    i = t.last(),
+                                    o = n.nodes;
+                                e.withoutNormalizing(function () {
+                                    o.reverse().forEach(function (n, a) {
+                                        var s = o.size - a - 1,
+                                            l = t.push(s);
+                                        e.moveNodeByPath(l, r, i + 1);
+                                    }),
+                                        e.removeNodeByPath(t);
+                                });
+                            },
+                            wrapBlockByPath: function (e, t, n) {
+                                n = (n = de.create(n)).set('nodes', n.nodes.clear());
+                                var r = z.lift(t),
+                                    i = t.last(),
+                                    o = z.increment(t);
+                                e.withoutNormalizing(function () {
+                                    e.insertNodeByPath(r, i, n), e.moveNodeByPath(o, t, 0);
+                                });
+                            },
+                            wrapInlineByPath: function (e, t, n) {
+                                n = (n = oe.create(n)).set('nodes', n.nodes.clear());
+                                var r = z.lift(t),
+                                    i = t.last(),
+                                    o = z.increment(t);
+                                e.withoutNormalizing(function () {
+                                    e.insertNodeByPath(r, i, n), e.moveNodeByPath(o, t, 0);
+                                });
+                            },
+                            wrapNodeByPath: function (e, t, n) {
+                                'block' === (n = ue.create(n)).object ? e.wrapBlockByPath(t, n) : 'inline' === n.object && e.wrapInlineByPath(t, n);
+                            }
+                        },
+                        ze = function (e) {
+                            Be[e + 'ByKey'] = function (t, n) {
+                                for (var r = arguments.length, i = Array(r > 2 ? r - 2 : 0), o = 2; o < r; o++) i[o - 2] = arguments[o];
+                                var a = t.value,
+                                    s = a.document,
+                                    l = s.assertPath(n);
+                                t[e + 'ByPath'].apply(t, [l].concat(i));
+                            };
+                        },
+                        Ue = !0,
+                        qe = !1,
+                        He = void 0;
+                    try {
+                        for (
+                            var We,
+                                Ge = [
+                                    'addMark',
+                                    'insertFragment',
+                                    'insertNode',
+                                    'insertText',
+                                    'mergeNode',
+                                    'removeAllMarks',
+                                    'removeMark',
+                                    'removeNode',
+                                    'removeText',
+                                    'replaceMarks',
+                                    'replaceNode',
+                                    'replaceText',
+                                    'setMark',
+                                    'setNode',
+                                    'setText',
+                                    'splitNode',
+                                    'unwrapBlock',
+                                    'unwrapChildren',
+                                    'unwrapInline',
+                                    'unwrapNode',
+                                    'wrapBlock',
+                                    'wrapInline',
+                                    'wrapNode'
+                                ][Symbol.iterator]();
+                            !(Ue = (We = Ge.next()).done);
+                            Ue = !0
+                        ) {
+                            ze(We.value);
+                        }
+                    } catch (e) {
+                        (qe = !0), (He = e);
+                    } finally {
+                        try {
+                            !Ue && Ge.return && Ge.return();
+                        } finally {
+                            if (qe) throw He;
+                        }
+                    }
+                    (Be.moveNodeByKey = function (e, t, n) {
+                        for (var r = arguments.length, i = Array(r > 3 ? r - 3 : 0), o = 3; o < r; o++) i[o - 3] = arguments[o];
+                        var a = e.value,
+                            s = a.document,
+                            l = s.assertPath(t),
+                            u = s.assertPath(n);
+                        e.moveNodeByPath.apply(e, [l, u].concat(i));
+                    }),
+                        (Be.splitDescendantsByKey = function (e, t, n) {
+                            for (var r = arguments.length, i = Array(r > 3 ? r - 3 : 0), o = 3; o < r; o++) i[o - 3] = arguments[o];
+                            var a = e.value,
+                                s = a.document,
+                                l = s.assertPath(t),
+                                u = s.assertPath(n);
+                            e.splitDescendantsByPath.apply(e, [l, u].concat(i));
+                        });
+                    var $e = {};
+                    ($e.save = function (e, t) {
+                        var n = e.operations,
+                            i = e.value.data,
+                            o = e.tmp,
+                            a = o.save,
+                            s = o.merge;
+                        if (
+                            !1 !== a &&
+                            (function (e) {
+                                if ('set_selection' === e.type) {
+                                    var t = e.newProperties,
+                                        n = t.isFocused,
+                                        r = t.anchor,
+                                        i = t.focus;
+                                    if (void 0 !== n && !r && !i) return !1;
+                                }
+                                return !0;
+                            })(t)
+                        ) {
+                            var l,
+                                u,
+                                c = i.get('undos') || Object(r.List)(),
+                                d = c.last(),
+                                f = d && d.last();
+                            if (
+                                (null == s &&
+                                    (0 !== n.size
+                                        ? (s = !0)
+                                        : ((l = t),
+                                          (s =
+                                              !!(u = f) &&
+                                              (('set_selection' === l.type && 'set_selection' === u.type) ||
+                                                  ('insert_text' === l.type &&
+                                                      'insert_text' === u.type &&
+                                                      l.offset === u.offset + u.text.length &&
+                                                      l.path.equals(u.path)) ||
+                                                  ('remove_text' === l.type &&
+                                                      'remove_text' === u.type &&
+                                                      l.offset + l.text.length === u.offset &&
+                                                      l.path.equals(u.path)))))),
+                                s && d)
+                            ) {
+                                var p = d.push(t);
+                                c = (c = c.pop()).push(p);
+                            } else {
+                                var h = Object(r.List)([t]);
+                                c = c.push(h);
+                            }
+                            c.size > 100 && (c = c.takeLast(100)),
+                                e.withoutSaving(function () {
+                                    var t = Object(r.List)(),
+                                        n = i.set('undos', c).set('redos', t);
+                                    e.setData(n);
+                                });
+                        }
+                    }),
+                        ($e.redo = function (e) {
+                            var t = e.value.data,
+                                n = t.get('redos') || Object(r.List)(),
+                                i = t.get('undos') || Object(r.List)(),
+                                o = n.last();
+                            o &&
+                                e.withoutSaving(function () {
+                                    e.withoutNormalizing(function () {
+                                        o.forEach(function (t) {
+                                            var n = t,
+                                                r = n.type,
+                                                i = n.newProperties;
+                                            'set_selection' === r && (t = t.set('newProperties', h()(i, 'isFocused'))), e.applyOperation(t);
+                                        }),
+                                            (n = n.pop()),
+                                            (i = i.push(o));
+                                        var r = t.set('undos', i).set('redos', n);
+                                        e.setData(r);
+                                    });
+                                });
+                        }),
+                        ($e.undo = function (e) {
+                            var t = e.value.data,
+                                n = t.get('redos') || Object(r.List)(),
+                                i = t.get('undos') || Object(r.List)(),
+                                o = i.last();
+                            o &&
+                                e.withoutSaving(function () {
+                                    e.withoutNormalizing(function () {
+                                        o
+                                            .slice()
+                                            .reverse()
+                                            .map(function (e) {
+                                                return e.invert();
+                                            })
+                                            .forEach(function (t) {
+                                                var n = t,
+                                                    r = n.type,
+                                                    i = n.newProperties;
+                                                'set_selection' === r && (t = t.set('newProperties', h()(i, 'isFocused'))), e.applyOperation(t);
+                                            }),
+                                            (n = n.push(o)),
+                                            (i = i.pop());
+                                        var r = t.set('undos', i).set('redos', n);
+                                        e.setData(r);
+                                    });
+                                });
+                        }),
+                        ($e.withoutMerging = function (e, t) {
+                            var n = e.tmp.merge;
+                            (e.tmp.merge = !1), t(e), (e.tmp.merge = n);
+                        }),
+                        ($e.withoutSaving = function (e, t) {
+                            var n = e.tmp.save;
+                            (e.tmp.save = !1), t(e), (e.tmp.save = n);
+                        });
+                    var Ve = {};
+                    function Ke(e, t) {
+                        for (var n, r = arguments.length, i = Array(r > 2 ? r - 2 : 0), o = 2; o < r; o++) i[o - 2] = arguments[o];
+                        var a = (n = e.value.selection)[t].apply(n, i);
+                        e.select(a);
+                    }
+                    function Ye(e, t, n, r) {
+                        var i = t.slice(0, 1).toUpperCase() + t.slice(1),
+                            o = n.slice(0, 1).toUpperCase() + n.slice(1),
+                            a = r.slice(0, 1).toUpperCase() + r.slice(1),
+                            s = 'move' + i + 'To' + o + 'OfNode',
+                            l = 'text' === r ? 'getNode' : 'getClosest' + a,
+                            u = e.value,
+                            c = u.document,
+                            d = u.selection[t],
+                            f = c[l](d.key);
+                        f && e[s](f);
+                    }
+                    function Qe(e, t, n, r, i) {
+                        var o = t.slice(0, 1).toUpperCase() + t.slice(1),
+                            a = n.slice(0, 1).toUpperCase() + n.slice(1),
+                            s = r.slice(0, 1).toUpperCase() + r.slice(1),
+                            l = i.slice(0, 1).toUpperCase() + i.slice(1),
+                            u = 'move' + o + 'To' + a + 'OfNode',
+                            c = 'text' === i ? 'getNode' : 'getClosest' + l,
+                            d = 'get' + s + l,
+                            f = e.value,
+                            p = f.document,
+                            h = f.selection[t],
+                            m = p[c](h.key);
+                        if (m) {
+                            var g = p[d](m.key);
+                            g && e[u](g);
+                        }
+                    }
+                    function Xe(e, t) {
+                        var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 1;
+                        if (0 !== n) {
+                            if (n < 0) return Je(e, t, -n);
+                            var r = t.slice(0, 1).toUpperCase() + t.slice(1),
+                                i = e.value,
+                                o = i.document,
+                                a = i.selection,
+                                s = a[t],
+                                l = o.hasVoidParent(s.path, e);
+                            if (!l && s.offset - n >= 0) {
+                                var u = a['move' + r + 'Backward'](n);
+                                e.select(u);
+                            } else {
+                                var c = o.getPreviousText(s.path);
+                                if (c) {
+                                    var d = o.getClosestBlock(s.path),
+                                        f = d.hasNode(c.key),
+                                        p = c && o.hasVoidParent(c.key, e);
+                                    if ((e['move' + r + 'ToEndOfNode'](c), !l && !p && f)) {
+                                        var h = e.value.selection['move' + r + 'Backward'](n);
+                                        e.select(h);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    function Je(e, t) {
+                        var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 1;
+                        if (0 !== n) {
+                            if (n < 0) return Xe(e, t, -n);
+                            var r = t.slice(0, 1).toUpperCase() + t.slice(1),
+                                i = e.value,
+                                o = i.document,
+                                a = i.selection,
+                                s = a[t],
+                                l = o.getNode(s.path),
+                                u = o.hasVoidParent(s.path, e);
+                            if (!u && s.offset + n <= l.text.length) {
+                                var c = a['move' + r + 'Forward'](n);
+                                e.select(c);
+                            } else {
+                                var d = o.getNextText(s.path);
+                                if (d) {
+                                    var f = o.getClosestBlock(s.path),
+                                        p = f.hasNode(d.key),
+                                        h = o.hasVoidParent(d.key, e);
+                                    if ((e['move' + r + 'ToStartOfNode'](d), !u && !h && p)) {
+                                        var m = e.value.selection['move' + r + 'Forward'](n);
+                                        e.select(m);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    function Ze(e, t) {
+                        var n = e.value,
+                            r = n.document,
+                            i = n.selection[t],
+                            o = r.getClosestBlock(i.key),
+                            a = o.getOffset(i.key) + i.offset,
+                            s = o.text,
+                            l = je.getWordOffsetBackward(s, a);
+                        e.command(Xe, t, l > 0 ? l : 1);
+                    }
+                    function et(e, t) {
+                        var n = e.value,
+                            r = n.document,
+                            i = n.selection[t],
+                            o = r.getClosestBlock(i.key),
+                            a = o.getOffset(i.key) + i.offset,
+                            s = o.text,
+                            l = je.getWordOffsetForward(s, a);
+                        e.command(Je, t, l > 0 ? l : 1);
+                    }
+                    (Ve.blur = function (e) {
+                        e.select({ isFocused: !1 });
+                    }),
+                        (Ve.deselect = function (e) {
+                            var t = Y.create();
+                            e.select(t);
+                        }),
+                        (Ve.focus = function (e) {
+                            e.select({ isFocused: !0 });
+                        }),
+                        (Ve.flip = function (e) {
+                            e.command(Ke, 'flip');
+                        }),
+                        (Ve.moveAnchorBackward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Xe, 'anchor'].concat(n));
+                        }),
+                        (Ve.moveAnchorWordBackward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ze, 'anchor'].concat(n));
+                        }),
+                        (Ve.moveAnchorForward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Je, 'anchor'].concat(n));
+                        }),
+                        (Ve.moveAnchorWordForward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [et, 'anchor'].concat(n));
+                        }),
+                        (Ve.moveAnchorTo = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveAnchorTo'].concat(n));
+                        }),
+                        (Ve.moveAnchorToEndOfBlock = function (e) {
+                            e.command(Ye, 'anchor', 'end', 'block');
+                        }),
+                        (Ve.moveAnchorToEndOfInline = function (e) {
+                            e.command(Ye, 'anchor', 'end', 'inline');
+                        }),
+                        (Ve.moveAnchorToEndOfDocument = function (e) {
+                            e.moveAnchorToEndOfNode(e.value.document).moveToAnchor();
+                        }),
+                        (Ve.moveAnchorToEndOfNextBlock = function (e) {
+                            e.command(Qe, 'anchor', 'end', 'next', 'block');
+                        }),
+                        (Ve.moveAnchorToEndOfNextInline = function (e) {
+                            e.command(Qe, 'anchor', 'end', 'next', 'inline');
+                        }),
+                        (Ve.moveAnchorToEndOfNextText = function (e) {
+                            e.command(Qe, 'anchor', 'end', 'next', 'text');
+                        }),
+                        (Ve.moveAnchorToEndOfNode = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveAnchorToEndOfNode'].concat(n));
+                        }),
+                        (Ve.moveAnchorToEndOfPreviousBlock = function (e) {
+                            e.command(Qe, 'anchor', 'end', 'previous', 'block');
+                        }),
+                        (Ve.moveAnchorToEndOfPreviousInline = function (e) {
+                            e.command(Qe, 'anchor', 'end', 'previous', 'inline');
+                        }),
+                        (Ve.moveAnchorToEndOfPreviousText = function (e) {
+                            e.command(Qe, 'anchor', 'end', 'previous', 'text');
+                        }),
+                        (Ve.moveAnchorToEndOfText = function (e) {
+                            e.command(Ye, 'anchor', 'end', 'text');
+                        }),
+                        (Ve.moveAnchorToStartOfBlock = function (e) {
+                            e.command(Ye, 'anchor', 'start', 'block');
+                        }),
+                        (Ve.moveAnchorToStartOfDocument = function (e) {
+                            e.moveAnchorToStartOfNode(e.value.document).moveToAnchor();
+                        }),
+                        (Ve.moveAnchorToStartOfInline = function (e) {
+                            e.command(Ye, 'anchor', 'start', 'inline');
+                        }),
+                        (Ve.moveAnchorToStartOfNextBlock = function (e) {
+                            e.command(Qe, 'anchor', 'start', 'next', 'block');
+                        }),
+                        (Ve.moveAnchorToStartOfNextInline = function (e) {
+                            e.command(Qe, 'anchor', 'start', 'next', 'inline');
+                        }),
+                        (Ve.moveAnchorToStartOfNextText = function (e) {
+                            e.command(Qe, 'anchor', 'start', 'next', 'text');
+                        }),
+                        (Ve.moveAnchorToStartOfNode = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveAnchorToStartOfNode'].concat(n));
+                        }),
+                        (Ve.moveAnchorToStartOfPreviousBlock = function (e) {
+                            e.command(Qe, 'anchor', 'start', 'previous', 'block');
+                        }),
+                        (Ve.moveAnchorToStartOfPreviousInline = function (e) {
+                            e.command(Qe, 'anchor', 'start', 'previous', 'inline');
+                        }),
+                        (Ve.moveAnchorToStartOfPreviousText = function (e) {
+                            e.command(Qe, 'anchor', 'start', 'previous', 'text');
+                        }),
+                        (Ve.moveAnchorToStartOfText = function (e) {
+                            e.command(Ye, 'anchor', 'start', 'text');
+                        }),
+                        (Ve.moveBackward = function (e) {
+                            var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1;
+                            if (0 !== t) {
+                                var n = e.value,
+                                    r = n.document,
+                                    i = n.selection,
+                                    o = i.start,
+                                    a = r.getClosestBlock(o.key),
+                                    s = a.getOffset(o.key),
+                                    l = s + o.offset,
+                                    u = a.text,
+                                    c = je.getCharOffsetBackward(u, l, t);
+                                e.moveAnchorBackward(c).moveFocusBackward(c);
+                            }
+                        }),
+                        (Ve.moveWordBackward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.moveFocusWordBackward.apply(e, n).moveToFocus();
+                        }),
+                        (Ve.moveEndBackward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Xe, 'end'].concat(n));
+                        }),
+                        (Ve.moveEndWordBackward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ze, 'end'].concat(n));
+                        }),
+                        (Ve.moveEndForward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Je, 'end'].concat(n));
+                        }),
+                        (Ve.moveEndWordForward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [et, 'end'].concat(n));
+                        }),
+                        (Ve.moveEndTo = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveEndTo'].concat(n));
+                        }),
+                        (Ve.moveEndToEndOfBlock = function (e) {
+                            e.command(Ye, 'end', 'end', 'block');
+                        }),
+                        (Ve.moveEndToEndOfDocument = function (e) {
+                            e.moveEndToEndOfNode(e.value.document).moveToEnd();
+                        }),
+                        (Ve.moveEndToEndOfInline = function (e) {
+                            e.command(Ye, 'end', 'end', 'inline');
+                        }),
+                        (Ve.moveEndToEndOfNextBlock = function (e) {
+                            e.command(Qe, 'end', 'end', 'next', 'block');
+                        }),
+                        (Ve.moveEndToEndOfNextInline = function (e) {
+                            e.command(Qe, 'end', 'end', 'next', 'inline');
+                        }),
+                        (Ve.moveEndToEndOfNextText = function (e) {
+                            e.command(Qe, 'end', 'end', 'next', 'text');
+                        }),
+                        (Ve.moveEndToEndOfNode = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveEndToEndOfNode'].concat(n));
+                        }),
+                        (Ve.moveEndToEndOfPreviousBlock = function (e) {
+                            e.command(Qe, 'end', 'end', 'previous', 'block');
+                        }),
+                        (Ve.moveEndToEndOfPreviousInline = function (e) {
+                            e.command(Qe, 'end', 'end', 'previous', 'inline');
+                        }),
+                        (Ve.moveEndToEndOfPreviousText = function (e) {
+                            e.command(Qe, 'end', 'end', 'previous', 'text');
+                        }),
+                        (Ve.moveEndToEndOfText = function (e) {
+                            e.command(Ye, 'end', 'end', 'text');
+                        }),
+                        (Ve.moveEndToStartOfBlock = function (e) {
+                            e.command(Ye, 'end', 'start', 'block');
+                        }),
+                        (Ve.moveEndToStartOfDocument = function (e) {
+                            e.moveEndToStartOfNode(e.value.document).moveToEnd();
+                        }),
+                        (Ve.moveEndToStartOfInline = function (e) {
+                            e.command(Ye, 'end', 'start', 'inline');
+                        }),
+                        (Ve.moveEndToStartOfNextBlock = function (e) {
+                            e.command(Qe, 'end', 'start', 'next', 'block');
+                        }),
+                        (Ve.moveEndToStartOfNextInline = function (e) {
+                            e.command(Qe, 'end', 'start', 'next', 'inline');
+                        }),
+                        (Ve.moveEndToStartOfNextText = function (e) {
+                            e.command(Qe, 'end', 'start', 'next', 'text');
+                        }),
+                        (Ve.moveEndToStartOfNode = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveEndToStartOfNode'].concat(n));
+                        }),
+                        (Ve.moveEndToStartOfPreviousBlock = function (e) {
+                            e.command(Qe, 'end', 'start', 'previous', 'block');
+                        }),
+                        (Ve.moveEndToStartOfPreviousInline = function (e) {
+                            e.command(Qe, 'end', 'start', 'previous', 'inline');
+                        }),
+                        (Ve.moveEndToStartOfPreviousText = function (e) {
+                            e.command(Qe, 'end', 'start', 'previous', 'text');
+                        }),
+                        (Ve.moveEndToStartOfText = function (e) {
+                            e.command(Ye, 'end', 'start', 'text');
+                        }),
+                        (Ve.moveFocusBackward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Xe, 'focus'].concat(n));
+                        }),
+                        (Ve.moveFocusWordBackward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ze, 'focus'].concat(n));
+                        }),
+                        (Ve.moveFocusForward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Je, 'focus'].concat(n));
+                        }),
+                        (Ve.moveFocusWordForward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [et, 'focus'].concat(n));
+                        }),
+                        (Ve.moveFocusTo = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveFocusTo'].concat(n));
+                        }),
+                        (Ve.moveFocusToEndOfBlock = function (e) {
+                            e.command(Ye, 'focus', 'end', 'block');
+                        }),
+                        (Ve.moveFocusToEndOfDocument = function (e) {
+                            e.moveFocusToEndOfNode(e.value.document).moveToFocus();
+                        }),
+                        (Ve.moveFocusToEndOfInline = function (e) {
+                            e.command(Ye, 'focus', 'end', 'inline');
+                        }),
+                        (Ve.moveFocusToEndOfNextBlock = function (e) {
+                            e.command(Qe, 'focus', 'end', 'next', 'block');
+                        }),
+                        (Ve.moveFocusToEndOfNextInline = function (e) {
+                            e.command(Qe, 'focus', 'end', 'next', 'inline');
+                        }),
+                        (Ve.moveFocusToEndOfNextText = function (e) {
+                            e.command(Qe, 'focus', 'end', 'next', 'text');
+                        }),
+                        (Ve.moveFocusToEndOfNode = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveFocusToEndOfNode'].concat(n));
+                        }),
+                        (Ve.moveFocusToEndOfPreviousBlock = function (e) {
+                            e.command(Qe, 'focus', 'end', 'previous', 'block');
+                        }),
+                        (Ve.moveFocusToEndOfPreviousInline = function (e) {
+                            e.command(Qe, 'focus', 'end', 'previous', 'inline');
+                        }),
+                        (Ve.moveFocusToEndOfPreviousText = function (e) {
+                            e.command(Qe, 'focus', 'end', 'previous', 'text');
+                        }),
+                        (Ve.moveFocusToEndOfText = function (e) {
+                            e.command(Ye, 'focus', 'end', 'text');
+                        }),
+                        (Ve.moveFocusToStartOfBlock = function (e) {
+                            e.command(Ye, 'focus', 'start', 'block');
+                        }),
+                        (Ve.moveFocusToStartOfDocument = function (e) {
+                            e.moveFocusToStartOfNode(e.value.document).moveToFocus();
+                        }),
+                        (Ve.moveFocusToStartOfInline = function (e) {
+                            e.command(Ye, 'focus', 'start', 'inline');
+                        }),
+                        (Ve.moveFocusToStartOfNextBlock = function (e) {
+                            e.command(Qe, 'focus', 'start', 'next', 'block');
+                        }),
+                        (Ve.moveFocusToStartOfNextInline = function (e) {
+                            e.command(Qe, 'focus', 'start', 'next', 'inline');
+                        }),
+                        (Ve.moveFocusToStartOfNextText = function (e) {
+                            e.command(Qe, 'focus', 'start', 'next', 'text');
+                        }),
+                        (Ve.moveFocusToStartOfNode = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveFocusToStartOfNode'].concat(n));
+                        }),
+                        (Ve.moveFocusToStartOfPreviousBlock = function (e) {
+                            e.command(Qe, 'focus', 'start', 'previous', 'block');
+                        }),
+                        (Ve.moveFocusToStartOfPreviousInline = function (e) {
+                            e.command(Qe, 'focus', 'start', 'previous', 'inline');
+                        }),
+                        (Ve.moveFocusToStartOfPreviousText = function (e) {
+                            e.command(Qe, 'focus', 'start', 'previous', 'text');
+                        }),
+                        (Ve.moveFocusToStartOfText = function (e) {
+                            e.command(Ye, 'focus', 'start', 'text');
+                        }),
+                        (Ve.moveForward = function (e) {
+                            var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1;
+                            if (0 !== t) {
+                                var n = e.value,
+                                    r = n.document,
+                                    i = n.selection,
+                                    o = i.start,
+                                    a = r.getClosestBlock(o.path),
+                                    s = a.getOffset(o.key),
+                                    l = s + o.offset,
+                                    u = a.text,
+                                    c = je.getCharOffsetForward(u, l, t);
+                                e.moveAnchorForward(c).moveFocusForward(c);
+                            }
+                        }),
+                        (Ve.moveWordForward = function (e) {
+                            for (var t, n = arguments.length, r = Array(n > 1 ? n - 1 : 0), i = 1; i < n; i++) r[i - 1] = arguments[i];
+                            (t = e.moveFocusWordForward.apply(e, r)).moveToFocus.apply(t, r);
+                        }),
+                        (Ve.moveStartBackward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Xe, 'start'].concat(n));
+                        }),
+                        (Ve.moveStartWordBackward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ze, 'start'].concat(n));
+                        }),
+                        (Ve.moveStartForward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Je, 'start'].concat(n));
+                        }),
+                        (Ve.moveStartWordForward = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [et, 'start'].concat(n));
+                        }),
+                        (Ve.moveStartTo = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveStartTo'].concat(n));
+                        }),
+                        (Ve.moveStartToEndOfBlock = function (e) {
+                            e.command(Ye, 'start', 'end', 'block');
+                        }),
+                        (Ve.moveStartToEndOfDocument = function (e) {
+                            e.moveStartToEndOfNode(e.value.document).moveToStart();
+                        }),
+                        (Ve.moveStartToEndOfInline = function (e) {
+                            e.command(Ye, 'start', 'end', 'inline');
+                        }),
+                        (Ve.moveStartToEndOfNextBlock = function (e) {
+                            e.command(Qe, 'start', 'end', 'next', 'block');
+                        }),
+                        (Ve.moveStartToEndOfNextInline = function (e) {
+                            e.command(Qe, 'start', 'end', 'next', 'inline');
+                        }),
+                        (Ve.moveStartToEndOfNextText = function (e) {
+                            e.command(Qe, 'start', 'end', 'next', 'text');
+                        }),
+                        (Ve.moveStartToEndOfNode = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveStartToEndOfNode'].concat(n));
+                        }),
+                        (Ve.moveStartToEndOfPreviousBlock = function (e) {
+                            e.command(Qe, 'start', 'end', 'previous', 'block');
+                        }),
+                        (Ve.moveStartToEndOfPreviousInline = function (e) {
+                            e.command(Qe, 'start', 'end', 'previous', 'inline');
+                        }),
+                        (Ve.moveStartToEndOfPreviousText = function (e) {
+                            e.command(Qe, 'start', 'end', 'previous', 'text');
+                        }),
+                        (Ve.moveStartToEndOfText = function (e) {
+                            e.command(Ye, 'start', 'end', 'text');
+                        }),
+                        (Ve.moveStartToStartOfBlock = function (e) {
+                            e.command(Ye, 'start', 'start', 'block');
+                        }),
+                        (Ve.moveStartToStartOfDocument = function (e) {
+                            e.moveStartToStartOfNode(e.value.document).moveToStart();
+                        }),
+                        (Ve.moveStartToStartOfInline = function (e) {
+                            e.command(Ye, 'start', 'start', 'inline');
+                        }),
+                        (Ve.moveStartToStartOfNextBlock = function (e) {
+                            e.command(Qe, 'start', 'start', 'next', 'block');
+                        }),
+                        (Ve.moveStartToStartOfNextInline = function (e) {
+                            e.command(Qe, 'start', 'start', 'next', 'inline');
+                        }),
+                        (Ve.moveStartToStartOfNextText = function (e) {
+                            e.command(Qe, 'start', 'start', 'next', 'text');
+                        }),
+                        (Ve.moveStartToStartOfNode = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveStartToStartOfNode'].concat(n));
+                        }),
+                        (Ve.moveStartToStartOfPreviousBlock = function (e) {
+                            e.command(Qe, 'start', 'start', 'previous', 'block');
+                        }),
+                        (Ve.moveStartToStartOfPreviousInline = function (e) {
+                            e.command(Qe, 'start', 'start', 'previous', 'inline');
+                        }),
+                        (Ve.moveStartToStartOfPreviousText = function (e) {
+                            e.command(Qe, 'start', 'start', 'previous', 'text');
+                        }),
+                        (Ve.moveStartToStartOfText = function (e) {
+                            e.command(Ye, 'start', 'start', 'text');
+                        }),
+                        (Ve.moveTo = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveTo'].concat(n));
+                        }),
+                        (Ve.moveToAnchor = function (e) {
+                            e.command(Ke, 'moveToAnchor');
+                        }),
+                        (Ve.moveToEnd = function (e) {
+                            e.command(Ke, 'moveToEnd');
+                        }),
+                        (Ve.moveToEndOfBlock = function (e) {
+                            e.moveEndToEndOfBlock().moveToEnd();
+                        }),
+                        (Ve.moveToEndOfDocument = function (e) {
+                            e.moveEndToEndOfNode(e.value.document).moveToEnd();
+                        }),
+                        (Ve.moveToEndOfInline = function (e) {
+                            e.moveEndToEndOfInline().moveToEnd();
+                        }),
+                        (Ve.moveToEndOfNextBlock = function (e) {
+                            e.moveEndToEndOfNextBlock().moveToEnd();
+                        }),
+                        (Ve.moveToEndOfNextInline = function (e) {
+                            e.moveEndToEndOfNextInline().moveToEnd();
+                        }),
+                        (Ve.moveToEndOfNextText = function (e) {
+                            e.moveEndToEndOfNextText().moveToEnd();
+                        }),
+                        (Ve.moveToEndOfNode = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveToEndOfNode'].concat(n));
+                        }),
+                        (Ve.moveToEndOfPreviousBlock = function (e) {
+                            e.moveStartToEndOfPreviousBlock().moveToStart();
+                        }),
+                        (Ve.moveToEndOfPreviousInline = function (e) {
+                            e.moveStartToEndOfPreviousInline().moveToStart();
+                        }),
+                        (Ve.moveToEndOfPreviousText = function (e) {
+                            e.moveStartToEndOfPreviousText().moveToStart();
+                        }),
+                        (Ve.moveToEndOfText = function (e) {
+                            e.moveEndToEndOfText().moveToEnd();
+                        }),
+                        (Ve.moveToFocus = function (e) {
+                            e.command(Ke, 'moveToFocus');
+                        }),
+                        (Ve.moveToRangeOfDocument = function (e) {
+                            e.moveToRangeOfNode(e.value.document);
+                        }),
+                        (Ve.moveToRangeOfNode = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveToRangeOfNode'].concat(n));
+                        }),
+                        (Ve.moveToStart = function (e) {
+                            e.command(Ke, 'moveToStart');
+                        }),
+                        (Ve.moveToStartOfBlock = function (e) {
+                            e.moveStartToStartOfBlock().moveToStart();
+                        }),
+                        (Ve.moveToStartOfDocument = function (e) {
+                            e.moveStartToStartOfNode(e.value.document).moveToStart();
+                        }),
+                        (Ve.moveToStartOfInline = function (e) {
+                            e.moveStartToStartOfInline().moveToStart();
+                        }),
+                        (Ve.moveToStartOfNextBlock = function (e) {
+                            e.moveEndToStartOfNextBlock().moveToEnd();
+                        }),
+                        (Ve.moveToStartOfNextInline = function (e) {
+                            e.moveEndToStartOfNextInline().moveToEnd();
+                        }),
+                        (Ve.moveToStartOfNextText = function (e) {
+                            e.moveEndToStartOfNextText().moveToEnd();
+                        }),
+                        (Ve.moveToStartOfNode = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'moveToStartOfNode'].concat(n));
+                        }),
+                        (Ve.moveToStartOfPreviousBlock = function (e) {
+                            e.moveStartToStartOfPreviousBlock().moveToStart();
+                        }),
+                        (Ve.moveToStartOfPreviousInline = function (e) {
+                            e.moveStartToStartOfPreviousInline().moveToStart();
+                        }),
+                        (Ve.moveToStartOfPreviousText = function (e) {
+                            e.moveStartToStartOfPreviousText().moveToStart();
+                        }),
+                        (Ve.moveToStartOfText = function (e) {
+                            e.moveStartToStartOfText().moveToStart();
+                        }),
+                        (Ve.select = function (e, t) {
+                            var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};
+                            t = Y.createProperties(t);
+                            var i = n.snapshot,
+                                o = void 0 !== i && i,
+                                a = e.value,
+                                s = a.document,
+                                l = a.selection,
+                                u = {},
+                                c = l.setProperties(t);
+                            for (var d in ((c = s.resolveSelection(c)), (t = f()(c, Object.keys(t))))) (!0 !== o && Object(r.is)(t[d], l[d])) || (u[d] = t[d]);
+                            if ((l.marks && !u.marks && (u.anchor || u.focus) && (u.marks = null), 0 !== Object.keys(u).length)) {
+                                var p = f()(l.toJSON(), Object.keys(u));
+                                e.applyOperation(
+                                    {
+                                        type: 'set_selection',
+                                        value: a,
+                                        properties: p,
+                                        newProperties: u
+                                    },
+                                    o ? { skip: !1, merge: !1 } : {}
+                                );
+                            }
+                        }),
+                        (Ve.setAnchor = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'setAnchor'].concat(n));
+                        }),
+                        (Ve.setEnd = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'setEnd'].concat(n));
+                        }),
+                        (Ve.setFocus = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'setFocus'].concat(n));
+                        }),
+                        (Ve.setStart = function (e) {
+                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                            e.command.apply(e, [Ke, 'setStart'].concat(n));
+                        }),
+                        (Ve.snapshotSelection = function (e) {
+                            e.withoutMerging(function () {
+                                e.select(e.value.selection, { snapshot: !0 });
+                            });
+                        });
+                    var tt = {};
+                    function nt() {
+                        var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                        function t(t, n) {
+                            for (var r in e) t.registerQuery(r);
+                            return n();
+                        }
+                        function n(t, n, r) {
+                            var i = t.type,
+                                o = t.args,
+                                a = e[i];
+                            if (!a) return r();
+                            var s = a.apply(void 0, [n].concat(P(o)));
+                            return void 0 === s ? r() : s;
+                        }
+                        return { onConstruct: t, onQuery: n };
+                    }
+                    (tt.setData = function (e) {
+                        var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {},
+                            n = e.value,
+                            r = pe.createProperties({ data: t }),
+                            i = f()(n, Object.keys(r));
+                        e.applyOperation({
+                            type: 'set_value',
+                            properties: i,
+                            newProperties: r
+                        });
+                    }),
+                        (tt.addAnnotation = function (e, t) {
+                            (t = te.create(t)), e.applyOperation({ type: 'add_annotation', annotation: t });
+                        }),
+                        (tt.removeAnnotation = function (e, t) {
+                            (t = te.create(t)), e.applyOperation({ type: 'remove_annotation', annotation: t });
+                        }),
+                        (tt.setAnnotation = function (e, t, n) {
+                            (t = te.create(t)),
+                                (n = te.createProperties(n)),
+                                e.applyOperation({
+                                    type: 'set_annotation',
+                                    properties: t,
+                                    newProperties: n
+                                });
+                        }),
+                        (tt.setAnnotations = function (e) {
+                            var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : [],
+                                n = e.value,
+                                r = pe.createProperties({ annotations: t }),
+                                i = f()(n, Object.keys(r));
+                            e.applyOperation({
+                                type: 'set_value',
+                                properties: i,
+                                newProperties: r
+                            });
+                        });
+                    var rt = (function (e) {
+                        function t(e) {
+                            var n = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};
+                            x(this, t);
+                            var r = T(this, (t.__proto__ || Object.getPrototypeOf(t)).call(this, e));
+                            for (var i in ((r.code = e), n)) r[i] = n[i];
+                            return Error.captureStackTrace ? Error.captureStackTrace(r, r.constructor) : (r.stack = new Error().stack), r;
+                        }
+                        return O(t, e), t;
+                    })(Error);
+                    function it(e) {
+                        var t = e.rules,
+                            n = e.document,
+                            r = e.blocks,
+                            i = e.inlines,
+                            o = e.marks,
+                            a = e.annotations,
+                            s = e.decorations,
+                            l = [];
+                        if ((t && (l = l.concat(t)), n && l.push(S({ match: [{ object: 'document' }] }, n)), r))
+                            for (var u in r) l.push(S({ match: [{ object: 'block', type: u }] }, r[u]));
+                        if (i) for (var c in i) l.push(S({ match: [{ object: 'inline', type: c }] }, i[c]));
+                        if (o) for (var d in o) l.push(S({ match: [{ object: 'mark', type: d }] }, o[d]));
+                        if (a) for (var f in a) l.push(S({ match: [{ object: 'annotation', type: f }] }, a[f]));
+                        if (s) for (var p in s) l.push(S({ match: [{ object: 'decoration', type: p }] }, s[p]));
+                        function h(e, t, n) {
+                            var r = l.filter(function (t) {
+                                    return ot(e, t.match);
+                                }),
+                                i = at(e, r, l, { every: !0 });
+                            return i ? new rt(i.code, i) : n();
+                        }
+                        return [
+                            {
+                                normalizeNode: function (e, t, n) {
+                                    var r = h(e, t, function () {});
+                                    return r
+                                        ? function () {
+                                              var e = r.rule,
+                                                  n = t.operations.size;
+                                              e.normalize && e.normalize(t, r),
+                                                  t.operations.size === n &&
+                                                      (function (e, t) {
+                                                          var n = t.code,
+                                                              r = t.node,
+                                                              i = t.child,
+                                                              o = t.next,
+                                                              a = t.previous,
+                                                              s = t.key,
+                                                              l = t.mark;
+                                                          switch (n) {
+                                                              case 'child_max_invalid':
+                                                              case 'child_object_invalid':
+                                                              case 'child_type_invalid':
+                                                              case 'child_unknown':
+                                                              case 'first_child_object_invalid':
+                                                              case 'first_child_type_invalid':
+                                                              case 'last_child_object_invalid':
+                                                              case 'last_child_type_invalid':
+                                                                  return 'text' === i.object && 'block' === r.object && 1 === r.nodes.size
+                                                                      ? e.removeNodeByKey(r.key)
+                                                                      : e.removeNodeByKey(i.key);
+                                                              case 'previous_sibling_object_invalid':
+                                                              case 'previous_sibling_type_invalid':
+                                                                  return 'text' === a.object && 'block' === r.object && 1 === r.nodes.size
+                                                                      ? e.removeNodeByKey(r.key)
+                                                                      : e.removeNodeByKey(a.key);
+                                                              case 'next_sibling_object_invalid':
+                                                              case 'next_sibling_type_invalid':
+                                                                  return 'text' === o.object && 'block' === r.object && 1 === r.nodes.size
+                                                                      ? e.removeNodeByKey(r.key)
+                                                                      : e.removeNodeByKey(o.key);
+                                                              case 'child_min_invalid':
+                                                              case 'node_text_invalid':
+                                                              case 'parent_object_invalid':
+                                                              case 'parent_type_invalid':
+                                                                  return 'document' === r.object
+                                                                      ? r.nodes.forEach(function (t) {
+                                                                            return e.removeNodeByKey(t.key);
+                                                                        })
+                                                                      : e.removeNodeByKey(r.key);
+                                                              case 'node_data_invalid':
+                                                                  return void 0 === r.data.get(s) && 'document' !== r.object
+                                                                      ? e.removeNodeByKey(r.key)
+                                                                      : e.setNodeByKey(r.key, {
+                                                                            data: r.data.delete(s)
+                                                                        });
+                                                              case 'node_mark_invalid':
+                                                                  return r.getTexts().forEach(function (t) {
+                                                                      return e.removeMarkByKey(t.key, 0, t.text.length, l);
+                                                                  });
+                                                              default:
+                                                                  e.removeNodeByKey(r.key);
+                                                          }
+                                                      })(t, r);
+                                          }
+                                        : n();
+                                },
+                                validateNode: h
+                            },
+                            nt({
+                                isAtomic: function (e, t) {
+                                    var n = l.find(function (e) {
+                                        return 'isAtomic' in e && ot(t, e.match);
+                                    });
+                                    return n && n.isAtomic;
+                                },
+                                isVoid: function (e, t) {
+                                    var n = l.find(function (e) {
+                                        return 'isVoid' in e && ot(t, e.match);
+                                    });
+                                    return n && n.isVoid;
+                                }
+                            })
+                        ];
+                    }
+                    function ot(e, t) {
+                        return !at(e, t);
+                    }
+                    function at(e, t, n) {
+                        var r = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : {},
+                            i = r.every,
+                            o = void 0 !== i && i,
+                            a = r.match,
+                            s = void 0 === a ? null : a;
+                        if ('function' == typeof t) {
+                            var l = t(e, s);
+                            return l ? null : yt('node_invalid', { rule: t, node: e });
+                        }
+                        if (Array.isArray(t)) {
+                            var u = t.length ? t : [{}],
+                                c = void 0,
+                                d = !0,
+                                f = !1,
+                                p = void 0;
+                            try {
+                                for (var h, m = u[Symbol.iterator](); !(d = (h = m.next()).done); d = !0) {
+                                    var g = h.value,
+                                        v = at(e, g, n);
+                                    if (((c = c || v), o && v)) return v;
+                                    if (!o && !v) return;
+                                }
+                            } catch (e) {
+                                (f = !0), (p = e);
+                            } finally {
+                                try {
+                                    !d && m.return && m.return();
+                                } finally {
+                                    if (f) throw p;
+                                }
+                            }
+                            return c;
+                        }
+                        var y = st(e, t) || lt(e, t) || ut(e, t) || ct(e, t) || dt(e, t) || ft(e, t) || pt(e, t) || ht(e, t, n);
+                        return y;
+                    }
+                    function st(e, t) {
+                        if (null != t.object && t.object !== e.object && ('function' != typeof t.object || !t.object(e.object)))
+                            return yt('node_object_invalid', { rule: t, node: e });
+                    }
+                    function lt(e, t) {
+                        if (null != t.type && t.type !== e.type && ('function' != typeof t.type || !t.type(e.type)))
+                            return yt('node_type_invalid', { rule: t, node: e });
+                    }
+                    function ut(e, t) {
+                        if (null != t.data && null != e.data) {
+                            if ('function' == typeof t.data) {
+                                if (t.data(e.data)) return;
+                                return yt('node_data_invalid', { rule: t, node: e });
+                            }
+                            for (var n in t.data) {
+                                var r = t.data[n],
+                                    i = e.data && e.data.get(n);
+                                if (!('function' == typeof r ? r(i) : r === i))
+                                    return yt('node_data_invalid', {
+                                        rule: t,
+                                        node: e,
+                                        key: n,
+                                        value: i
+                                    });
+                            }
+                        }
+                    }
+                    function ct(e, t) {
+                        if (null != t.marks) {
+                            var n = 'text' === e.object ? e.marks.toArray() : e.getMarks().toArray(),
+                                r = function (n) {
+                                    return t.marks.some(function (e) {
+                                        return 'function' == typeof e.type ? e.type(n.type) : e.type === n.type;
+                                    })
+                                        ? 'continue'
+                                        : {
+                                              v: yt('node_mark_invalid', {
+                                                  rule: t,
+                                                  node: e,
+                                                  mark: n
+                                              })
+                                          };
+                                },
+                                i = !0,
+                                o = !1,
+                                a = void 0;
+                            try {
+                                for (var s, l = n[Symbol.iterator](); !(i = (s = l.next()).done); i = !0) {
+                                    var u = r(s.value);
+                                    switch (u) {
+                                        case 'continue':
+                                            continue;
+                                        default:
+                                            if ('object' === (void 0 === u ? 'undefined' : w(u))) return u.v;
+                                    }
+                                }
+                            } catch (e) {
+                                (o = !0), (a = e);
+                            } finally {
+                                try {
+                                    !i && l.return && l.return();
+                                } finally {
+                                    if (o) throw a;
+                                }
+                            }
+                        }
+                    }
+                    function dt(e, t) {
+                        if (null != t.text) {
+                            var n = e.text;
+                            if (!('function' == typeof t.text ? t.text(n) : t.text.test(n))) return yt('node_text_invalid', { rule: t, node: e, text: n });
+                        }
+                    }
+                    function ft(e, t) {
+                        if (null != t.first) {
+                            var n = e.nodes.first();
+                            if (n) {
+                                var r = at(n, t.first);
+                                if (r) return (r.rule = t), (r.node = e), (r.child = n), (r.code = r.code.replace('node_', 'first_child_')), r;
+                            }
+                        }
+                    }
+                    function pt(e, t) {
+                        if (null != t.last) {
+                            var n = e.nodes.last();
+                            if (n) {
+                                var r = at(n, t.last);
+                                if (r) return (r.rule = t), (r.node = e), (r.child = n), (r.code = r.code.replace('node_', 'last_child_')), r;
+                            }
+                        }
+                    }
+                    function ht(e, t) {
+                        var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : [];
+                        if (null != e.nodes) {
+                            var r = e.nodes,
+                                i = null != t.nodes ? t.nodes.slice() : [],
+                                o = 0,
+                                a = 0,
+                                s = null,
+                                l = -1,
+                                u = null,
+                                c = null,
+                                d = null,
+                                f = null,
+                                p = null;
+                            for (null != t.nodes && v(); y(); ) {
+                                var h = mt(e, d, n) || gt(e, d, f, l, n) || vt(e, d, p, l, n);
+                                if (h) return h;
+                                if (null != t.nodes) {
+                                    if (!u)
+                                        return yt('child_unknown', {
+                                            rule: t,
+                                            node: e,
+                                            child: d,
+                                            index: l
+                                        });
+                                    if (u.match) {
+                                        var m = at(d, u.match);
+                                        if (m) {
+                                            if (null != c && o - 1 > c)
+                                                return (
+                                                    b(),
+                                                    yt('child_max_invalid', {
+                                                        rule: t,
+                                                        node: e,
+                                                        index: l,
+                                                        child: r.get(l),
+                                                        count: o,
+                                                        limit: c
+                                                    })
+                                                );
+                                            var g = s;
+                                            if (v()) {
+                                                if (a - 1 >= g) {
+                                                    l -= 1;
+                                                    continue;
+                                                }
+                                                return null == at(d, u.match)
+                                                    ? (b(),
+                                                      yt('child_min_invalid', {
+                                                          rule: t,
+                                                          node: e,
+                                                          index: l,
+                                                          count: a - 1,
+                                                          limit: g
+                                                      }))
+                                                    : ((m.rule = t),
+                                                      (m.node = e),
+                                                      (m.child = d),
+                                                      (m.index = l),
+                                                      (m.code = m.code.replace('node_', 'child_')),
+                                                      m);
+                                            }
+                                            return null != c && o > c
+                                                ? yt('child_unknown', {
+                                                      rule: t,
+                                                      node: e,
+                                                      child: d,
+                                                      index: l
+                                                  })
+                                                : ((m.rule = t), (m.node = e), (m.child = d), (m.index = l), (m.code = m.code.replace('node_', 'child_')), m);
+                                        }
+                                    }
+                                }
+                            }
+                            if (null != c && o > c)
+                                return yt('child_max_invalid', {
+                                    rule: t,
+                                    node: e,
+                                    index: l - 1,
+                                    count: o,
+                                    child: r.get(l - 1),
+                                    limit: c
+                                });
+                            if (null != t.nodes)
+                                do {
+                                    if (o < s)
+                                        return yt('child_min_invalid', {
+                                            rule: t,
+                                            node: e,
+                                            index: l,
+                                            count: o,
+                                            limit: s
+                                        });
+                                } while (v());
+                        }
+                        function v() {
+                            return 0 !== i.length && ((u = i.shift()), (a = o), (o = 0), (s = u.min || null), (c = u.max || null), !0);
+                        }
+                        function y() {
+                            return (f = (l += 1) ? r.get(l - 1) : null), (d = r.get(l)), (p = r.get(l + 1)), !!d && ((a = o), (o += 1), !0);
+                        }
+                        function b() {
+                            l > 0 && ((l -= 1), (o = a));
+                        }
+                    }
+                    function mt(e, t, n) {
+                        var r = !0,
+                            i = !1,
+                            o = void 0;
+                        try {
+                            for (var a, s = n[Symbol.iterator](); !(r = (a = s.next()).done); r = !0) {
+                                var l = a.value;
+                                if (null != l.parent && ot(t, l.match)) {
+                                    var u = at(e, l.parent);
+                                    if (u) return (u.rule = l), (u.parent = e), (u.node = t), (u.code = u.code.replace('node_', 'parent_')), u;
+                                }
+                            }
+                        } catch (e) {
+                            (i = !0), (o = e);
+                        } finally {
+                            try {
+                                !r && s.return && s.return();
+                            } finally {
+                                if (i) throw o;
+                            }
+                        }
+                    }
+                    function gt(e, t, n, r, i) {
+                        if (n) {
+                            var o = !0,
+                                a = !1,
+                                s = void 0;
+                            try {
+                                for (var l, u = i[Symbol.iterator](); !(o = (l = u.next()).done); o = !0) {
+                                    var c = l.value;
+                                    if (null != c.previous && ot(t, c.match)) {
+                                        var d = at(n, c.previous);
+                                        if (d)
+                                            return (
+                                                (d.rule = c),
+                                                (d.node = e),
+                                                (d.child = t),
+                                                (d.index = r),
+                                                (d.previous = n),
+                                                (d.code = d.code.replace('node_', 'previous_sibling_')),
+                                                d
+                                            );
+                                    }
+                                }
+                            } catch (e) {
+                                (a = !0), (s = e);
+                            } finally {
+                                try {
+                                    !o && u.return && u.return();
+                                } finally {
+                                    if (a) throw s;
+                                }
+                            }
+                        }
+                    }
+                    function vt(e, t, n, r, i) {
+                        if (n) {
+                            var o = !0,
+                                a = !1,
+                                s = void 0;
+                            try {
+                                for (var l, u = i[Symbol.iterator](); !(o = (l = u.next()).done); o = !0) {
+                                    var c = l.value;
+                                    if (null != c.next && ot(t, c.match)) {
+                                        var d = at(n, c.next, [], { match: t });
+                                        if (d)
+                                            return (
+                                                (d.rule = c),
+                                                (d.node = e),
+                                                (d.child = t),
+                                                (d.index = r),
+                                                (d.next = n),
+                                                (d.code = d.code.replace('node_', 'next_sibling_')),
+                                                d
+                                            );
+                                    }
+                                }
+                            } catch (e) {
+                                (a = !0), (s = e);
+                            } finally {
+                                try {
+                                    !o && u.return && u.return();
+                                } finally {
+                                    if (a) throw s;
+                                }
+                            }
+                        }
+                    }
+                    function yt(e, t) {
+                        return S({ code: e }, t);
+                    }
+                    function bt(e) {
+                        e.value.selection.isExpanded && e.delete();
+                    }
+                    var _t = {};
+                    function wt() {
+                        var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                            t = e.plugins,
+                            n = void 0 === t ? [] : t,
+                            r = ke(S({}, De, Be, $e, Ve, tt, _t)),
+                            i = nt({
+                                isAtomic: function () {
+                                    return !1;
+                                },
+                                isVoid: function () {
+                                    return !1;
+                                }
+                            }),
+                            o = it({
+                                rules: [
+                                    {
+                                        match: { object: 'document' },
+                                        nodes: [{ match: { object: 'block' } }]
+                                    },
+                                    {
+                                        match: { object: 'block', first: { object: 'block' } },
+                                        nodes: [{ match: { object: 'block' } }]
+                                    },
+                                    {
+                                        match: {
+                                            object: 'block',
+                                            first: [{ object: 'inline' }, { object: 'text' }]
+                                        },
+                                        nodes: [{ match: [{ object: 'inline' }, { object: 'text' }] }]
+                                    },
+                                    {
+                                        match: { object: 'inline' },
+                                        nodes: [{ match: [{ object: 'inline' }, { object: 'text' }] }]
+                                    },
+                                    {
+                                        match: [{ object: 'block' }, { object: 'inline' }],
+                                        nodes: [{ min: 1 }],
+                                        normalize: function (e, t) {
+                                            var n = t.code,
+                                                r = t.node;
+                                            'child_min_invalid' === n && r.nodes.isEmpty() && e.insertNodeByKey(r.key, 0, le.create());
+                                        }
+                                    },
+                                    {
+                                        match: { object: 'block' },
+                                        first: [{ object: 'block' }, { object: 'text' }],
+                                        last: [{ object: 'block' }, { object: 'text' }],
+                                        normalize: function (e, t) {
+                                            var n = t.code,
+                                                r = t.node,
+                                                i = le.create(),
+                                                o = void 0;
+                                            if ('first_child_object_invalid' === n) o = 0;
+                                            else {
+                                                if ('last_child_object_invalid' !== n) return;
+                                                o = r.nodes.size;
+                                            }
+                                            e.insertNodeByKey(r.key, o, i);
+                                        }
+                                    },
+                                    {
+                                        match: { object: 'inline' },
+                                        first: [{ object: 'block' }, { object: 'text' }],
+                                        last: [{ object: 'block' }, { object: 'text' }],
+                                        previous: [{ object: 'block' }, { object: 'text' }],
+                                        next: [{ object: 'block' }, { object: 'text' }],
+                                        normalize: function (e, t) {
+                                            var n = t.code,
+                                                r = t.node,
+                                                i = t.index,
+                                                o = le.create(),
+                                                a = void 0;
+                                            if ('first_child_object_invalid' === n) a = 0;
+                                            else if ('last_child_object_invalid' === n) a = r.nodes.size;
+                                            else if ('previous_sibling_object_invalid' === n) a = i;
+                                            else {
+                                                if ('next_sibling_object_invalid' !== n) return;
+                                                a = i + 1;
+                                            }
+                                            e.insertNodeByKey(r.key, a, o);
+                                        }
+                                    },
+                                    {
+                                        match: { object: 'text' },
+                                        next: function (e, t) {
+                                            return 'text' !== e.object || !t.marks.equals(e.marks);
+                                        },
+                                        normalize: function (e, t) {
+                                            var n = t.code,
+                                                r = t.next;
+                                            'next_sibling_invalid' === n && e.mergeNodeByKey(r.key);
+                                        }
+                                    },
+                                    {
+                                        match: { object: 'text' },
+                                        previous: function (e) {
+                                            return 'text' !== e.object || '' !== e.text;
+                                        },
+                                        next: function (e) {
+                                            return 'text' !== e.object || '' !== e.text;
+                                        },
+                                        normalize: function (e, t) {
+                                            var n = t.code,
+                                                r = t.next,
+                                                i = t.previous;
+                                            'next_sibling_invalid' === n
+                                                ? e.removeNodeByKey(r.key)
+                                                : 'previous_sibling_invalid' === n && e.removeNodeByKey(i.key);
+                                        }
+                                    }
+                                ]
+                            });
+                        return [o].concat(P(n), [r, i]);
+                    }
+                    (_t.addMark = function (e, t) {
+                        t = G.create(t);
+                        var n = e.value,
+                            r = n.document,
+                            i = n.selection;
+                        if (i.isExpanded) e.addMarkAtRange(i, t);
+                        else if (i.marks) {
+                            var o = i.marks.add(t),
+                                a = i.set('marks', o);
+                            e.select(a);
+                        } else {
+                            var s = r.getActiveMarksAtRange(i).add(t),
+                                l = i.set('marks', s);
+                            e.select(l);
+                        }
+                    }),
+                        (_t.addMarks = function (e, t) {
+                            t.forEach(function (t) {
+                                return e.addMark(t);
+                            });
+                        }),
+                        (_t.delete = function (e) {
+                            var t = e.value.selection;
+                            e.deleteAtRange(t), e.moveToFocus();
+                        }),
+                        (_t.deleteBackward = function (e) {
+                            var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1,
+                                n = e.value,
+                                r = n.selection;
+                            r.isExpanded ? e.delete() : e.deleteBackwardAtRange(r, t);
+                        }),
+                        (_t.deleteCharBackward = function (e) {
+                            var t = e.value.selection;
+                            t.isExpanded ? e.delete() : e.deleteCharBackwardAtRange(t);
+                        }),
+                        (_t.deleteLineBackward = function (e) {
+                            var t = e.value.selection;
+                            t.isExpanded ? e.delete() : e.deleteLineBackwardAtRange(t);
+                        }),
+                        (_t.deleteWordBackward = function (e) {
+                            var t = e.value.selection;
+                            t.isExpanded ? e.delete() : e.deleteWordBackwardAtRange(t);
+                        }),
+                        (_t.deleteForward = function (e) {
+                            var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1,
+                                n = e.value,
+                                r = n.selection;
+                            r.isExpanded ? e.delete() : e.deleteForwardAtRange(r, t);
+                        }),
+                        (_t.deleteCharForward = function (e) {
+                            var t = e.value.selection;
+                            t.isExpanded ? e.delete() : e.deleteCharForwardAtRange(t);
+                        }),
+                        (_t.deleteLineForward = function (e) {
+                            var t = e.value.selection;
+                            t.isExpanded ? e.delete() : e.deleteLineForwardAtRange(t);
+                        }),
+                        (_t.deleteWordForward = function (e) {
+                            var t = e.value.selection;
+                            t.isExpanded ? e.delete() : e.deleteWordForwardAtRange(t);
+                        }),
+                        (_t.insertBlock = function (e, t) {
+                            bt(e), (t = de.create(t));
+                            var n = e.value.selection;
+                            e.insertBlockAtRange(n, t);
+                            var r = e.value.document.getNode(t.key);
+                            r && e.moveToEndOfNode(r);
+                        }),
+                        (_t.insertFragment = function (e, t) {
+                            if (t.nodes.size) {
+                                bt(e);
+                                var n = e.value,
+                                    r = n,
+                                    i = r.document,
+                                    o = r.selection,
+                                    a = o.start,
+                                    s = Array.from(i.texts(), function (e) {
+                                        return A(e, 1)[0].key;
+                                    });
+                                e.insertFragmentAtRange(o, t);
+                                var l = (i = (n = e.value).document).getTexts().filter(function (e) {
+                                    return !s.includes(e.key);
+                                });
+                                if (0 !== l.size) {
+                                    var u = t.text.length,
+                                        c = i.getNode(a.key) || l.first(),
+                                        d = l.last() || c;
+                                    if (c !== d) {
+                                        var f = i.getCommonAncestor(c.key, d.key),
+                                            p = f.getOffset(c.key) + (a.key === c.key ? a.offset : 0);
+                                        (d = f.getTextAtOffset(p + u - 1) || d), e.moveTo(d.key, p + u - f.getOffset(d.key));
+                                    } else e.moveTo(d.key, u);
+                                }
+                            }
+                        }),
+                        (_t.insertInline = function (e, t) {
+                            bt(e), (t = oe.create(t));
+                            var n = e.value.selection;
+                            e.insertInlineAtRange(n, t);
+                            var r = e.value.document.getNode(t.key);
+                            r && e.moveToEndOfNode(r);
+                        }),
+                        (_t.insertText = function (e, t, n) {
+                            bt(e);
+                            var r = e.value,
+                                i = r.document,
+                                o = r.selection;
+                            (n = n || o.marks || i.getInsertMarksAtRange(o)),
+                                e.withoutNormalizing(function () {
+                                    e.insertTextAtRange(o, t, n), o.marks && i !== e.value.document && e.select({ marks: null });
+                                });
+                        }),
+                        (_t.removeMark = function (e, t) {
+                            t = G.create(t);
+                            var n = e.value,
+                                r = n.document,
+                                i = n.selection;
+                            if (i.isExpanded) e.removeMarkAtRange(i, t);
+                            else if (i.marks) {
+                                var o = i.marks.remove(t),
+                                    a = i.set('marks', o);
+                                e.select(a);
+                            } else {
+                                var s = r.getActiveMarksAtRange(i).remove(t),
+                                    l = i.set('marks', s);
+                                e.select(l);
+                            }
+                        }),
+                        (_t.replaceMark = function (e, t, n) {
+                            e.removeMark(t), e.addMark(n);
+                        }),
+                        (_t.setBlocks = function (e, t) {
+                            var n = e.value.selection;
+                            e.setBlocksAtRange(n, t);
+                        }),
+                        (_t.setInlines = function (e, t) {
+                            var n = e.value.selection;
+                            e.setInlinesAtRange(n, t);
+                        }),
+                        (_t.splitBlock = function (e) {
+                            var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1;
+                            bt(e);
+                            var n = e.value,
+                                r = n.selection,
+                                i = n.document,
+                                o = r.marks || i.getInsertMarksAtRange(r);
+                            e.splitBlockAtRange(r, t).moveToEnd(), o && 0 !== o.size && e.select({ marks: o });
+                        }),
+                        (_t.splitInline = function (e, t) {
+                            bt(e);
+                            var n = e.value.selection;
+                            e.splitInlineAtRange(n, t);
+                        }),
+                        (_t.toggleMark = function (e, t) {
+                            (t = G.create(t)), e.value.activeMarks.has(t) ? e.removeMark(t) : e.addMark(t);
+                        }),
+                        (_t.unwrapBlock = function (e, t) {
+                            var n = e.value.selection;
+                            e.unwrapBlockAtRange(n, t);
+                        }),
+                        (_t.unwrapInline = function (e, t) {
+                            var n = e.value.selection;
+                            e.unwrapInlineAtRange(n, t);
+                        }),
+                        (_t.wrapBlock = function (e, t) {
+                            var n = e.value.selection;
+                            e.wrapBlockAtRange(n, t);
+                        }),
+                        (_t.wrapInline = function (e, t) {
+                            var n = e.value.selection;
+                            e.wrapInlineAtRange(n, t);
+                        }),
+                        (_t.wrapText = function (e, t) {
+                            var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : t,
+                                r = e.value,
+                                i = r.selection;
+                            e.wrapTextAtRange(i, t, n),
+                                i.isCollapsed && e.moveStartBackward(t.length),
+                                e.moveEndBackward(n.length),
+                                i.isForward !== e.value.selection.isForward && e.flip();
+                        });
+                    var xt = u()('slate:editor'),
+                        kt = (function () {
+                            function e() {
+                                var t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                    n = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};
+                                x(this, e);
+                                var i = n.controller,
+                                    o = void 0 === i ? this : i,
+                                    a = n.construct,
+                                    s = void 0 === a || a,
+                                    l = t.onChange,
+                                    u = void 0 === l ? function () {} : l,
+                                    c = t.plugins,
+                                    d = void 0 === c ? [] : c,
+                                    f = t.readOnly,
+                                    p = void 0 !== f && f,
+                                    h = t.value,
+                                    m = void 0 === h ? pe.create() : h;
+                                (this.controller = o),
+                                    (this.middleware = {}),
+                                    (this.onChange = u),
+                                    (this.operations = Object(r.List)()),
+                                    (this.readOnly = null),
+                                    (this.value = null),
+                                    (this.tmp = {
+                                        dirty: [],
+                                        flushing: !1,
+                                        merge: null,
+                                        normalize: !0,
+                                        save: !0
+                                    });
+                                var g = wt({ plugins: d });
+                                Ot(this, g), s && (this.run('onConstruct'), this.setReadOnly(p), this.setValue(m, n));
+                            }
+                            return (
+                                k(e, [
+                                    {
+                                        key: 'applyOperation',
+                                        value: function (e) {
+                                            var t = this,
+                                                n = this.operations,
+                                                r = this.controller,
+                                                i = this.value;
+                                            o()(e) && (e = S({}, e, { value: i })),
+                                                (e = _e.create(e)),
+                                                this.withoutNormalizing(function () {
+                                                    r.save(e), (i = t.value);
+                                                }),
+                                                xt('apply', { operation: e }),
+                                                (this.value = e.apply(i)),
+                                                (this.operations = n.push(e));
+                                            var a = (function (e) {
+                                                    var t = e.type,
+                                                        n = e.node,
+                                                        r = e.path,
+                                                        i = e.newPath;
+                                                    switch (t) {
+                                                        case 'add_mark':
+                                                        case 'insert_text':
+                                                        case 'remove_mark':
+                                                        case 'remove_text':
+                                                        case 'set_mark':
+                                                        case 'set_node':
+                                                            var o = z.getAncestors(r).toArray();
+                                                            return [].concat(P(o), [r]);
+                                                        case 'insert_node':
+                                                            var a = n.getKeysToPathsTable(),
+                                                                s = Object.values(a).map(function (e) {
+                                                                    return r.concat(e);
+                                                                }),
+                                                                l = z.getAncestors(r).toArray();
+                                                            return [].concat(P(l), [r], P(s));
+                                                        case 'split_node':
+                                                            var u = z.getAncestors(r).toArray(),
+                                                                c = z.increment(r);
+                                                            return [].concat(P(u), [r, c]);
+                                                        case 'merge_node':
+                                                            var d = z.getAncestors(r).toArray(),
+                                                                f = z.decrement(r);
+                                                            return [].concat(P(d), [f]);
+                                                        case 'move_node':
+                                                            if (z.isEqual(r, i)) return [];
+                                                            var p = z.getAncestors(r).reduce(function (t, n) {
+                                                                    return t.push.apply(t, P(z.transform(n, e).toArray())), t;
+                                                                }, []),
+                                                                h = z.getAncestors(i).reduce(function (t, n) {
+                                                                    return t.push.apply(t, P(z.transform(n, e).toArray())), t;
+                                                                }, []);
+                                                            return [].concat(P(p), P(h));
+                                                        case 'remove_node':
+                                                            var m = z.getAncestors(r).toArray();
+                                                            return [].concat(P(m));
+                                                        default:
+                                                            return [];
+                                                    }
+                                                })(e),
+                                                s = this.tmp.dirty.map(function (t) {
+                                                    return (t = z.create(t)), z.transform(t, e).toArray();
+                                                }),
+                                                l = {},
+                                                u = Array.prototype.concat.apply(a, s);
+                                            return (
+                                                (this.tmp.dirty = []),
+                                                u.forEach(function (e) {
+                                                    var n = e.join(',');
+                                                    l[n] || t.tmp.dirty.push(e), (l[n] = !0);
+                                                }),
+                                                this.tmp.flushing ||
+                                                    ((this.tmp.flushing = !0),
+                                                    Promise.resolve().then(function () {
+                                                        return t.flush();
+                                                    })),
+                                                r
+                                            );
+                                        }
+                                    },
+                                    {
+                                        key: 'flush',
+                                        value: function () {
+                                            this.run('onChange');
+                                            var e = this.value,
+                                                t = this.operations,
+                                                n = this.controller,
+                                                i = { value: e, operations: t };
+                                            return (this.operations = Object(r.List)()), (this.tmp.flushing = !1), this.onChange(i), n;
+                                        }
+                                    },
+                                    {
+                                        key: 'command',
+                                        value: function (e) {
+                                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                                            var i = this.controller;
+                                            if ('function' == typeof e) return e.apply(void 0, [i].concat(n)), Et(this), i;
+                                            xt('command', { type: e, args: n });
+                                            var o = { type: e, args: n };
+                                            return this.run('onCommand', o), Et(this), i;
+                                        }
+                                    },
+                                    {
+                                        key: 'hasCommand',
+                                        value: function (e) {
+                                            var t = this.controller;
+                                            return e in t && t[e].__command;
+                                        }
+                                    },
+                                    {
+                                        key: 'hasQuery',
+                                        value: function (e) {
+                                            var t = this.controller;
+                                            return e in t && t[e].__query;
+                                        }
+                                    },
+                                    {
+                                        key: 'normalize',
+                                        value: function () {
+                                            var e = this.value,
+                                                t = this.controller,
+                                                n = e.document,
+                                                r = n.getKeysToPathsTable(),
+                                                i = Object.values(r).map(z.create);
+                                            (this.tmp.dirty = this.tmp.dirty.concat(i)), Et(this);
+                                            var o = e.selection;
+                                            return (n = e.document), o.isUnset && n.nodes.size && t.moveToStartOfDocument(), t;
+                                        }
+                                    },
+                                    {
+                                        key: 'query',
+                                        value: function (e) {
+                                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                                            var i = this.controller;
+                                            if ('function' == typeof e) return e.apply(void 0, [i].concat(n));
+                                            xt('query', { type: e, args: n });
+                                            var o = { type: e, args: n };
+                                            return this.run('onQuery', o);
+                                        }
+                                    },
+                                    {
+                                        key: 'registerCommand',
+                                        value: function (e) {
+                                            var t = this,
+                                                n = this.controller;
+                                            if (e in n && n[e].__command) return n;
+                                            Object(s.a)(
+                                                !(e in n),
+                                                'You cannot register a `' + e + '` command because it would overwrite an existing property of the `Editor`.'
+                                            );
+                                            var r = function () {
+                                                for (var n = arguments.length, r = Array(n), i = 0; i < n; i++) r[i] = arguments[i];
+                                                return t.command.apply(t, [e].concat(r));
+                                            };
+                                            return (n[e] = r), (r.__command = !0), n;
+                                        }
+                                    },
+                                    {
+                                        key: 'registerQuery',
+                                        value: function (e) {
+                                            var t = this,
+                                                n = this.controller;
+                                            if (e in n && n[e].__query) return n;
+                                            Object(s.a)(
+                                                !(e in n),
+                                                'You cannot register a `' + e + '` query because it would overwrite an existing property of the `Editor`.'
+                                            );
+                                            var r = function () {
+                                                for (var n = arguments.length, r = Array(n), i = 0; i < n; i++) r[i] = arguments[i];
+                                                return t.query.apply(t, [e].concat(r));
+                                            };
+                                            return (n[e] = r), (r.__query = !0), n;
+                                        }
+                                    },
+                                    {
+                                        key: 'run',
+                                        value: function (e) {
+                                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                                            var i = this.controller,
+                                                o = this.middleware,
+                                                a = o[e] || [],
+                                                l = 0;
+                                            function u() {
+                                                var e = a[l++];
+                                                if (e) {
+                                                    for (var t = arguments.length, r = Array(t), o = 0; o < t; o++) r[o] = arguments[o];
+                                                    r.length && (n = r);
+                                                    var s = e.apply(void 0, P(n).concat([i, u]));
+                                                    return s;
+                                                }
+                                            }
+                                            return (
+                                                Object.defineProperty(u, 'change', {
+                                                    get: function () {
+                                                        Object(s.a)(
+                                                            !1,
+                                                            'As of Slate 0.42, the `editor` is no longer passed as the third argument to event handlers. You can access it via `change.editor` instead.'
+                                                        );
+                                                    }
+                                                }),
+                                                Object.defineProperty(u, 'onChange', {
+                                                    get: function () {
+                                                        Object(s.a)(
+                                                            !1,
+                                                            'As of Slate 0.42, the `editor` is no longer passed as the third argument to event handlers. You can access it via `change.editor` instead.'
+                                                        );
+                                                    }
+                                                }),
+                                                Object.defineProperty(u, 'props', {
+                                                    get: function () {
+                                                        Object(s.a)(
+                                                            !1,
+                                                            'As of Slate 0.42, the `editor` is no longer passed as the third argument to event handlers. You can access it via `change.editor` instead.'
+                                                        );
+                                                    }
+                                                }),
+                                                Object.defineProperty(u, 'schema', {
+                                                    get: function () {
+                                                        Object(s.a)(
+                                                            !1,
+                                                            'As of Slate 0.42, the `editor` is no longer passed as the third argument to event handlers. You can access it via `change.editor` instead.'
+                                                        );
+                                                    }
+                                                }),
+                                                Object.defineProperty(u, 'stack', {
+                                                    get: function () {
+                                                        Object(s.a)(
+                                                            !1,
+                                                            'As of Slate 0.42, the `editor` is no longer passed as the third argument to event handlers. You can access it via `change.editor` instead.'
+                                                        );
+                                                    }
+                                                }),
+                                                u()
+                                            );
+                                        }
+                                    },
+                                    {
+                                        key: 'setReadOnly',
+                                        value: function (e) {
+                                            return (this.readOnly = e), this;
+                                        }
+                                    },
+                                    {
+                                        key: 'setValue',
+                                        value: function (e) {
+                                            var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {},
+                                                n = t.normalize,
+                                                r = void 0 === n ? e !== this.value : n;
+                                            return (this.value = e), r && this.normalize(), this;
+                                        }
+                                    },
+                                    {
+                                        key: 'withoutNormalizing',
+                                        value: function (e) {
+                                            var t = this.controller,
+                                                n = this.tmp.normalize;
+                                            return (this.tmp.normalize = !1), e(t), (this.tmp.normalize = n), Et(this), t;
+                                        }
+                                    },
+                                    {
+                                        key: 'change',
+                                        value: function (e) {
+                                            Object(a.a)(
+                                                !1,
+                                                'As of Slate 0.43 the `change` object has been replaced with `editor`, so the `editor.change()` method is deprecated.`'
+                                            );
+                                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                                            e.apply(void 0, [this.controller].concat(n));
+                                        }
+                                    },
+                                    {
+                                        key: 'call',
+                                        value: function (e) {
+                                            Object(a.a)(
+                                                !1,
+                                                'As of Slate 0.43 the `editor.call(fn)` method has been deprecated, please use `editor.command(fn)` instead.'
+                                            );
+                                            for (var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++) n[r - 1] = arguments[r];
+                                            return e.apply(void 0, [this.controller].concat(n)), this.controller;
+                                        }
+                                    },
+                                    {
+                                        key: 'applyOperations',
+                                        value: function (e) {
+                                            var t = this;
+                                            return (
+                                                Object(a.a)(
+                                                    !1,
+                                                    'As of Slate 0.43 the `applyOperations` method is deprecated, please apply each operation in a loop instead.'
+                                                ),
+                                                e.forEach(function (e) {
+                                                    return t.applyOperation(e);
+                                                }),
+                                                this.controller
+                                            );
+                                        }
+                                    },
+                                    {
+                                        key: 'setOperationFlag',
+                                        value: function (e, t) {
+                                            return (
+                                                Object(a.a)(!1, 'As of slate@0.41 the `change.setOperationFlag` method has been deprecated.'),
+                                                (this.tmp[e] = t),
+                                                this
+                                            );
+                                        }
+                                    },
+                                    {
+                                        key: 'getFlag',
+                                        value: function (e) {
+                                            var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};
+                                            return (
+                                                Object(a.a)(!1, 'As of slate@0.41 the `change.getFlag` method has been deprecated.'),
+                                                void 0 !== t[e] ? t[e] : this.tmp[e]
+                                            );
+                                        }
+                                    },
+                                    {
+                                        key: 'unsetOperationFlag',
+                                        value: function (e) {
+                                            return (
+                                                Object(a.a)(!1, 'As of slate@0.41 the `change.unsetOperationFlag` method has been deprecated.'),
+                                                delete this.tmp[e],
+                                                this
+                                            );
+                                        }
+                                    },
+                                    {
+                                        key: 'withoutNormalization',
+                                        value: function (e) {
+                                            return (
+                                                Object(a.a)(
+                                                    !1,
+                                                    'As of slate@0.41 the `change.withoutNormalization` helper has been renamed to `change.withoutNormalizing`.'
+                                                ),
+                                                this.withoutNormalizing(e)
+                                            );
+                                        }
+                                    },
+                                    {
+                                        key: 'editor',
+                                        get: function () {
+                                            return (
+                                                Object(a.a)(
+                                                    !1,
+                                                    "As of Slate 0.43 the `change` object has been replaced with `editor`, so you don't need to access `change.editor`."
+                                                ),
+                                                this.controller
+                                            );
+                                        }
+                                    }
+                                ]),
+                                e
+                            );
+                        })();
+                    function Et(e) {
+                        e.tmp.normalize &&
+                            e.tmp.dirty.length &&
+                            e.withoutNormalizing(function () {
+                                for (; e.tmp.dirty.length; ) {
+                                    var t = e.tmp.dirty.pop();
+                                    St(e, t);
+                                }
+                            });
+                    }
+                    function St(e, t) {
+                        for (
+                            var n = e.controller, r = e.value, i = r.document, o = i.assertNode(t), a = 0, s = 100 + ('text' === o.object ? 1 : o.nodes.size);
+                            o;
+
+                        ) {
+                            var l = o.normalize(n);
+                            if (!l) break;
+                            l(n), (i = (r = e.value).document);
+                            var u = o.key,
+                                c = i.getDescendant(t);
+                            if (c && c.key === u) o = c;
+                            else {
+                                if (!(c = i.getDescendant(u))) break;
+                                (o = c), (t = i.getPath(u));
+                            }
+                            if (++a > s)
+                                throw new Error(
+                                    'A schema rule could not be normalized after sufficient iterations. This is usually due to a `rule.normalize` or `plugin.normalizeNode` function of a schema being incorrectly written, causing an infinite loop.'
+                                );
+                        }
+                    }
+                    function Ot(e, t) {
+                        if (Array.isArray(t))
+                            t.forEach(function (t) {
+                                return Ot(e, t);
+                            });
+                        else if (null != t) {
+                            var n = t.commands,
+                                r = t.queries,
+                                i = t.schema,
+                                o = C(t, ['commands', 'queries', 'schema']);
+                            if (n) {
+                                var a = ke(n);
+                                Ot(e, a);
+                            }
+                            if (r) {
+                                var s = nt(r);
+                                Ot(e, s);
+                            }
+                            if (i) {
+                                var l = it(i);
+                                Ot(e, l);
+                            }
+                            for (var u in o) {
+                                var c = o[u];
+                                (e.middleware[u] = e.middleware[u] || []).push(c);
+                            }
+                        }
+                    }
+                    var Ct = { marks: void 0, text: void 0 },
+                        Tt = (function (e) {
+                            function t() {
+                                return x(this, t), T(this, (t.__proto__ || Object.getPrototypeOf(t)).apply(this, arguments));
+                            }
+                            return (
+                                O(t, e),
+                                k(
+                                    t,
+                                    [
+                                        {
+                                            key: 'updateMark',
+                                            value: function (e, t) {
+                                                var n = this.marks;
+                                                if (t.equals(e)) return this;
+                                                if (!n.has(e)) return this;
+                                                var r = n.withMutations(function (n) {
+                                                    n.remove(e).add(t);
+                                                });
+                                                return this.set('marks', r);
+                                            }
+                                        },
+                                        {
+                                            key: 'addMark',
+                                            value: function (e) {
+                                                var t = this.marks;
+                                                return this.set('marks', t.add(e));
+                                            }
+                                        },
+                                        {
+                                            key: 'addMarks',
+                                            value: function (e) {
+                                                var t = this.marks;
+                                                return this.set('marks', t.union(e));
+                                            }
+                                        },
+                                        {
+                                            key: 'insertText',
+                                            value: function (e, t) {
+                                                var n = this.text,
+                                                    r = n.slice(0, e) + t + n.slice(e);
+                                                return this.set('text', r);
+                                            }
+                                        },
+                                        {
+                                            key: 'removeMark',
+                                            value: function (e) {
+                                                var t = this.marks;
+                                                return this.set('marks', t.remove(e));
+                                            }
+                                        },
+                                        {
+                                            key: 'toJSON',
+                                            value: function () {
+                                                return {
+                                                    object: this.object,
+                                                    text: this.text,
+                                                    marks: this.marks.toArray().map(function (e) {
+                                                        return e.toJSON();
+                                                    })
+                                                };
+                                            }
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            key: 'create',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                                                if ((Object(a.a)(!1, 'As of slate@0.47 the `Leaf` model is deprecated.'), t.isLeaf(e))) return e;
+                                                if (('string' == typeof e && (e = { text: e }), o()(e))) return t.fromJSON(e);
+                                                throw new Error('`Leaf.create` only accepts objects, strings or leaves, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'createLeaves',
+                                            value: function (e) {
+                                                if (e.size <= 1) return e;
+                                                var t = !1,
+                                                    n = Object(r.List)().withMutations(function (n) {
+                                                        e.findLast(function (e, r) {
+                                                            var i = n.first();
+                                                            if (i) {
+                                                                if (i.marks.equals(e.marks))
+                                                                    return (t = !0), void n.set(0, i.set('text', '' + e.text + i.text));
+                                                                if ('' === i.text) return (t = !0), void n.set(0, e);
+                                                                if ('' === e.text) return void (t = !0);
+                                                            }
+                                                            n.unshift(e);
+                                                        });
+                                                    });
+                                                return t ? n : e;
+                                            }
+                                        },
+                                        {
+                                            key: 'splitLeaves',
+                                            value: function (e, t) {
+                                                if (t < 0) return [Object(r.List)(), e];
+                                                if (0 === e.size) return [Object(r.List)(), Object(r.List)()];
+                                                var n = 0,
+                                                    i = -1,
+                                                    o = void 0,
+                                                    a = void 0;
+                                                return (
+                                                    e.find(function (e) {
+                                                        i++;
+                                                        var r = n,
+                                                            s = e.text;
+                                                        if ((n += s.length) < t) return !1;
+                                                        if (r > t) return !1;
+                                                        var l = t - r;
+                                                        return (o = e.set('text', s.slice(0, l))), (a = e.set('text', s.slice(l))), !0;
+                                                    }),
+                                                    o
+                                                        ? '' === o.text
+                                                            ? 0 === i
+                                                                ? [r.List.of(o), e]
+                                                                : [e.take(i), e.skip(i)]
+                                                            : '' === a.text
+                                                            ? i === e.size - 1
+                                                                ? [e, r.List.of(a)]
+                                                                : [e.take(i + 1), e.skip(i + 1)]
+                                                            : [e.take(i).push(o), e.skip(i + 1).unshift(a)]
+                                                        : [e, Object(r.List)()]
+                                                );
+                                            }
+                                        },
+                                        {
+                                            key: 'createList',
+                                            value: function () {
+                                                var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+                                                if (r.List.isList(e) || Array.isArray(e)) {
+                                                    var n = new r.List(e.map(t.create));
+                                                    return n;
+                                                }
+                                                throw new Error('`Leaf.createList` only accepts arrays or lists, but you passed it: ' + e);
+                                            }
+                                        },
+                                        {
+                                            key: 'fromJSON',
+                                            value: function (e) {
+                                                var n = e.text,
+                                                    i = void 0 === n ? '' : n,
+                                                    o = e.marks,
+                                                    a = void 0 === o ? [] : o;
+                                                return new t({
+                                                    text: i,
+                                                    marks: Object(r.Set)(a.map(G.fromJSON))
+                                                });
+                                            }
+                                        },
+                                        {
+                                            key: 'isLeafList',
+                                            value: function (e) {
+                                                return (
+                                                    r.List.isList(e) &&
+                                                    e.every(function (e) {
+                                                        return t.isLeaf(e);
+                                                    })
+                                                );
+                                            }
+                                        }
+                                    ]
+                                ),
+                                t
+                            );
+                        })(Object(r.Record)(Ct));
+                    function At(e, t) {
+                        var n = !0,
+                            r = !1,
+                            i = void 0;
+                        try {
+                            for (var o, a = t[Symbol.iterator](); !(n = (o = a.next()).done); n = !0) {
+                                var s = o.value,
+                                    l = !0,
+                                    u = !1,
+                                    c = void 0;
+                                try {
+                                    for (var d, f = Object.getOwnPropertyNames(e)[Symbol.iterator](); !(l = (d = f.next()).done); l = !0) {
+                                        var p = d.value;
+                                        if (!s.hasOwnProperty(p)) {
+                                            var h = Object.getOwnPropertyDescriptor(e, p);
+                                            Object.defineProperty(s, p, h);
+                                        }
+                                    }
+                                } catch (e) {
+                                    (u = !0), (c = e);
+                                } finally {
+                                    try {
+                                        !l && f.return && f.return();
+                                    } finally {
+                                        if (u) throw c;
+                                    }
+                                }
+                                var m = !0,
+                                    g = !1,
+                                    v = void 0;
+                                try {
+                                    for (var y, b = Object.getOwnPropertyNames(e.prototype)[Symbol.iterator](); !(m = (y = b.next()).done); m = !0) {
+                                        var _ = y.value;
+                                        if (!s.prototype.hasOwnProperty(_)) {
+                                            h = Object.getOwnPropertyDescriptor(e.prototype, _);
+                                            Object.defineProperty(s.prototype, _, h);
+                                        }
+                                    }
+                                } catch (e) {
+                                    (g = !0), (v = e);
+                                } finally {
+                                    try {
+                                        !m && b.return && b.return();
+                                    } finally {
+                                        if (g) throw v;
+                                    }
+                                }
+                            }
+                        } catch (e) {
+                            (r = !0), (i = e);
+                        } finally {
+                            try {
+                                !n && a.return && a.return();
+                            } finally {
+                                if (r) throw i;
+                            }
+                        }
+                    }
+                    Object.entries({
+                        Annotation: te,
+                        Block: de,
+                        Change: xe,
+                        Decoration: V,
+                        Document: re,
+                        Editor: kt,
+                        Inline: oe,
+                        Leaf: Tt,
+                        Mark: G,
+                        Node: ue,
+                        Operation: _e,
+                        Point: q,
+                        Range: Z,
+                        Selection: Y,
+                        Text: le,
+                        Value: pe
+                    }).forEach(function (e) {
+                        var t,
+                            n,
+                            r,
+                            i,
+                            o = A(e, 2),
+                            a = o[0],
+                            s = o[1];
+                        return At(
+                            ((t = a.toLowerCase()),
+                            (n = Q[t]),
+                            (r = 'is' + t.charAt(0).toUpperCase() + t.slice(1)),
+                            ((i = (function () {
+                                function e() {
+                                    x(this, e);
+                                }
+                                return (
+                                    k(e, [
+                                        {
+                                            key: 'object',
+                                            get: function () {
+                                                return t;
+                                            }
+                                        }
+                                    ]),
+                                    e
+                                );
+                            })())[r] = X.bind(null, t)),
+                            (i.prototype[n] = !0),
+                            i),
+                            [s]
+                        );
+                    }),
+                        At(
+                            (function () {
+                                function e() {
+                                    x(this, e);
+                                }
+                                return (
+                                    k(
+                                        e,
+                                        [
+                                            {
+                                                key: 'toJS',
+                                                value: function () {
+                                                    return this.toJSON.apply(this, arguments);
+                                                }
+                                            }
+                                        ],
+                                        [
+                                            {
+                                                key: 'fromJS',
+                                                value: function () {
+                                                    return this.fromJSON.apply(this, arguments);
+                                                }
+                                            }
+                                        ]
+                                    ),
+                                    e
+                                );
+                            })(),
+                            [te, de, V, re, oe, Tt, G, ue, _e, q, Z, Y, le, pe]
+                        );
+                    var Pt = !0,
+                        Rt = Symbol('LEAF'),
+                        Mt = Symbol('STORE_KEY'),
+                        It = Symbol('undefined'),
+                        jt = Symbol('null'),
+                        Lt = new WeakMap();
+                    function Dt(e, t) {
+                        var n = function (t) {
+                                var n = e[t];
+                                if (!n) throw new Error('Object does not have a property named "' + t + '".');
+                                e[t] = function () {
+                                    for (var e = arguments.length, r = Array(e), i = 0; i < e; i++) r[i] = arguments[i];
+                                    if (!Pt) return n.apply(this, r);
+                                    Lt.has(this) || Lt.set(this, { noArgs: {}, hasArgs: {} });
+                                    var o = Lt.get(this),
+                                        a = o.noArgs,
+                                        s = o.hasArgs,
+                                        l = 0 !== r.length,
+                                        u = void 0,
+                                        c = void 0;
+                                    if (void 0 !== (u = l ? Nt(s, (c = [t].concat(r))) : a[t])) return u === It ? void 0 : u;
+                                    var d = n.apply(this, r),
+                                        f = void 0 === d ? It : d;
+                                    return l ? Ft(s, c, f) : (a[t] = f), d;
+                                };
+                            },
+                            r = !0,
+                            i = !1,
+                            o = void 0;
+                        try {
+                            for (var a, s = t[Symbol.iterator](); !(r = (a = s.next()).done); r = !0) {
+                                n(a.value);
+                            }
+                        } catch (e) {
+                            (i = !0), (o = e);
+                        } finally {
+                            try {
+                                !r && s.return && s.return();
+                            } finally {
+                                if (i) throw o;
+                            }
+                        }
+                    }
+                    function Nt(e, t) {
+                        var n = !0,
+                            r = !1,
+                            i = void 0;
+                        try {
+                            for (var o, a = t[Symbol.iterator](); !(n = (o = a.next()).done); n = !0) {
+                                var s = o.value;
+                                if (
+                                    (void 0 === s ? (s = It) : null == s && (s = jt),
+                                    void 0 === (e = 'object' === (void 0 === s ? 'undefined' : w(s)) ? e[Mt] && e[Mt].get(s) : e[s]))
+                                )
+                                    return;
+                            }
+                        } catch (e) {
+                            (r = !0), (i = e);
+                        } finally {
+                            try {
+                                !n && a.return && a.return();
+                            } finally {
+                                if (r) throw i;
+                            }
+                        }
+                        return e[Rt];
+                    }
+                    function Ft(e, t, n) {
+                        var r = e,
+                            i = !0,
+                            o = !1,
+                            a = void 0;
+                        try {
+                            for (var s, l = t[Symbol.iterator](); !(i = (s = l.next()).done); i = !0) {
+                                var u = s.value;
+                                if ((void 0 === u ? (u = It) : null == u && (u = jt), 'object' === (void 0 === u ? 'undefined' : w(u))))
+                                    if ((r[Mt] || (r[Mt] = new WeakMap()), r[Mt].has(u))) r = r[Mt].get(u);
+                                    else {
+                                        var c = {};
+                                        r[Mt].set(u, c), (r = c);
+                                    }
+                                else r[u] || (r[u] = {}), (r = r[u]);
+                            }
+                        } catch (e) {
+                            (o = !0), (a = e);
+                        } finally {
+                            try {
+                                !i && l.return && l.return();
+                            } finally {
+                                if (o) throw a;
+                            }
+                        }
+                        return (r[Rt] = n), e;
+                    }
+                    function Bt() {
+                        Lt = new WeakMap();
+                    }
+                    function zt(e) {
+                        Pt = e;
+                    }
+                    var Ut = (function () {
+                        function e() {
+                            x(this, e);
+                        }
+                        return (
+                            k(e, [
+                                {
+                                    key: 'getFirstText',
+                                    value: function () {
+                                        if ('text' === this.object) return this;
+                                        var e = null,
+                                            t = this.nodes.find(function (t) {
+                                                return 'text' === t.object || !!(e = t.getFirstText());
+                                            });
+                                        return e || t;
+                                    }
+                                },
+                                {
+                                    key: 'getKeysToPathsTable',
+                                    value: function () {
+                                        var e = E({}, this.key, []);
+                                        return (
+                                            this.nodes &&
+                                                this.nodes.forEach(function (t, n) {
+                                                    var r = t.getKeysToPathsTable();
+                                                    for (var i in r) {
+                                                        var o = r[i];
+                                                        Object(a.a)(
+                                                            !(i in e),
+                                                            'A node with a duplicate key of "' +
+                                                                i +
+                                                                '" was found! Duplicate keys are not allowed, you should use `node.regenerateKey` before inserting if you are reusing an existing node.'
+                                                        ),
+                                                            (e[i] = [n].concat(P(o)));
+                                                    }
+                                                }),
+                                            e
+                                        );
+                                    }
+                                },
+                                {
+                                    key: 'getLastText',
+                                    value: function () {
+                                        if ('text' === this.object) return this;
+                                        var e = null,
+                                            t = this.nodes.findLast(function (t) {
+                                                return 'text' === t.object || (e = t.getLastText());
+                                            });
+                                        return e || t;
+                                    }
+                                },
+                                {
+                                    key: 'getNode',
+                                    value: function (e) {
+                                        return (e = this.resolvePath(e))
+                                            ? 'text' === this.object && e.size
+                                                ? null
+                                                : e.size
+                                                ? this.getDescendant(e)
+                                                : this
+                                            : null;
+                                    }
+                                },
+                                {
+                                    key: 'getPath',
+                                    value: function (e) {
+                                        if (r.List.isList(e)) return e;
+                                        if (ue.isNode(e) && this.descendants) {
+                                            var t = !0,
+                                                n = !1,
+                                                i = void 0;
+                                            try {
+                                                for (var o, a = this.descendants()[Symbol.iterator](); !(t = (o = a.next()).done); t = !0) {
+                                                    var s = o.value,
+                                                        l = A(s, 2),
+                                                        u = l[0],
+                                                        c = l[1];
+                                                    if (e === u) return c;
+                                                }
+                                            } catch (e) {
+                                                (n = !0), (i = e);
+                                            } finally {
+                                                try {
+                                                    !t && a.return && a.return();
+                                                } finally {
+                                                    if (n) throw i;
+                                                }
+                                            }
+                                        }
+                                        var d = this.getKeysToPathsTable()[e];
+                                        return d ? Object(r.List)(d) : null;
+                                    }
+                                },
+                                {
+                                    key: 'getText',
+                                    value: function () {
+                                        return 'text' === this.object
+                                            ? this.text
+                                            : this.nodes.reduce(function (e, t) {
+                                                  return e + t.text;
+                                              }, '');
+                                    }
+                                },
+                                {
+                                    key: 'hasNode',
+                                    value: function (e) {
+                                        return !!this.getNode(e);
+                                    }
+                                },
+                                {
+                                    key: 'normalize',
+                                    value: function (e) {
+                                        return e.run('normalizeNode', this);
+                                    }
+                                },
+                                {
+                                    key: 'regenerateKey',
+                                    value: function () {
+                                        var e = _.create();
+                                        return this.set('key', e);
+                                    }
+                                },
+                                {
+                                    key: 'resolvePath',
+                                    value: function (e, t) {
+                                        return 'string' == typeof e ? ((e = this.getPath(e)), null != t && (e = e.concat(t))) : (e = z.create(e)), e;
+                                    }
+                                },
+                                {
+                                    key: 'validate',
+                                    value: function (e) {
+                                        return e.run('validateNode', this);
+                                    }
+                                }
+                            ]),
+                            e
+                        );
+                    })();
+                    Dt(Ut.prototype, ['getFirstText', 'getKeysToPathsTable', 'getLastText', 'getText', 'normalize', 'validate']), At(Ut, [de, re, oe, le]);
+                    var qt = void 0 !== e ? e : 'undefined' != typeof self ? self : 'undefined' != typeof window ? window : {};
+                    function Ht() {
+                        return !0;
+                    }
+                    var Wt = (function () {
+                            function e() {
+                                x(this, e);
+                            }
+                            return (
+                                k(e, [
+                                    {
+                                        key: 'addMark',
+                                        value: function (e, t) {
+                                            e = this.resolvePath(e);
+                                            var n = this.assertDescendant(e);
+                                            return (n = n.addMark(t)), this.replaceNode(e, n);
+                                        }
+                                    },
+                                    {
+                                        key: 'ancestors',
+                                        value: function (e) {
+                                            return this.createIterable({
+                                                path: e,
+                                                direction: null,
+                                                downward: !1,
+                                                includeTargetAncestors: !0,
+                                                includeRoot: !0
+                                            });
+                                        }
+                                    },
+                                    {
+                                        key: 'blocks',
+                                        value: function () {
+                                            var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                t = e.onlyLeaves,
+                                                n = e.onlyRoots,
+                                                r = e.onlyTypes,
+                                                i = e.match,
+                                                o = C(e, ['onlyLeaves', 'onlyRoots', 'onlyTypes', 'match']),
+                                                a = this.descendants(
+                                                    S(
+                                                        {
+                                                            includeDocument: !1,
+                                                            includeInlines: !1,
+                                                            includeTexts: !1
+                                                        },
+                                                        o,
+                                                        {
+                                                            match: function (e, o) {
+                                                                return (
+                                                                    !(r && !r.includes(e.type)) &&
+                                                                    (!n || 1 === o.size) &&
+                                                                    !(t && !e.isLeafBlock()) &&
+                                                                    !(i && !i(e, o))
+                                                                );
+                                                            }
+                                                        }
+                                                    )
+                                                );
+                                            return a;
+                                        }
+                                    },
+                                    {
+                                        key: 'createAnnotation',
+                                        value: function (e) {
+                                            return (e = te.createProperties(e)), this.resolveAnnotation(e);
+                                        }
+                                    },
+                                    {
+                                        key: 'createDecoration',
+                                        value: function (e) {
+                                            return (e = V.createProperties(e)), this.resolveDecoration(e);
+                                        }
+                                    },
+                                    {
+                                        key: 'createIterable',
+                                        value: function () {
+                                            var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {},
+                                                t = e.direction,
+                                                n = void 0 === t ? 'forward' : t,
+                                                r = e.downward,
+                                                i = void 0 === r || r,
+                                                o = e.upward,
+                                                a = void 0 === o || o,
+                                                s = e.includeBlocks,
+                                                l = void 0 === s || s,
+                                                u = e.includeDocument,
+                                                c = void 0 === u || u,
+                                                d = e.includeInlines,
+                                                f = void 0 === d || d,
+                                                p = e.includeRoot,
+                                                h = void 0 !== p && p,
+                                                m = e.includeTarget,
+                                                g = void 0 === m ? !!e.range : m,
+                                                v = e.includeTargetAncestors,
+                                                y = void 0 !== v && v,
+                                                b = e.includeTexts,
+                                                _ = void 0 === b || b,
+                                                w = e.match,
+                                                x = void 0 === w ? null : w,
+                                                k = this,
+                                                S = null,
+                                                O = null;
+                                            e.range
+                                                ? ((O = k.resolveRange(e.range)), (S = k.resolvePath(O.start.path)))
+                                                : e.path && (S = k.resolvePath(e.path));
+                                            var C = S && k.assertNode(S),
+                                                T = 'undefined' == typeof window ? qt.Set : window.Set;
+                                            return E({}, Symbol.iterator, function () {
+                                                var e = new T(),
+                                                    t = O && O.start.path,
+                                                    r = O && O.end.path,
+                                                    o = S,
+                                                    s = C,
+                                                    u = !1,
+                                                    d = !1,
+                                                    p = !1,
+                                                    m = function () {
+                                                        return o && s
+                                                            ? (h || s !== k) &&
+                                                              (l || 'block' !== s.object) &&
+                                                              (c || 'document' !== s.object) &&
+                                                              (f || 'inline' !== s.object) &&
+                                                              (_ || 'text' !== s.object)
+                                                                ? x && !x(s, o)
+                                                                    ? v()
+                                                                    : { value: [s, o], done: !1 }
+                                                                : v()
+                                                            : { done: !0 };
+                                                    },
+                                                    v = function l() {
+                                                        if (!o || !s) return m();
+                                                        if (t && !d)
+                                                            return p
+                                                                ? o.size === t.size - 1
+                                                                    ? ((d = !0), (o = S), (s = C), l())
+                                                                    : ((o = t.slice(0, o.size + 1)), (s = k.assertNode(o)), m())
+                                                                : ((p = !0), (o = z.create([])), (s = k), m());
+                                                        if (g && !u) return (u = !0), m();
+                                                        if (r && o.equals(r)) return (s = null), (o = null), l();
+                                                        if (i && s.nodes && s.nodes.size && !e.has(s)) {
+                                                            e.add(s);
+                                                            var c = 'forward' === n ? 0 : s.nodes.size - 1;
+                                                            return (o = o.push(c)), (s = k.assertNode(o)), m();
+                                                        }
+                                                        if ('forward' === n) {
+                                                            var f = z.increment(o),
+                                                                h = k.getNode(f);
+                                                            if (h) return (o = f), (s = h), m();
+                                                        }
+                                                        if ('backward' === n && 0 !== o.last()) {
+                                                            var v = z.decrement(o),
+                                                                b = k.getNode(v);
+                                                            if (b) return (o = v), (s = b), m();
+                                                        }
+                                                        return a && o.size
+                                                            ? ((o = z.lift(o)), (s = k.assertNode(o)), e.has(s) ? l() : (e.add(s), y ? m() : l()))
+                                                            : ((o = null), (s = null), l());
+                                                    };
+                                                return { next: v };
+                                            });
+                                        }
+                                    },
+                                    {
+                                        key: 'createPoint',
+                                        value: function (e) {
+                                            return (e = q.createProperties(e)), this.resolvePoint(e);
+                                        }
+                                    },
+                                    {
+                                        key: 'createRange',
+                                        value: function (e) {
+                                            return (e = Z.createProperties(e)), this.resolveRange(e);
+                                        }
+                                    },
+                                    {
+                                        key: 'createSelection',
+                                        value: function (e) {
+                                            return (e = Y.createProperties(e)), this.resolveSelection(e);
+                                        }
+                                    },
+                                    {
+                                        key: 'descendants',
+                                        value: function (e) {
+                                            return this.createIterable(S({ path: [] }, e));
+                                        }
+                                    },
+                                    {
+                                        key: 'filterDescendants',
+                                        value: function () {
+                                            var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : Ht,
+                                                t = [],
+                                                n = !0,
+                                                i = !1,
+                                                o = void 0;
+                                            try {
+                                                for (var a, s = this.descendants()[Symbol.iterator](); !(n = (a = s.next()).done); n = !0) {
+                                                    var l = a.value,
+                                                        u = A(l, 2),
+                                                        c = u[0],
+                                                        d = u[1];
+                                                    e(c, d) && t.push(c);
+                                                }
+                                            } catch (e) {
+                                                (i = !0), (o = e);
+                                            } finally {
+                                                try {
+                                                    !n && s.return && s.return();
+                                                } finally {
+                                                    if (i) throw o;
+                                                }
+                                            }
+                                            return Object(r.List)(t);
+                                        }
+                                    },
+                                    {
+                                        key: 'findDescendant',
+                                        value: function () {
+                                            var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : Ht,
+                                                t = !0,
+                                                n = !1,
+                                                r = void 0;
+                                            try {
+                                                for (var i, o = this.descendants()[Symbol.iterator](); !(t = (i = o.next()).done); t = !0) {
+                                                    var a = i.value,
+                                                        s = A(a, 2),
+                                                        l = s[0],
+                                                        u = s[1];
+                                                    if (e(l, u)) return l;
+                                                }
+                                            } catch (e) {
+                                                (n = !0), (r = e);
+                                            } finally {
+                                                try {
+                                                    !t && o.return && o.return();
+                                                } finally {
+                                                    if (n) throw r;
+                                                }
+                                            }
+                                            return null;
+                                        }
+                                    },
+                                    {
+                                        key: 'forEachDescendant',
+                                        value: function () {
+                                            var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : Ht,
+                                                t = !0,
+                                                n = !1,
+                                                r = void 0;
+                                            try {
+                                                for (var i, o = this.descendants()[Symbol.iterator](); !(t = (i = o.next()).done); t = !0) {
+                                                    var a = i.value,
+                                                        s = e.apply(void 0, P(a));
+                                                    if (!1 === s) return;
+                                                }
+                                            } catch (e) {
+                                                (n = !0), (r = e);
+                                            } finally {
+                                                try {
+                                                    !t && o.return && o.return();
+                                                } finally {
+                                                    if (n) throw r;
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        key: 'getActiveMarksAtRange',
+                                        value: function (e) {
+                                            if ((e = this.resolveRange(e)).isUnset) return Object(r.Set)();
+                                            if (e.isCollapsed) {
+                                                var t = e.start;
+                                                return this.getInsertMarksAtPoint(t);
+                                            }
+                                            var n = e,
+                                                i = n.start,
+                                                o = n.end,
+                                                a = i.path,
+                                                s = i.offset,
+                                                l = o.path,
+                                                u = o.offset,
+                                                c = this.getDescendant(a),
+                                                d = this.getDescendant(l);
+                                            if (!a.equals(l)) {
+                                                for (; !a.equals(l) && 0 === u; ) {
+                                                    var f = this.texts({
+                                                            path: l,
+                                                            direction: 'backward'
+                                                        }),
+                                                        p = A(f, 1),
+                                                        h = A(p[0], 2);
+                                                    (d = h[0]), (l = h[1]), (u = d.text.length);
+                                                }
+                                                for (; !a.equals(l) && s === c.text.length; ) {
+                                                    var m = this.texts({ path: a }),
+                                                        g = A(m, 1),
+                                                        v = A(g[0], 2);
+                                                    (c = v[0]), (a = v[1]), (s = 0);
+                                                }
+                                            }
+                                            if (a.equals(l)) return c.marks;
+                                            var y = c.marks;
+                                            if (0 === y.size) return Object(r.Set)();
+                                            var b = d.marks,
+                                                _ = y.intersect(b);
+                                            if (0 === _.size) return _;
+                                            var w = this.texts({ path: a }),
+                                                x = A(w, 1),
+                                                k = A(x[0], 2);
+                                            for (c = k[0], a = k[1]; !a.equals(l); ) {
+                                                if (0 !== c.text.length && 0 === (_ = _.intersect(c.marks)).size) return Object(r.Set)();
+                                                var E = this.texts({ path: a }),
+                                                    S = A(E, 1),
+                                                    O = A(S[0], 2);
+                                                (c = O[0]), (a = O[1]);
+                                            }
+                                            return _;
+                                        }
+                                    },
+                                    {
+                                        key: 'getAncestors',
+                                        value: function (e) {
+                                            var t = this.ancestors(e),
+                                                n = Array.from(t, function (e) {
+                                                    return A(e, 1)[0];
+                                                }).reverse();
+                                            return Object(r.List)(n);
+                                        }
+                                    },
+                                    {
+                                        key: 'getBlocks',
+                                        value: function () {
+                                            var e = this.blocks({ onlyLeaves: !0 }),
+                                                t = Array.from(e, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.List)(t);
+                                        }
+                                    },
+                                    {
+                                        key: 'getBlocksByType',
+                                        value: function (e) {
+                                            var t = this.blocks({ onlyLeaves: !0, onlyTypes: [e] }),
+                                                n = Array.from(t, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.List)(n);
+                                        }
+                                    },
+                                    {
+                                        key: 'getChild',
+                                        value: function (e) {
+                                            return !(e = this.resolvePath(e)) || e.size > 1 ? null : this.nodes.get(e.first());
+                                        }
+                                    },
+                                    {
+                                        key: 'getClosest',
+                                        value: function (e, t) {
+                                            var n = !0,
+                                                r = !1,
+                                                i = void 0;
+                                            try {
+                                                for (var o, a = this.ancestors(e)[Symbol.iterator](); !(n = (o = a.next()).done); n = !0) {
+                                                    var s = o.value,
+                                                        l = A(s, 2),
+                                                        u = l[0];
+                                                    if (t(u, l[1])) return u;
+                                                }
+                                            } catch (e) {
+                                                (r = !0), (i = e);
+                                            } finally {
+                                                try {
+                                                    !n && a.return && a.return();
+                                                } finally {
+                                                    if (r) throw i;
+                                                }
+                                            }
+                                            return null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getClosestBlock',
+                                        value: function (e) {
+                                            return this.getClosest(e, function (e) {
+                                                return 'block' === e.object;
+                                            });
+                                        }
+                                    },
+                                    {
+                                        key: 'getClosestInline',
+                                        value: function (e) {
+                                            return this.getClosest(e, function (e) {
+                                                return 'inline' === e.object;
+                                            });
+                                        }
+                                    },
+                                    {
+                                        key: 'getClosestVoid',
+                                        value: function (e, t) {
+                                            return (
+                                                Object(s.a)(
+                                                    !pe.isValue(t),
+                                                    'As of Slate 0.42.0, the `node.getClosestVoid` method takes an `editor` instead of a `value`.'
+                                                ),
+                                                this.getClosest(e, function (e) {
+                                                    return t.isVoid(e);
+                                                })
+                                            );
+                                        }
+                                    },
+                                    {
+                                        key: 'getCommonAncestor',
+                                        value: function (e, t) {
+                                            if (((e = this.resolvePath(e)), (t = this.resolvePath(t)), !e || !t)) return null;
+                                            var n = z.relate(e, t);
+                                            return this.getNode(n);
+                                        }
+                                    },
+                                    {
+                                        key: 'getDecorations',
+                                        value: function (e) {
+                                            var t = e.run('decorateNode', this);
+                                            return (t = V.createList(t));
+                                        }
+                                    },
+                                    {
+                                        key: 'getDepth',
+                                        value: function (e) {
+                                            var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 1;
+                                            if (!(e = this.resolvePath(e))) return null;
+                                            var n = this.getNode(e),
+                                                r = n ? e.size - 1 + t : null;
+                                            return r;
+                                        }
+                                    },
+                                    {
+                                        key: 'getDescendant',
+                                        value: function (e) {
+                                            if (!(e = this.resolvePath(e)) || !e.size) return null;
+                                            var t = this;
+                                            return (
+                                                e.forEach(function (e) {
+                                                    return !!(t = t.getIn(['nodes', e]));
+                                                }),
+                                                t
+                                            );
+                                        }
+                                    },
+                                    {
+                                        key: 'getDescendantsAtRange',
+                                        value: function (e) {
+                                            var t = this.descendants({ range: e }),
+                                                n = Array.from(t, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.List)(n);
+                                        }
+                                    },
+                                    {
+                                        key: 'getFragmentAtRange',
+                                        value: function (e) {
+                                            if ((e = this.resolveRange(e)).isUnset) return re.create();
+                                            for (var t = e, n = t.start, r = t.end, i = this, o = r.path, a = r.offset, s = 'end'; o.size; ) {
+                                                var l = o.last();
+                                                (i = i.splitNode(o, a)),
+                                                    (a = l + 1),
+                                                    (o = z.lift(o)).size || 'end' !== s || ((o = n.path), (a = n.offset), (s = 'start'));
+                                            }
+                                            var u = n.path.first() + 1,
+                                                c = r.path.first() + 2,
+                                                d = i.nodes.slice(u, c);
+                                            return re.create({ nodes: d });
+                                        }
+                                    },
+                                    {
+                                        key: 'getFurthest',
+                                        value: function (e) {
+                                            var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : Ht,
+                                                n = this.ancestors(e),
+                                                r = Array.from(n).reverse(),
+                                                i = !0,
+                                                o = !1,
+                                                a = void 0;
+                                            try {
+                                                for (var s, l = r[Symbol.iterator](); !(i = (s = l.next()).done); i = !0) {
+                                                    var u = s.value,
+                                                        c = A(u, 2),
+                                                        d = c[0],
+                                                        f = c[1];
+                                                    if (t(d, f)) return d;
+                                                }
+                                            } catch (e) {
+                                                (o = !0), (a = e);
+                                            } finally {
+                                                try {
+                                                    !i && l.return && l.return();
+                                                } finally {
+                                                    if (o) throw a;
+                                                }
+                                            }
+                                            return null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getFurthestBlock',
+                                        value: function (e) {
+                                            return this.getFurthest(e, function (e) {
+                                                return 'block' === e.object;
+                                            });
+                                        }
+                                    },
+                                    {
+                                        key: 'getFurthestChild',
+                                        value: function (e) {
+                                            return (e = this.resolvePath(e)) && e.size ? this.nodes.get(e.first()) : null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getFurthestInline',
+                                        value: function (e) {
+                                            return this.getFurthest(e, function (e) {
+                                                return 'inline' === e.object;
+                                            });
+                                        }
+                                    },
+                                    {
+                                        key: 'getInlines',
+                                        value: function () {
+                                            var e = this.inlines({ onlyLeaves: !0 }),
+                                                t = Array.from(e, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.List)(t);
+                                        }
+                                    },
+                                    {
+                                        key: 'getInlinesByType',
+                                        value: function (e) {
+                                            var t = this.inlines({ onlyLeaves: !0, onlyTypes: [e] }),
+                                                n = Array.from(t, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.List)(n);
+                                        }
+                                    },
+                                    {
+                                        key: 'getInsertMarksAtPoint',
+                                        value: function (e) {
+                                            var t = (e = this.resolvePoint(e)),
+                                                n = t.path,
+                                                r = t.offset,
+                                                i = this.getDescendant(n);
+                                            if (0 !== r) return i.marks;
+                                            var o = void 0,
+                                                a = void 0,
+                                                s = !0,
+                                                l = !1,
+                                                u = void 0;
+                                            try {
+                                                for (var c, d = this.ancestors(n)[Symbol.iterator](); !(s = (c = d.next()).done); s = !0) {
+                                                    var f = c.value,
+                                                        p = A(f, 2),
+                                                        h = p[0],
+                                                        m = p[1];
+                                                    'block' === h.object && ((o = h), (a = m));
+                                                }
+                                            } catch (e) {
+                                                (l = !0), (u = e);
+                                            } finally {
+                                                try {
+                                                    !s && d.return && d.return();
+                                                } finally {
+                                                    if (l) throw u;
+                                                }
+                                            }
+                                            var g = z.drop(n, a.size),
+                                                v = o.texts({ path: g, direction: 'backward' }),
+                                                y = A(v, 1)[0];
+                                            return y ? A(y, 1)[0].marks : i.marks;
+                                        }
+                                    },
+                                    {
+                                        key: 'getInsertMarksAtRange',
+                                        value: function (e) {
+                                            var t = (e = this.resolveRange(e)).start;
+                                            return e.isUnset
+                                                ? Object(r.Set)()
+                                                : e.isCollapsed
+                                                ? this.getInsertMarksAtPoint(t)
+                                                : this.getDescendant(t.path).marks;
+                                        }
+                                    },
+                                    {
+                                        key: 'getLeafBlocksAtRange',
+                                        value: function (e) {
+                                            var t = this.blocks({ range: e, onlyLeaves: !0 }),
+                                                n = Array.from(t, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.List)(n);
+                                        }
+                                    },
+                                    {
+                                        key: 'getLeafInlinesAtRange',
+                                        value: function (e) {
+                                            var t = this.inlines({ range: e, onlyLeaves: !0 }),
+                                                n = Array.from(t, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.List)(n);
+                                        }
+                                    },
+                                    {
+                                        key: 'getNodesToPathsMap',
+                                        value: function () {
+                                            var e = 'undefined' == typeof window ? new qt.Map() : new window.Map();
+                                            return (
+                                                e.set(this, z.create([])),
+                                                this.forEachDescendant(function (t, n) {
+                                                    e.set(t, n);
+                                                }),
+                                                e
+                                            );
+                                        }
+                                    },
+                                    {
+                                        key: 'getMarks',
+                                        value: function () {
+                                            var e = this.marks(),
+                                                t = Array.from(e, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.OrderedSet)(t);
+                                        }
+                                    },
+                                    {
+                                        key: 'getMarksAtRange',
+                                        value: function (e) {
+                                            var t = this.marks({ range: e }),
+                                                n = Array.from(t, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.OrderedSet)(n);
+                                        }
+                                    },
+                                    {
+                                        key: 'getMarksByType',
+                                        value: function (e) {
+                                            var t = this.marks({ onlyTypes: [e] }),
+                                                n = Array.from(t, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.OrderedSet)(n);
+                                        }
+                                    },
+                                    {
+                                        key: 'getNextBlock',
+                                        value: function (e) {
+                                            var t = this.blocks({ path: e, onlyLeaves: !0 }),
+                                                n = A(t, 1)[0];
+                                            return n ? n[0] : null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getNextNode',
+                                        value: function (e) {
+                                            var t = this.createIterable({ path: e, downward: !1 }),
+                                                n = A(t, 1)[0];
+                                            return n ? n[0] : null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getNextSibling',
+                                        value: function (e) {
+                                            var t = this.siblings(e),
+                                                n = A(t, 1)[0];
+                                            return n ? n[0] : null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getNextText',
+                                        value: function (e) {
+                                            var t = this.texts({ path: e }),
+                                                n = A(t, 1)[0];
+                                            return n ? n[0] : null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getOffset',
+                                        value: function (e) {
+                                            (e = this.resolvePath(e)), this.assertDescendant(e);
+                                            var t = e.first(),
+                                                n = this.nodes.slice(0, t).reduce(function (e, t) {
+                                                    return e + t.text.length;
+                                                }, 0);
+                                            return 1 === e.size ? n : n + this.nodes.get(t).getOffset(z.drop(e));
+                                        }
+                                    },
+                                    {
+                                        key: 'getOffsetAtRange',
+                                        value: function (e) {
+                                            if ((e = this.resolveRange(e)).isUnset) throw new Error('The range cannot be unset to calculcate its offset.');
+                                            if (e.isExpanded) throw new Error('The range must be collapsed to calculcate its offset.');
+                                            var t = e.start;
+                                            return this.getOffset(t.path) + t.offset;
+                                        }
+                                    },
+                                    {
+                                        key: 'getParent',
+                                        value: function (e) {
+                                            if (!(e = this.resolvePath(e))) return null;
+                                            if (!e.size) return null;
+                                            var t = z.lift(e);
+                                            return this.getNode(t);
+                                        }
+                                    },
+                                    {
+                                        key: 'getPreviousBlock',
+                                        value: function (e) {
+                                            var t = this.blocks({
+                                                    path: e,
+                                                    onlyLeaves: !0,
+                                                    direction: 'backward'
+                                                }),
+                                                n = A(t, 1)[0];
+                                            return n ? n[0] : null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getPreviousNode',
+                                        value: function (e) {
+                                            var t = this.createIterable({
+                                                    path: e,
+                                                    downward: !1,
+                                                    direction: 'backward'
+                                                }),
+                                                n = A(t, 1)[0];
+                                            return n ? n[0] : null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getPreviousSibling',
+                                        value: function (e) {
+                                            var t = this.siblings(e, { direction: 'backward' }),
+                                                n = A(t, 1)[0];
+                                            return n ? n[0] : null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getPreviousText',
+                                        value: function (e) {
+                                            var t = this.texts({ path: e, direction: 'backward' }),
+                                                n = A(t, 1)[0];
+                                            return n ? n[0] : null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getRootBlocksAtRange',
+                                        value: function (e) {
+                                            var t = this.blocks({ range: e, onlyRoots: !0 }),
+                                                n = Array.from(t, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.List)(n);
+                                        }
+                                    },
+                                    {
+                                        key: 'getRootInlinesAtRange',
+                                        value: function (e) {
+                                            var t = this.inlines({ range: e, onlyRoots: !0 }),
+                                                n = Array.from(t, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.List)(n);
+                                        }
+                                    },
+                                    {
+                                        key: 'getTextAtOffset',
+                                        value: function (e) {
+                                            if (0 === e) return this.getFirstText();
+                                            if (e === this.text.length) return this.getLastText();
+                                            if (e < 0 || e > this.text.length) return null;
+                                            var t = 0,
+                                                n = !0,
+                                                r = !1,
+                                                i = void 0;
+                                            try {
+                                                for (var o, a = this.texts()[Symbol.iterator](); !(n = (o = a.next()).done); n = !0) {
+                                                    var s = o.value,
+                                                        l = A(s, 1)[0];
+                                                    if ((t += l.text.length) > e) return l;
+                                                }
+                                            } catch (e) {
+                                                (r = !0), (i = e);
+                                            } finally {
+                                                try {
+                                                    !n && a.return && a.return();
+                                                } finally {
+                                                    if (r) throw i;
+                                                }
+                                            }
+                                            return null;
+                                        }
+                                    },
+                                    {
+                                        key: 'getTextDirection',
+                                        value: function () {
+                                            var e = g()(this.text);
+                                            return 'neutral' === e ? null : e;
+                                        }
+                                    },
+                                    {
+                                        key: 'getTexts',
+                                        value: function () {
+                                            var e = this.texts(),
+                                                t = Array.from(e, function (e) {
+                                                    return A(e, 1)[0];
+                                                });
+                                            return Object(r.List)(t);
+                                        }
+                                    },
+                                    {
+                                        key: 'getTextsAtRange',
+                                        value: function (e) {
+                                            var t = this.texts({ range: e }),
+                            
