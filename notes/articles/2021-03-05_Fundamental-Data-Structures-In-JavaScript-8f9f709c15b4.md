@@ -175,8 +175,8 @@ An Array data structure, or simply an Array, is a data structure consisting of a
 
 Arrays are among the oldest and most important data structures and are used by every program. They are also used to implement many other data structures.
 
-_Complexity_  
-_Average_  
+_Complexity_
+_Average_
 _Access Search Insertion Deletion_
 
 O(1) O(n) O(1) O(n)
@@ -218,8 +218,8 @@ The main difference is that object's "index" need not be numbers and is not nece
 
 Hash Tables are considered the more efficient data structure for lookup and for this reason, they are widely used.
 
-Complexity  
-Average  
+Complexity
+Average
 Access Search Insertion Deletion
 
 -   <span id="f63f">O(1) O(1) O(1)</span>
@@ -245,8 +245,8 @@ Sets are pretty much what it sounds like. It's the same intuition as Set in Math
 
 The Set data structure is usually used to test whether elements belong to set of values. Rather then only containing elements, Sets are more used to perform operations on multiple values at once with methods such as union, intersect, etc…
 
-Complexity  
-Average  
+Complexity
+Average
 Access Search Insertion Deletion
 
 -   <span id="daa6">O(n) O(n) O(n)</span>
@@ -263,9 +263,9 @@ Access Search Insertion Deletion
 
 Linked Lists are among the simplest and most common data structures because it allows for efficient insertion or removal of elements from any position in the sequence.
 
-Complexity  
-Average  
-Access Search Insertion Deletion  
+Complexity
+Average
+Access Search Insertion Deletion
 O(n) O(n) O(1) O(1)
 
 > _The code_
@@ -282,9 +282,9 @@ O(n) O(n) O(1) O(1)
 
 Having two node links allow traversal in either direction but adding or removing a node in a doubly linked list requires changing more links than the same operations on a Singly Linked List.
 
-Complexity  
-Average  
-Access Search Insertion Deletion  
+Complexity
+Average
+Access Search Insertion Deletion
 O(n) O(n) O(1) O(1)
 
 > _The code_
@@ -301,9 +301,9 @@ O(n) O(n) O(1) O(1)
 
 A Stack often has a third method peek which allows to check the last pushed element without popping it.
 
-Complexity  
-Average  
-Access Search Insertion Deletion  
+Complexity
+Average
+Access Search Insertion Deletion
 O(n) O(n) O(1) O(1)
 
 > _The code_
@@ -318,9 +318,9 @@ O(n) O(n) O(1) O(1)
 
 As for the Stack data structure, a peek operation is often added to the Queue data structure. It returns the value of the front element without dequeuing it.
 
-Complexity  
-Average  
-Access Search Insertion Deletion  
+Complexity
+Average
+Access Search Insertion Deletion
 O(n) O(n) O(1) O(n)
 
 > _The code_
@@ -333,10 +333,10 @@ O(n) O(n) O(1) O(n)
 
 > _A Tree is a widely used data structure that simulates a hierarchical tree structure, with a root value and subtrees of children with a parent node. A tree data structure can be defined recursively as a collection of nodes (starting at a root node), where each node is a data structure consisting of a value, together with a list of references to nodes (the "children"), with the constraints that no reference is duplicated, and none points to the root node. From Wikipedia_
 
-Complexity  
-Average  
-Access Search Insertion Deletion  
-O(n) O(n) O(n) O(n)  
+Complexity
+Average
+Access Search Insertion Deletion
+O(n) O(n) O(n) O(n)
 To get a full overview of the time and space complexity of the Tree data structure, have a look to this excellent Big O cheat sheet.
 
 <figure>
@@ -365,10 +365,10 @@ To get a full overview of the time and space complexity of the Tree data structu
 <img src="https://cdn-images-1.medium.com/max/800/1*dn1BqCdXdFg4FCVSz6uArA.png" class="graf-image" />
 </figure>A Graph data structure may also associate to each edge some edge value, such as a symbolic label or a numeric attribute (cost, capacity, length, etc.).
 
-Representation  
+Representation
 There are different ways of representing a graph, each of them with its own advantages and disadvantages. Here are the main 2:
 
-Adjacency list: For every vertex a list of adjacent vertices is stored. This can be viewed as storing the list of edges. This data structure allows the storage of additional data on the vertices and edges.  
+Adjacency list: For every vertex a list of adjacent vertices is stored. This can be viewed as storing the list of edges. This data structure allows the storage of additional data on the vertices and edges.
 Adjacency matrix: Data are stored in a two-dimensional matrix, in which the rows represent source vertices and columns represent destination vertices. The data on the edges and vertices must be stored externally.
 
 Graph
@@ -397,11 +397,11 @@ Graph
 
 ### Discover More:
 
-<a href="https://bgoonz-blog.netlify.app/" class="markup--anchor markup--mixtapeEmbed-anchor" title="https://bgoonz-blog.netlify.app/">
+<a href="https://bgoonzblog20-backup.netlify.app/" class="markup--anchor markup--mixtapeEmbed-anchor" title="https://bgoonzblog20-backup.netlify.app/">
 <strong>Web-Dev-Hub</strong>
 <br />
 <em>Memoization, Tabulation, and Sorting Algorithms by Example Why is looking at runtime not a reliable method of…</em>bgoonz-blog.netlify.app</a>
-<a href="https://bgoonz-blog.netlify.app/" class="js-mixtapeImage mixtapeImage u-ignoreBlock">
+<a href="https://bgoonzblog20-backup.netlify.app/" class="js-mixtapeImage mixtapeImage u-ignoreBlock">
 </a>
 
 By <a href="https://medium.com/@bryanguner" class="p-author h-card">Bryan Guner</a> on [March 5, 2021](https://medium.com/p/8f9f709c15b4).
