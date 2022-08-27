@@ -1,5 +1,0 @@
-User-agent: Googlebot
-Disallow: /nogooglebot/
-User-agent: *
-Allow: /
-Sitemap: https://bgoonzblog20-backup.netlify.app/sitemap.xml
