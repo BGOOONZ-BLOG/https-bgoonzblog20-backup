@@ -1,3 +1,5 @@
+root_docs_path: /docs
+
 id: CMS
 title: Content Management System
 description: >-

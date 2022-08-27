@@ -12,7 +12,7 @@ template: docs
 
 # Reference:
 
--   [SITEMAP🗺🟈]\(https://bgoonz-blog.netlify.app/docs/sitemap/)
+-   [SITEMAP🗺🟈]\(https://bgoonzblog20-backup.netlify.app/docs/sitemap/)
 
 # Bookmarks:
 

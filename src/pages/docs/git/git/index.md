@@ -830,7 +830,7 @@ This command will cause the Git log to show some statistics about the changes in
 
 ### How to see changes made before committing them using "diff" in Git:
 
-You can pass a file as a parameter to only see changes on a specific file.  
+You can pass a file as a parameter to only see changes on a specific file.
 `git diff` shows only unstaged changes by default.
 
 We can call diff with the `--staged` flag to see any staged changes.
@@ -882,7 +882,7 @@ You can use the -p option flag to specify the changes you want to reset.
 
 ### How to rollback the last commit in Git:
 
-`git revert` will create a new commit that is the opposite of everything in the given commit.  
+`git revert` will create a new commit that is the opposite of everything in the given commit.
 We can revert the latest commit by using the head alias like this:
 
     git revert HEAD
@@ -931,7 +931,7 @@ To merge the history of the branch you are currently in with the `branch_name`, 
 
 ### How to show the commit log as a graph in Git:
 
-We can use `--graph` to get the commit log to show as a graph. Also,  
+We can use `--graph` to get the commit log to show as a graph. Also,
 `--oneline` will limit commit messages to a single line.
 
     git log --graph --oneline
@@ -962,7 +962,7 @@ You can see all remote repositories for your local repository with this command:
 
 ### How to get more info about a remote repo in Git:
 
-Just replace `origin` with the name of the remote obtained by  
+Just replace `origin` with the name of the remote obtained by
 running the git remote -v command.
 
     git remote show origin
@@ -1005,7 +1005,7 @@ If the remote repository has changes you want to merge with your local, then thi
 
 ### How to get the contents of remote branches in Git without automatically merging:
 
-This lets you update the remote without merging any content into the  
+This lets you update the remote without merging any content into the
 local branches. You can call git merge or git checkout to do the merge.
 
     git remote update
@@ -1032,7 +1032,7 @@ Git Rebase can get really messy if you don't do it properly. Before using this c
 
 ### How to run rebase interactively in Git:
 
-You can run git rebase interactively using the -i flag.  
+You can run git rebase interactively using the -i flag.
 It will open the editor and present a set of commands you can use.
 
     git rebase -i master
@@ -1046,7 +1046,7 @@ It will open the editor and present a set of commands you can use.
 
 ### How to force a push request in Git:
 
-This command will force a push request. This is usually fine for pull request branches because nobody else should have cloned them.  
+This command will force a push request. This is usually fine for pull request branches because nobody else should have cloned them.
 But this isn't something that you want to do with public repos.
 
     git push -f
@@ -1230,11 +1230,11 @@ The default value of `http.postBuffer`, 1 MiB, is applied if the setting is not 
 
 ### Or Checkout my personal Resource Site:
 
-<a href="https://bgoonz-blog.netlify.app/" class="markup--anchor markup--mixtapeEmbed-anchor" title="https://bgoonz-blog.netlify.app/">
+<a href="https://bgoonzblog20-backup.netlify.app/" class="markup--anchor markup--mixtapeEmbed-anchor" title="https://bgoonzblog20-backup.netlify.app/">
 <strong>Web-Dev-Hub</strong>
 <br />
 <em>Memoization, Tabulation, and Sorting Algorithms by Example Why is looking at runtime not a reliable method of…</em>bgoonz-blog.netlify.app</a>
-<a href="https://bgoonz-blog.netlify.app/" class="js-mixtapeImage mixtapeImage u-ignoreBlock">
+<a href="https://bgoonzblog20-backup.netlify.app/" class="js-mixtapeImage mixtapeImage u-ignoreBlock">
 </a>
 
 By <a href="https://medium.com/@bryanguner" class="p-author h-card">Bryan Guner</a> on [March 12, 2021](https://medium.com/p/b50c9c01a107).

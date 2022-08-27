@@ -13,11 +13,11 @@ template: docs
 
     PRIVACY NOTICE
 
-- Visit our website at <https://bgoonz-blog.netlify.app/>
+- Visit our website at <https://bgoonzblog20-backup.netlify.app/>
 
 <!---->
 
-- Use our Facebook application — <https://bgoonz-blog.netlify.app/>
+- Use our Facebook application — <https://bgoonzblog20-backup.netlify.app/>
 
 <!---->
 
@@ -70,9 +70,9 @@ template: docs
 <!---->
 
 - **To respond to legal requests and prevent harm.**  If we receive a subpoena or other legal request, we may need to inspect the data we hold to determine how to respond.
-- 
+-
 - **Fulfill and manage your orders.** We may use your information to fulfill and manage your orders, payments, returns, and exchanges made through the Services.
-- 
+-
 - **Administer prize draws and competitions.** We may use your information to administer prize draws and competitions when you elect to participate in our competitions.
 
 - **To deliver and facilitate delivery of services to the user.** We may use your information to provide you with the requested service.
