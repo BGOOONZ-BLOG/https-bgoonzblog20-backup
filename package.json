@@ -31,7 +31,7 @@
         "gatsby-remark-prismjs": "^6.16.0",
         "gatsby-remark-prismjs-copy-button": "^0.3.1",
         "gatsby-source-filesystem": "2.3.10",
-        "gatsby-transformer-remark": "^5.20.0",
+        "gatsby-transformer-remark": "^5.25.1",
         "js-yaml": "^4.1.0",
         "lodash": "^4.17.21",
         "marked": "^4.0.18",
